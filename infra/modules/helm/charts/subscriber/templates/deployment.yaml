@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.project_id }}-subscriber-controller-{{ .Values.region }}'
+  labels:
+    app: subscriber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriber
+  template:
+    metadata:
+      labels:
+        app: subscriber
+    spec:
+      serviceAccountName: '{{ .Values.k8s_service_account_name }}'
+      containers:
+        - env:
+          - name: PUBSUB_SUBSCRIPTION
+            valueFrom:
+              configMapKeyRef:
+                key: PUBSUB_SUBSCRIPTION
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: PUBSUB_TOPIC
+            valueFrom:
+              configMapKeyRef:
+                key: PUBSUB_TOPIC
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: PUBSUB_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: PUBSUB_PORT
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          name: '{{ .Values.project_id }}-subscriber-{{ .Values.region }}'
+          image: '{{ .Values.image }}'
+          resources:
+            requests:
+              cpu: "4000m"

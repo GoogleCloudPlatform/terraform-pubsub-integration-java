@@ -1,0 +1,17 @@
+# Default values for publisher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+operator: user
+
+namespace: ${NAMESPACE}
+project_id: ${PROJECT_ID}
+region: ${REGION}
+
+image: ${IMAGE}
+
+config_maps:
+  pubsub_topic: ${PUBSUB_TOPIC}
+
+gcp_service_account_email: ${GCP_SERVICE_ACCOUNT_EMAIL}
+k8s_service_account_name: ${NAMESPACE}

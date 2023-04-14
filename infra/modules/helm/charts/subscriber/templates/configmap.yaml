@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  PUBSUB_SUBSCRIPTION: '{{ .Values.config_maps.pubsub_subscription }}'
+  PUBSUB_TOPIC: '{{ .Values.config_maps.pubsub_topic }}'
+  PUBSUB_PORT: '{{ .Values.config_maps.pubsub_port }}'
+kind: ConfigMap
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: subscriber
+  name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'

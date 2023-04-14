@@ -1,0 +1,49 @@
+
+[
+  {
+    "name": "session_id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "station_id",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "location",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "published_time",
+    "type": "TIME",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "processed_time",
+    "type": "TIME",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "session_duration_hr",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "avg_charge_rate_kw",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "battery_capacity_kwh",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "battery_level_start",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  }
+]
+

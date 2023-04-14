@@ -1,0 +1,28 @@
+# IDE
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.code-workspace
+
+# Log files
+*.log
+
+# Local files
+.DS_Store
+*.swp
+*tfvars
+
+# Terraform files
+**/.terraform/*
+terraform/**/*.log
+terraform/**/*manifest.json
+terraform/entire-tf-output
+**/entire-tf-output
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl

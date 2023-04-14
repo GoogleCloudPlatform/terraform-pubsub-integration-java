@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.project_id }}-publisher-controller-{{ .Values.region }}'
+  labels:
+    app: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+    spec:
+      serviceAccountName: '{{ .Values.k8s_service_account_name }}'
+      containers:
+        - env:
+          - name: PUBSUB_TOPIC
+            valueFrom:
+              configMapKeyRef:
+                key: PUBSUB_TOPIC
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          name: '{{ .Values.project_id }}-publisher-{{ .Values.region }}'
+          image: '{{ .Values.image }}'
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "1000m"
