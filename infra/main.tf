@@ -57,7 +57,7 @@ resource "google_pubsub_topic" "events" {
 resource "google_pubsub_schema" "events" {
   name       = "evChargeEvent"
   type       = "AVRO"
-  definition = file("./avro/evChargeEvent.avsc")
+  definition = file("${path.module}/avro/evChargeEvent.avsc")
 }
 
 resource "google_pubsub_subscription" "events" {
@@ -100,7 +100,7 @@ resource "google_pubsub_topic" "metrics" {
 resource "google_pubsub_schema" "metrics" {
   name       = "evChargeMetric"
   type       = "AVRO"
-  definition = file("./avro/evChargeMetricComplete.avsc")
+  definition = file("${path.module}/avro/evChargeMetricComplete.avsc")
 }
 
 resource "google_pubsub_subscription" "metrics" {
@@ -129,7 +129,7 @@ resource "google_bigquery_table" "metrics" {
   deletion_protection = false
   table_id            = "charging_sessions"
   dataset_id          = google_bigquery_dataset.metrics.dataset_id
-  schema              = file("./avro/bigquery/evChargeMetricComplete.json")
+  schema              = file("${path.module}/avro/bigquery/evChargeMetricComplete.json")
   labels              = var.labels
 }
 
