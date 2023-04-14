@@ -48,49 +48,49 @@ provider "helm" {
   }
 }
 
-# module "europe_north1_base_helm" {
-#   depends_on = [
-#     module.europe_north1_publisher_cluster,
-#   ]
-#   source = "./modules/helm"
+module "europe_north1_base_helm" {
+  depends_on = [
+    module.europe_north1_publisher_cluster,
+  ]
+  source = "./modules/helm"
 
-#   providers = {
-#     helm = helm.europe_north1_publisher_helm
-#   }
-#   chart_folder_name = "base"
-#   region            = "europe-north1"
-#   entries           = local.europe_north1_base_entries
-# }
+  providers = {
+    helm = helm.europe_north1_publisher_helm
+  }
+  chart_folder_name = "base"
+  region            = "europe-north1"
+  entries           = local.europe_north1_base_entries
+}
 
-# module "europe_north1_publisher_helm" {
-#   depends_on = [
-#     module.europe_north1_publisher_cluster,
-#   ]
-#   source = "./modules/helm"
+module "europe_north1_publisher_helm" {
+  depends_on = [
+    module.europe_north1_publisher_cluster,
+  ]
+  source = "./modules/helm"
 
-#   providers = {
-#     helm = helm.europe_north1_publisher_helm
-#   }
-#   chart_folder_name = "publisher"
-#   region            = "europe-north1"
-#   entries = concat(local.europe_north1_base_entries,
-#     [
-#       {
-#         name  = "project_id"
-#         value = data.google_project.current.project_id
-#       },
-#       {
-#         name  = "region"
-#         value = "europe-north1"
-#       },
-#       {
-#         name  = "image"
-#         value = var.publisher_image_url
-#       },
-#       {
-#         name  = "config_maps.pubsub_topic"
-#         value = google_pubsub_topic.events.id
-#       },
-#     ]
-#   )
-# }
+  providers = {
+    helm = helm.europe_north1_publisher_helm
+  }
+  chart_folder_name = "publisher"
+  region            = "europe-north1"
+  entries = concat(local.europe_north1_base_entries,
+    [
+      {
+        name  = "project_id"
+        value = data.google_project.current.project_id
+      },
+      {
+        name  = "region"
+        value = "europe-north1"
+      },
+      {
+        name  = "image"
+        value = var.publisher_image_url
+      },
+      {
+        name  = "config_maps.pubsub_topic"
+        value = google_pubsub_topic.events.id
+      },
+    ]
+  )
+}
