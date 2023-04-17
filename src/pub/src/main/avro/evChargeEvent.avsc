@@ -1,0 +1,39 @@
+{
+  "type": "record",
+  "namespace": "com.cienet.pub.utilities",
+  "name": "EvChargeEvent",
+  "fields": [
+    {
+      "name": "session_id",
+      "type": "string"
+    },
+    {
+      "name": "station_id",
+      "type": "int"
+    },
+    {
+      "name": "location",
+      "type": "string"
+    },
+    {
+      "name": "session_start_time",
+      "type": "string"
+    },
+    {
+      "name": "session_end_time",
+      "type": "string"
+    },
+    {
+      "name": "avg_charge_rate_kw",
+      "type": "float"
+    },
+    {
+      "name": "battery_capacity_kwh",
+      "type": "float"
+    },
+    {
+      "name": "battery_level_start",
+      "type": "float"
+    }
+  ]
+}
