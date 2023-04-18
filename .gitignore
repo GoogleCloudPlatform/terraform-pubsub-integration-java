@@ -8,7 +8,7 @@
 *.ipr
 .vscode/
 *.code-workspace
-app/*/target/
+target/
 
 # Compiled class files
 *.class
