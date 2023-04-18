@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "com.cienet.sub.utilities",
-  "name": "EvChargeMetric",
+  "name": "EvChargeMetricAck",
   "fields": [
     {
       "name": "session_id",
@@ -46,14 +46,6 @@
     {
       "name": "battery_level_start",
       "type": "float"
-    },
-    {
-      "name": "battery_level_end",
-      "type": ["null", "float"]
-    },
-    {
-      "name": "charged_total_kwh",
-      "type": ["null", "float"]
     }
   ]
 }

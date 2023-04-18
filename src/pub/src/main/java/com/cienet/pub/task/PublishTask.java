@@ -1,21 +1,21 @@
 package com.cienet.pub.task;
 
 import com.cienet.pub.model.BaseEvChargeEvent;
-import com.cienet.pub.publisher.IPublisher;
+import com.cienet.pub.service.PublishService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;import java.util.concurrent.ExecutionException;
 
 public class PublishTask implements Runnable {
   private static final Logger log = LoggerFactory.getLogger(PublishTask.class);
 
-  private int times;
-  private float sleep;
-  private final IPublisher publisher;
+  private final int times;
+  private final float sleep;
+  private final PublishService publishService;
 
-  public PublishTask(int times, IPublisher publisher, float sleep) {
+  public PublishTask(int times, float sleep, PublishService publishService) {
     this.times = times;
-    this.publisher = publisher;
     this.sleep = sleep;
+    this.publishService = publishService;
   }
 
   @Override
@@ -35,10 +35,12 @@ public class PublishTask implements Runnable {
     try {
       BaseEvChargeEvent baseEvChargeEvent = new BaseEvChargeEvent();
       baseEvChargeEvent.genRandomData();
-      publisher.publish(baseEvChargeEvent.convert2Avro());
+      publishService.publishMsg(baseEvChargeEvent.convert2Avro());
       Thread.sleep((long) sleep * 1000);
     } catch (InterruptedException e) {
-      throw new RuntimeException("Interrupted");
+      throw new RuntimeException("InterruptedException", e);
+    } catch (ExecutionException e) {
+      log.error("ExecutionException", e);
     }
   }
 }

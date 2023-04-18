@@ -1,6 +1,6 @@
 package com.cienet.pub.model;
 
-import com.cienet.pub.util.PubUtil;
+import com.cienet.pub.util.PublishUtil;
 import com.cienet.pub.utilities.EvChargeEvent;
 import java.util.Arrays;
 import java.util.List;
@@ -103,28 +103,24 @@ public class BaseEvChargeEvent {
   }
 
   public void genRandomData() {
+    int randomNum = PublishUtil.genRandomInt(0, 100);
     setSession_id(UUID.randomUUID().toString());
-    int stationIdRan = PubUtil.genRandomInt(0, 100);
-    setStation_id(stationIdRan);
-    //    setLocation(System.getenv(LOCATION_ENV));
-    // TODO
-    setLocation("us-west");
+    setStation_id(randomNum);
+//    setLocation(System.getenv(LOCATION_ENV));
+    setLocation("us-west1");
     long endTime = System.currentTimeMillis();
-    int randomInt = PubUtil.genRandomInt(5, 90);
-    long startTime = endTime - randomInt * 60 * 1000L;
-    setSession_start_time(PubUtil.formatTime(startTime));
-    setSession_end_time(PubUtil.formatTime(endTime));
-    int avgChargeRateKwIndexRan = stationIdRan % AVG_CHARGE_RATE_KW.size();
-    int plusMinusIndexRan = stationIdRan % 2;
-    float avgChargeRate = AVG_CHARGE_RATE_KW.get(avgChargeRateKwIndexRan);
-    if (plusMinusIndexRan == 0) {
+    int processTime = PublishUtil.genRandomInt(5, 90);
+    long startTime = endTime - processTime * 60 * 1000L;
+    setSession_start_time(PublishUtil.formatTime(startTime));
+    setSession_end_time(PublishUtil.formatTime(endTime));
+    float avgChargeRate = AVG_CHARGE_RATE_KW.get(randomNum % AVG_CHARGE_RATE_KW.size());
+    if (randomNum % 2 == 0) {
       avgChargeRate += BIAS;
     } else {
       avgChargeRate -= BIAS;
     }
     setAvg_charge_rate_kw(avgChargeRate);
-    int batteryCapacityKwhIndexRan = stationIdRan % BATTERY_CAPACITY_KWH.size();
-    setBattery_capacity_kwh(BATTERY_CAPACITY_KWH.get(batteryCapacityKwhIndexRan));
-    setBattery_level_start(PubUtil.genRandomFloat(0.05f, 0.8f));
+    setBattery_capacity_kwh(BATTERY_CAPACITY_KWH.get(randomNum % BATTERY_CAPACITY_KWH.size()));
+    setBattery_level_start(PublishUtil.genRandomFloat(0.05f, 0.8f));
   }
 }

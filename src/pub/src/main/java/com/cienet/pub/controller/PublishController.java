@@ -12,33 +12,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/msg")
-public class PubController {
-  private static final Logger log = LoggerFactory.getLogger(PubController.class);
+public class PublishController {
+  private static final Logger log = LoggerFactory.getLogger(PublishController.class);
 
   private final PublishService publishService;
 
-  public PubController(PublishService publishService) {
+  public PublishController(PublishService publishService) {
+    log.info("total " + Runtime.getRuntime().totalMemory());
+    log.info("max " + Runtime.getRuntime().maxMemory());
+    log.info("free: " + Runtime.getRuntime().freeMemory());
     this.publishService = publishService;
   }
 
   /** Publish a message. */
   @PostMapping("")
-  public void publishMsg(@RequestBody BaseEvChargeEvent baseEvChargeEvent) {
+  public void publishMsg(@RequestBody BaseEvChargeEvent baseEvChargeEvent) throws Exception {
     publishService.publishMsg(baseEvChargeEvent.convert2Avro());
   }
 
   /** Publish random message. */
   @PostMapping("/random")
-  public void randomPublishMsg(
+  public void publishMsgRandom(
       @RequestParam(required = false, defaultValue = "-1") int times,
       @RequestParam(required = false, defaultValue = "1") int thread,
       @RequestParam(required = false, defaultValue = "1") float sleep) {
-    publishService.randomPublishMsg(times, thread, sleep);
+    publishService.publishMsgRandom(times, thread, sleep);
   }
 
   /** Shutdown threadPool. */
   @PostMapping("/shutdown")
-  public void shutdownRandom() {
+  public void shutdownRandom() throws Exception {
     publishService.shutdownRandom();
   }
 }

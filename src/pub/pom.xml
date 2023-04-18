@@ -3,62 +3,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.10</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.cienet</groupId>
+        <artifactId>cps</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.cienet</groupId>
+
     <artifactId>pub</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>pub</name>
     <description>pub</description>
-    <properties>
-        <java.version>17</java.version>
-        <spring-cloud-gcp.version>3.4.7</spring-cloud-gcp.version>
-        <avro.version>1.11.0</avro.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.cloud</groupId>
-            <artifactId>spring-cloud-gcp-starter-pubsub</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.avro</groupId>
-            <artifactId>avro</artifactId>
-            <version>${avro.version}</version>
-        </dependency>
-    </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.google.cloud</groupId>
-                <artifactId>spring-cloud-gcp-dependencies</artifactId>
-                <version>${spring-cloud-gcp.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <mainClass>com.cienet.pub.PubApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>true</executable>
+                    <jvmArguments>
+                        -Xmx1g
+                    </jvmArguments>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>

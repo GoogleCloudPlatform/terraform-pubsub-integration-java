@@ -13,26 +13,26 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
-public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -8664288499540525692L;
+public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -3065682152768016556L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeMetric\",\"namespace\":\"com.cienet.sub.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"publish_timestamp\",\"type\":\"string\"},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":\"string\"},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":\"float\"},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"]}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeMetricNack\",\"namespace\":\"com.cienet.sub.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"publish_timestamp\",\"type\":\"string\"},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":\"string\"},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<EvChargeMetric> ENCODER =
-      new BinaryMessageEncoder<EvChargeMetric>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<EvChargeMetricNack> ENCODER =
+      new BinaryMessageEncoder<EvChargeMetricNack>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<EvChargeMetric> DECODER =
-      new BinaryMessageDecoder<EvChargeMetric>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<EvChargeMetricNack> DECODER =
+      new BinaryMessageDecoder<EvChargeMetricNack>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<EvChargeMetric> getEncoder() {
+  public static BinaryMessageEncoder<EvChargeMetricNack> getEncoder() {
     return ENCODER;
   }
 
@@ -40,7 +40,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<EvChargeMetric> getDecoder() {
+  public static BinaryMessageDecoder<EvChargeMetricNack> getDecoder() {
     return DECODER;
   }
 
@@ -49,12 +49,12 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<EvChargeMetric> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<EvChargeMetric>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<EvChargeMetricNack> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<EvChargeMetricNack>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this EvChargeMetric to a ByteBuffer.
+   * Serializes this EvChargeMetricNack to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,12 +63,12 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   /**
-   * Deserializes a EvChargeMetric from a ByteBuffer.
+   * Deserializes a EvChargeMetricNack from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a EvChargeMetric instance decoded from the given buffer
+   * @return a EvChargeMetricNack instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static EvChargeMetric fromByteBuffer(
+  public static EvChargeMetricNack fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -84,15 +84,13 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
   private float battery_level_start;
-  private float battery_level_end;
-  private java.lang.Float charged_total_kwh;
 
   /**
    * Default constructor.  Note that this does not initialize fields
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public EvChargeMetric() {}
+  public EvChargeMetricNack() {}
 
   /**
    * All-args constructor.
@@ -107,10 +105,8 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
    * @param avg_charge_rate_kw The new value for avg_charge_rate_kw
    * @param battery_capacity_kwh The new value for battery_capacity_kwh
    * @param battery_level_start The new value for battery_level_start
-   * @param battery_level_end The new value for battery_level_end
-   * @param charged_total_kwh The new value for charged_total_kwh
    */
-  public EvChargeMetric(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.lang.CharSequence event_timestamp, java.lang.CharSequence publish_timestamp, java.lang.Float processing_time_sec, java.lang.CharSequence ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start, java.lang.Float battery_level_end, java.lang.Float charged_total_kwh) {
+  public EvChargeMetricNack(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.lang.CharSequence event_timestamp, java.lang.CharSequence publish_timestamp, java.lang.Float processing_time_sec, java.lang.CharSequence ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
     this.session_id = session_id;
     this.station_id = station_id;
     this.location = location;
@@ -122,8 +118,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
     this.avg_charge_rate_kw = avg_charge_rate_kw;
     this.battery_capacity_kwh = battery_capacity_kwh;
     this.battery_level_start = battery_level_start;
-    this.battery_level_end = battery_level_end;
-    this.charged_total_kwh = charged_total_kwh;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -142,8 +136,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
     case 8: return avg_charge_rate_kw;
     case 9: return battery_capacity_kwh;
     case 10: return battery_level_start;
-    case 11: return battery_level_end;
-    case 12: return charged_total_kwh;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -163,8 +155,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
     case 8: avg_charge_rate_kw = (java.lang.Float)value$; break;
     case 9: battery_capacity_kwh = (java.lang.Float)value$; break;
     case 10: battery_level_start = (java.lang.Float)value$; break;
-    case 11: battery_level_end = (java.lang.Float)value$; break;
-    case 12: charged_total_kwh = (java.lang.Float)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -357,79 +347,45 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   /**
-   * Gets the value of the 'battery_level_end' field.
-   * @return The value of the 'battery_level_end' field.
+   * Creates a new EvChargeMetricNack RecordBuilder.
+   * @return A new EvChargeMetricNack RecordBuilder
    */
-  public float getBatteryLevelEnd() {
-    return battery_level_end;
-  }
-
-
-  /**
-   * Sets the value of the 'battery_level_end' field.
-   * @param value the value to set.
-   */
-  public void setBatteryLevelEnd(float value) {
-    this.battery_level_end = value;
+  public static com.cienet.sub.utilities.EvChargeMetricNack.Builder newBuilder() {
+    return new com.cienet.sub.utilities.EvChargeMetricNack.Builder();
   }
 
   /**
-   * Gets the value of the 'charged_total_kwh' field.
-   * @return The value of the 'charged_total_kwh' field.
-   */
-  public java.lang.Float getChargedTotalKwh() {
-    return charged_total_kwh;
-  }
-
-
-  /**
-   * Sets the value of the 'charged_total_kwh' field.
-   * @param value the value to set.
-   */
-  public void setChargedTotalKwh(java.lang.Float value) {
-    this.charged_total_kwh = value;
-  }
-
-  /**
-   * Creates a new EvChargeMetric RecordBuilder.
-   * @return A new EvChargeMetric RecordBuilder
-   */
-  public static com.cienet.sub.utilities.EvChargeMetric.Builder newBuilder() {
-    return new com.cienet.sub.utilities.EvChargeMetric.Builder();
-  }
-
-  /**
-   * Creates a new EvChargeMetric RecordBuilder by copying an existing Builder.
+   * Creates a new EvChargeMetricNack RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new EvChargeMetric RecordBuilder
+   * @return A new EvChargeMetricNack RecordBuilder
    */
-  public static com.cienet.sub.utilities.EvChargeMetric.Builder newBuilder(com.cienet.sub.utilities.EvChargeMetric.Builder other) {
+  public static com.cienet.sub.utilities.EvChargeMetricNack.Builder newBuilder(com.cienet.sub.utilities.EvChargeMetricNack.Builder other) {
     if (other == null) {
-      return new com.cienet.sub.utilities.EvChargeMetric.Builder();
+      return new com.cienet.sub.utilities.EvChargeMetricNack.Builder();
     } else {
-      return new com.cienet.sub.utilities.EvChargeMetric.Builder(other);
+      return new com.cienet.sub.utilities.EvChargeMetricNack.Builder(other);
     }
   }
 
   /**
-   * Creates a new EvChargeMetric RecordBuilder by copying an existing EvChargeMetric instance.
+   * Creates a new EvChargeMetricNack RecordBuilder by copying an existing EvChargeMetricNack instance.
    * @param other The existing instance to copy.
-   * @return A new EvChargeMetric RecordBuilder
+   * @return A new EvChargeMetricNack RecordBuilder
    */
-  public static com.cienet.sub.utilities.EvChargeMetric.Builder newBuilder(com.cienet.sub.utilities.EvChargeMetric other) {
+  public static com.cienet.sub.utilities.EvChargeMetricNack.Builder newBuilder(com.cienet.sub.utilities.EvChargeMetricNack other) {
     if (other == null) {
-      return new com.cienet.sub.utilities.EvChargeMetric.Builder();
+      return new com.cienet.sub.utilities.EvChargeMetricNack.Builder();
     } else {
-      return new com.cienet.sub.utilities.EvChargeMetric.Builder(other);
+      return new com.cienet.sub.utilities.EvChargeMetricNack.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for EvChargeMetric instances.
+   * RecordBuilder for EvChargeMetricNack instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<EvChargeMetric>
-    implements org.apache.avro.data.RecordBuilder<EvChargeMetric> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<EvChargeMetricNack>
+    implements org.apache.avro.data.RecordBuilder<EvChargeMetricNack> {
 
     private java.lang.CharSequence session_id;
     private int station_id;
@@ -442,8 +398,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
     private float avg_charge_rate_kw;
     private float battery_capacity_kwh;
     private float battery_level_start;
-    private float battery_level_end;
-    private java.lang.Float charged_total_kwh;
 
     /** Creates a new Builder */
     private Builder() {
@@ -454,7 +408,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.cienet.sub.utilities.EvChargeMetric.Builder other) {
+    private Builder(com.cienet.sub.utilities.EvChargeMetricNack.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -500,21 +454,13 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
         this.battery_level_start = data().deepCopy(fields()[10].schema(), other.battery_level_start);
         fieldSetFlags()[10] = other.fieldSetFlags()[10];
       }
-      if (isValidValue(fields()[11], other.battery_level_end)) {
-        this.battery_level_end = data().deepCopy(fields()[11].schema(), other.battery_level_end);
-        fieldSetFlags()[11] = other.fieldSetFlags()[11];
-      }
-      if (isValidValue(fields()[12], other.charged_total_kwh)) {
-        this.charged_total_kwh = data().deepCopy(fields()[12].schema(), other.charged_total_kwh);
-        fieldSetFlags()[12] = other.fieldSetFlags()[12];
-      }
     }
 
     /**
-     * Creates a Builder by copying an existing EvChargeMetric instance
+     * Creates a Builder by copying an existing EvChargeMetricNack instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.cienet.sub.utilities.EvChargeMetric other) {
+    private Builder(com.cienet.sub.utilities.EvChargeMetricNack other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -560,14 +506,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
         this.battery_level_start = data().deepCopy(fields()[10].schema(), other.battery_level_start);
         fieldSetFlags()[10] = true;
       }
-      if (isValidValue(fields()[11], other.battery_level_end)) {
-        this.battery_level_end = data().deepCopy(fields()[11].schema(), other.battery_level_end);
-        fieldSetFlags()[11] = true;
-      }
-      if (isValidValue(fields()[12], other.charged_total_kwh)) {
-        this.charged_total_kwh = data().deepCopy(fields()[12].schema(), other.charged_total_kwh);
-        fieldSetFlags()[12] = true;
-      }
     }
 
     /**
@@ -584,7 +522,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'session_id'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setSessionId(java.lang.CharSequence value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setSessionId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.session_id = value;
       fieldSetFlags()[0] = true;
@@ -604,7 +542,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'session_id' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearSessionId() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearSessionId() {
       session_id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -624,7 +562,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'station_id'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setStationId(int value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setStationId(int value) {
       validate(fields()[1], value);
       this.station_id = value;
       fieldSetFlags()[1] = true;
@@ -644,7 +582,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'station_id' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearStationId() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearStationId() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -663,7 +601,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setLocation(java.lang.CharSequence value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setLocation(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.location = value;
       fieldSetFlags()[2] = true;
@@ -683,7 +621,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'location' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearLocation() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearLocation() {
       location = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -703,7 +641,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'event_timestamp'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setEventTimestamp(java.lang.CharSequence value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setEventTimestamp(java.lang.CharSequence value) {
       validate(fields()[3], value);
       this.event_timestamp = value;
       fieldSetFlags()[3] = true;
@@ -723,7 +661,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'event_timestamp' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearEventTimestamp() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearEventTimestamp() {
       event_timestamp = null;
       fieldSetFlags()[3] = false;
       return this;
@@ -743,7 +681,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'publish_timestamp'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setPublishTimestamp(java.lang.CharSequence value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setPublishTimestamp(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.publish_timestamp = value;
       fieldSetFlags()[4] = true;
@@ -763,7 +701,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'publish_timestamp' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearPublishTimestamp() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearPublishTimestamp() {
       publish_timestamp = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -783,7 +721,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'processing_time_sec'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setProcessingTimeSec(float value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setProcessingTimeSec(float value) {
       validate(fields()[5], value);
       this.processing_time_sec = value;
       fieldSetFlags()[5] = true;
@@ -803,7 +741,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'processing_time_sec' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearProcessingTimeSec() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearProcessingTimeSec() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -822,7 +760,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'ack_timestamp'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setAckTimestamp(java.lang.CharSequence value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setAckTimestamp(java.lang.CharSequence value) {
       validate(fields()[6], value);
       this.ack_timestamp = value;
       fieldSetFlags()[6] = true;
@@ -842,7 +780,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'ack_timestamp' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearAckTimestamp() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearAckTimestamp() {
       ack_timestamp = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -862,7 +800,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'session_duration_hr'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setSessionDurationHr(float value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setSessionDurationHr(float value) {
       validate(fields()[7], value);
       this.session_duration_hr = value;
       fieldSetFlags()[7] = true;
@@ -882,7 +820,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'session_duration_hr' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearSessionDurationHr() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearSessionDurationHr() {
       fieldSetFlags()[7] = false;
       return this;
     }
@@ -901,7 +839,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'avg_charge_rate_kw'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setAvgChargeRateKw(float value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setAvgChargeRateKw(float value) {
       validate(fields()[8], value);
       this.avg_charge_rate_kw = value;
       fieldSetFlags()[8] = true;
@@ -921,7 +859,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'avg_charge_rate_kw' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearAvgChargeRateKw() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearAvgChargeRateKw() {
       fieldSetFlags()[8] = false;
       return this;
     }
@@ -940,7 +878,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'battery_capacity_kwh'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setBatteryCapacityKwh(float value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setBatteryCapacityKwh(float value) {
       validate(fields()[9], value);
       this.battery_capacity_kwh = value;
       fieldSetFlags()[9] = true;
@@ -960,7 +898,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'battery_capacity_kwh' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearBatteryCapacityKwh() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearBatteryCapacityKwh() {
       fieldSetFlags()[9] = false;
       return this;
     }
@@ -979,7 +917,7 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * @param value The value of 'battery_level_start'.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setBatteryLevelStart(float value) {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder setBatteryLevelStart(float value) {
       validate(fields()[10], value);
       this.battery_level_start = value;
       fieldSetFlags()[10] = true;
@@ -999,95 +937,16 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
       * Clears the value of the 'battery_level_start' field.
       * @return This builder.
       */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearBatteryLevelStart() {
+    public com.cienet.sub.utilities.EvChargeMetricNack.Builder clearBatteryLevelStart() {
       fieldSetFlags()[10] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'battery_level_end' field.
-      * @return The value.
-      */
-    public float getBatteryLevelEnd() {
-      return battery_level_end;
-    }
-
-
-    /**
-      * Sets the value of the 'battery_level_end' field.
-      * @param value The value of 'battery_level_end'.
-      * @return This builder.
-      */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setBatteryLevelEnd(float value) {
-      validate(fields()[11], value);
-      this.battery_level_end = value;
-      fieldSetFlags()[11] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'battery_level_end' field has been set.
-      * @return True if the 'battery_level_end' field has been set, false otherwise.
-      */
-    public boolean hasBatteryLevelEnd() {
-      return fieldSetFlags()[11];
-    }
-
-
-    /**
-      * Clears the value of the 'battery_level_end' field.
-      * @return This builder.
-      */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearBatteryLevelEnd() {
-      fieldSetFlags()[11] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'charged_total_kwh' field.
-      * @return The value.
-      */
-    public java.lang.Float getChargedTotalKwh() {
-      return charged_total_kwh;
-    }
-
-
-    /**
-      * Sets the value of the 'charged_total_kwh' field.
-      * @param value The value of 'charged_total_kwh'.
-      * @return This builder.
-      */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder setChargedTotalKwh(java.lang.Float value) {
-      validate(fields()[12], value);
-      this.charged_total_kwh = value;
-      fieldSetFlags()[12] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'charged_total_kwh' field has been set.
-      * @return True if the 'charged_total_kwh' field has been set, false otherwise.
-      */
-    public boolean hasChargedTotalKwh() {
-      return fieldSetFlags()[12];
-    }
-
-
-    /**
-      * Clears the value of the 'charged_total_kwh' field.
-      * @return This builder.
-      */
-    public com.cienet.sub.utilities.EvChargeMetric.Builder clearChargedTotalKwh() {
-      charged_total_kwh = null;
-      fieldSetFlags()[12] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public EvChargeMetric build() {
+    public EvChargeMetricNack build() {
       try {
-        EvChargeMetric record = new EvChargeMetric();
+        EvChargeMetricNack record = new EvChargeMetricNack();
         record.session_id = fieldSetFlags()[0] ? this.session_id : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.station_id = fieldSetFlags()[1] ? this.station_id : (java.lang.Integer) defaultValue(fields()[1]);
         record.location = fieldSetFlags()[2] ? this.location : (java.lang.CharSequence) defaultValue(fields()[2]);
@@ -1099,8 +958,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
         record.avg_charge_rate_kw = fieldSetFlags()[8] ? this.avg_charge_rate_kw : (java.lang.Float) defaultValue(fields()[8]);
         record.battery_capacity_kwh = fieldSetFlags()[9] ? this.battery_capacity_kwh : (java.lang.Float) defaultValue(fields()[9]);
         record.battery_level_start = fieldSetFlags()[10] ? this.battery_level_start : (java.lang.Float) defaultValue(fields()[10]);
-        record.battery_level_end = fieldSetFlags()[11] ? this.battery_level_end : (java.lang.Float) defaultValue(fields()[11]);
-        record.charged_total_kwh = fieldSetFlags()[12] ? this.charged_total_kwh : (java.lang.Float) defaultValue(fields()[12]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -1111,8 +968,8 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<EvChargeMetric>
-    WRITER$ = (org.apache.avro.io.DatumWriter<EvChargeMetric>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<EvChargeMetricNack>
+    WRITER$ = (org.apache.avro.io.DatumWriter<EvChargeMetricNack>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -1120,8 +977,8 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<EvChargeMetric>
-    READER$ = (org.apache.avro.io.DatumReader<EvChargeMetric>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<EvChargeMetricNack>
+    READER$ = (org.apache.avro.io.DatumReader<EvChargeMetricNack>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
@@ -1155,16 +1012,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
 
     out.writeFloat(this.battery_level_start);
 
-    out.writeFloat(this.battery_level_end);
-
-    if (this.charged_total_kwh == null) {
-      out.writeIndex(0);
-      out.writeNull();
-    } else {
-      out.writeIndex(1);
-      out.writeFloat(this.charged_total_kwh);
-    }
-
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -1194,17 +1041,8 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
 
       this.battery_level_start = in.readFloat();
 
-      this.battery_level_end = in.readFloat();
-
-      if (in.readIndex() != 1) {
-        in.readNull();
-        this.charged_total_kwh = null;
-      } else {
-        this.charged_total_kwh = in.readFloat();
-      }
-
     } else {
-      for (int i = 0; i < 13; i++) {
+      for (int i = 0; i < 11; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.session_id = in.readString(this.session_id instanceof Utf8 ? (Utf8)this.session_id : null);
@@ -1248,19 +1086,6 @@ public class EvChargeMetric extends org.apache.avro.specific.SpecificRecordBase 
 
         case 10:
           this.battery_level_start = in.readFloat();
-          break;
-
-        case 11:
-          this.battery_level_end = in.readFloat();
-          break;
-
-        case 12:
-          if (in.readIndex() != 1) {
-            in.readNull();
-            this.charged_total_kwh = null;
-          } else {
-            this.charged_total_kwh = in.readFloat();
-          }
           break;
 
         default:
