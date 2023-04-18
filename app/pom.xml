@@ -57,7 +57,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>pub</module>
-        <module>sub</module>
+        <module>publisher</module>
+        <module>subscriber</module>
     </modules>
 </project>
