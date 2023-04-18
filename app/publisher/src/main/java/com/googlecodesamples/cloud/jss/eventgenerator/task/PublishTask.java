@@ -8,9 +8,13 @@ import org.slf4j.LoggerFactory;
 public class PublishTask implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(PublishTask.class);
 
-    private final int count;
+    private static final float MIN_SLEEP = 0.2f;
 
-    private final float sleep;
+    private static final int INFINITE_FLAG = -1;
+
+    private int count;
+
+    private float sleep;
 
     private final IPublisher publisher;
 
@@ -18,16 +22,17 @@ public class PublishTask implements Runnable {
         this.count = count;
         this.publisher = publisher;
         this.sleep = sleep;
+        validate();
     }
 
     @Override
     public void run() {
-        if (count >= 0) {
-            for (int i = 0; i < count; i++) {
+        if (isSendInfinitely()) {
+            while (!Thread.currentThread().isInterrupted()) {
                 sendMessage();
             }
         } else {
-            while (!Thread.currentThread().isInterrupted()) {
+            for (int i = 0; i < this.count; i++) {
                 sendMessage();
             }
         }
@@ -42,5 +47,14 @@ public class PublishTask implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted");
         }
+    }
+
+    private boolean isSendInfinitely() {
+        return this.count == INFINITE_FLAG;
+    }
+
+    private void validate() {
+        this.count = Math.max(this.count, INFINITE_FLAG);
+        this.sleep = Math.max(this.count, MIN_SLEEP);
     }
 }
