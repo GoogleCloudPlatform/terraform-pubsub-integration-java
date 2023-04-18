@@ -15,12 +15,10 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -4599319923119743282L;
-
-
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeEvent\",\"namespace\":\"com.cienet.sub.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":\"string\"},{\"name\":\"session_end_time\",\"type\":\"string\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
-  private static final SpecificData MODEL$ = new SpecificData();
+  private static SpecificData MODEL$ = new SpecificData();
 
   private static final BinaryMessageEncoder<EvChargeEvent> ENCODER =
       new BinaryMessageEncoder<EvChargeEvent>(MODEL$, SCHEMA$);
@@ -73,14 +71,14 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
     return DECODER.decode(b);
   }
 
-  private java.lang.CharSequence session_id;
-  private int station_id;
-  private java.lang.CharSequence location;
-  private java.lang.CharSequence session_start_time;
-  private java.lang.CharSequence session_end_time;
-  private float avg_charge_rate_kw;
-  private float battery_capacity_kwh;
-  private float battery_level_start;
+   private java.lang.CharSequence session_id;
+   private int station_id;
+   private java.lang.CharSequence location;
+   private java.lang.CharSequence session_start_time;
+   private java.lang.CharSequence session_end_time;
+   private float avg_charge_rate_kw;
+   private float battery_capacity_kwh;
+   private float battery_level_start;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -332,7 +330,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
 
     /** Creates a new Builder */
     private Builder() {
-      super(SCHEMA$, MODEL$);
+      super(SCHEMA$);
     }
 
     /**
@@ -380,7 +378,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
      * @param other The existing instance to copy.
      */
     private Builder(com.cienet.sub.utilities.EvChargeEvent other) {
-      super(SCHEMA$, MODEL$);
+      super(SCHEMA$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
         fieldSetFlags()[0] = true;

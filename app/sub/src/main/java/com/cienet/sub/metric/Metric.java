@@ -1,74 +1,75 @@
 package com.cienet.sub.metric;
 
-import com.cienet.sub.service.PublishService;
-import com.cienet.sub.util.SubscribeUtil;
+import com.cienet.sub.util.PubSubUtil;
 import com.cienet.sub.utilities.EvChargeEvent;
-import com.cienet.sub.utilities.EvChargeMetricComplete;
-import com.google.cloud.pubsub.v1.AckReplyConsumer;
-import com.google.cloud.pubsub.v1.MessageReceiver;
+import com.cienet.sub.utilities.EvChargeMetric;
+import com.google.cloud.spring.pubsub.core.PubSubTemplate;
+import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 
-public abstract class Metric<T> {
+public class Metric {
   private static final Logger log = LoggerFactory.getLogger(Metric.class);
 
-  protected final PublishService publishService;
+  private final PubSubTemplate pubSubTemplate;
 
-  protected Metric(PublishService publishService) {
-    this.publishService = publishService;
+  @Value("${metric.topic}")
+  private String topic;
+
+  protected Metric(PubSubTemplate pubSubTemplate) {
+    this.pubSubTemplate = pubSubTemplate;
   }
 
-  public abstract ByteString convertMessage(T message);
-
-  public abstract T genMetricData(EvChargeEvent evChargeEvent, float processTime);
-
-  public MessageReceiver receiver() {
-    return (PubsubMessage message, AckReplyConsumer consumer) -> {
-      try {
-        log.info("Receive Message: " + message.getData().toStringUtf8());
-        T newMessage = processMessage(message, consumer);
-        publishService.publishMsg(convertMessage(newMessage));
-      } catch (Exception e) {
-        log.error("Receive Exception", e);
-      }
-    };
-  }
-
-  public final T processMessage(PubsubMessage message, AckReplyConsumer consumer) {
-    float processTime = SubscribeUtil.genRandomFloat(0.1f, 5);
+  public void processMessage(BasicAcknowledgeablePubsubMessage basicMessage) {
+    // TODO same as Gaussian?
+    float processTime = PubSubUtil.genRandomFloat(0.1f, 5);
     try {
       Thread.sleep((long) processTime * 1000);
     } catch (InterruptedException e) {
       log.error("ProcessMessage error", e);
     }
-    consumerAckOrNack(consumer);
+    messageAckOrNack(basicMessage);
+    EvChargeMetric evChargeMetric = genEvChargeMetric(basicMessage, processTime);
+    publishMessage(evChargeMetric);
+  }
+
+  public void messageAckOrNack(BasicAcknowledgeablePubsubMessage basicMessage) {
+    log.info("messageAckOrNack ack");
+    basicMessage.ack();
+  }
+
+  public EvChargeMetric genEvChargeMetric(
+      BasicAcknowledgeablePubsubMessage basicMessage, float processTime) {
+    PubsubMessage message = basicMessage.getPubsubMessage();
     EvChargeEvent evChargeEvent =
-        SubscribeUtil.jsonDecode(message.getData(), EvChargeEvent.getClassSchema());
-    return genMetricData(evChargeEvent, processTime);
-  }
-
-  public void consumerAckOrNack(AckReplyConsumer consumer) {
-    log.info("consumerAckOrNack ack");
-    consumer.ack();
-  }
-
-  public final EvChargeMetricComplete genCommonData(
-      EvChargeEvent evChargeEvent, float processTime) {
-    EvChargeMetricComplete evChargeMetric = new EvChargeMetricComplete();
+        PubSubUtil.jsonDecode(message.getData(), EvChargeEvent.getClassSchema());
+    EvChargeMetric evChargeMetric = new EvChargeMetric();
     BeanUtils.copyProperties(evChargeEvent, evChargeMetric);
     evChargeMetric.setEventTimestamp(evChargeEvent.getSessionEndTime());
-    // TODO
-    evChargeMetric.setPublishTimestamp(SubscribeUtil.formatTime(System.currentTimeMillis()));
+    // TODO weird format, used current time temporally
+    evChargeMetric.setPublishTimestamp(PubSubUtil.formatTime(System.currentTimeMillis()));
     evChargeMetric.setProcessingTimeSec(processTime);
-    evChargeMetric.setAckTimestamp(SubscribeUtil.formatTime(System.currentTimeMillis()));
+    evChargeMetric.setAckTimestamp(PubSubUtil.formatTime(System.currentTimeMillis()));
     float diffInHour =
-        SubscribeUtil.getDiffTimeInHour(
+        PubSubUtil.getDiffTimeInHour(
             evChargeEvent.getSessionEndTime().toString(),
             evChargeEvent.getSessionStartTime().toString());
     evChargeMetric.setSessionDurationHr(diffInHour);
+    genExtraFields(evChargeMetric);
     return evChargeMetric;
+  }
+
+  public void genExtraFields(EvChargeMetric evChargeMetric) {}
+
+  public void publishMessage(EvChargeMetric evChargeMetric) {
+    log.info(
+        "Publishing evChargeMetric to the topic [{}], message [{}]", this.topic, evChargeMetric);
+    ByteString data = PubSubUtil.jsonEncode(evChargeMetric, EvChargeMetric.getClassSchema());
+    PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+    pubSubTemplate.publish(this.topic, pubsubMessage);
   }
 }

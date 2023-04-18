@@ -1,45 +1,27 @@
 package com.cienet.sub.metric;
 
-import com.cienet.sub.service.PublishService;
-import com.cienet.sub.util.PublishUtil;
-import com.cienet.sub.utilities.EvChargeEvent;
-import com.cienet.sub.utilities.EvChargeMetricComplete;
-import com.google.protobuf.ByteString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cienet.sub.utilities.EvChargeMetric;
+import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MetricsComplete extends Metric<EvChargeMetricComplete> {
-  private static final Logger log = LoggerFactory.getLogger(MetricsComplete.class);
-
-  protected MetricsComplete(PublishService publishService) {
-    super(publishService);
+public class MetricsComplete extends Metric {
+  protected MetricsComplete(PubSubTemplate pubSubTemplate) {
+    super(pubSubTemplate);
   }
 
   @Override
-  public ByteString convertMessage(EvChargeMetricComplete message) {
-    return PublishUtil.jsonEncode(message, EvChargeMetricComplete.getClassSchema());
-  }
-
-  @Override
-  public EvChargeMetricComplete genMetricData(EvChargeEvent evChargeEvent, float processTime) {
-    EvChargeMetricComplete evChargeMetricComplete = genCommonData(evChargeEvent, processTime);
-    return genExtraFields(evChargeMetricComplete);
-  }
-
-  public EvChargeMetricComplete genExtraFields(EvChargeMetricComplete evChargeMetricComplete) {
-    float batteryLevelStart = evChargeMetricComplete.getBatteryLevelStart();
-    float batteryCapacityKwh = evChargeMetricComplete.getBatteryCapacityKwh();
+  public void genExtraFields(EvChargeMetric evChargeMetric) {
+    float batteryLevelStart = evChargeMetric.getBatteryLevelStart();
+    float batteryCapacityKwh = evChargeMetric.getBatteryCapacityKwh();
     float batteryLevel =
         batteryLevelStart
-            + evChargeMetricComplete.getAvgChargeRateKw()
-                * evChargeMetricComplete.getSessionDurationHr()
+            + evChargeMetric.getAvgChargeRateKw()
+                * evChargeMetric.getSessionDurationHr()
                 / batteryCapacityKwh;
     float batteryLevelEnd = Math.min(1.0f, batteryLevel);
-    evChargeMetricComplete.setBatteryLevelEnd(batteryLevelEnd);
+    evChargeMetric.setBatteryLevelEnd(batteryLevelEnd);
     float chargedTotalKwh = (batteryLevelEnd - batteryLevelStart) * batteryCapacityKwh;
-    evChargeMetricComplete.setChargedTotalKwh(chargedTotalKwh);
-    return evChargeMetricComplete;
+    evChargeMetric.setChargedTotalKwh(chargedTotalKwh);
   }
 }
