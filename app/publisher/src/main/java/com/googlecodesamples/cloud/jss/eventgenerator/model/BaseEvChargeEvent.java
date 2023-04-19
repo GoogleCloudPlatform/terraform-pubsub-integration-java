@@ -1,8 +1,7 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.model;
 
+import com.googlecodesamples.cloud.jss.eventgenerator.util.PublishUtil;
 import com.googlecodesamples.cloud.jss.eventgenerator.utilities.EvChargeEvent;
-import com.googlecodesamples.cloud.jss.eventgenerator.util.PubUtil;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +10,8 @@ import org.slf4j.LoggerFactory;
 
 public class BaseEvChargeEvent {
   private static final Logger log = LoggerFactory.getLogger(BaseEvChargeEvent.class);
-
   private final String LOCATION_ENV = "GOOGLE_CLOUD_LOCATION";
-  private List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 150);
+  private final List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 250);
   private final float BIAS = 1 / 100f;
   private final List<Integer> BATTERY_CAPACITY_KWH =
       Arrays.asList(40, 50, 58, 62, 75, 77, 82, 100, 129, 131);
@@ -104,28 +102,24 @@ public class BaseEvChargeEvent {
   }
 
   public void genRandomData() {
+    int randomNum = PublishUtil.genRandomInt(0, 100);
     setSession_id(UUID.randomUUID().toString());
-    int stationIdRan = PubUtil.genRandomInt(0, 100);
-    setStation_id(stationIdRan);
+    setStation_id(randomNum);
     //    setLocation(System.getenv(LOCATION_ENV));
-    // TODO
-    setLocation("us-west");
-    long endTime = System.currentTimeMillis();
-    int randomInt = PubUtil.genRandomInt(5, 90);
-    long startTime = endTime - randomInt * 60 * 1000L;
-    setSession_start_time(PubUtil.formatTime(startTime));
-    setSession_end_time(PubUtil.formatTime(endTime));
-    int avgChargeRateKwIndexRan = stationIdRan % AVG_CHARGE_RATE_KW.size();
-    int plusMinusIndexRan = stationIdRan % 2;
-    float avgChargeRate = AVG_CHARGE_RATE_KW.get(avgChargeRateKwIndexRan);
-    if (plusMinusIndexRan == 0) {
-      avgChargeRate += BIAS;
+    setLocation("us-west1");
+    long sessionEndTime = System.currentTimeMillis();
+    int processTime = PublishUtil.genRandomInt(5, 90);
+    long sessionStartTime = sessionEndTime - processTime * 60 * 1000L;
+    setSession_start_time(PublishUtil.formatTime(sessionStartTime));
+    setSession_end_time(PublishUtil.formatTime(sessionEndTime));
+    float avgChargeRateKw = AVG_CHARGE_RATE_KW.get(randomNum % AVG_CHARGE_RATE_KW.size());
+    if (randomNum % 2 == 0) {
+      avgChargeRateKw += BIAS;
     } else {
-      avgChargeRate -= BIAS;
+      avgChargeRateKw -= BIAS;
     }
-    setAvg_charge_rate_kw(avgChargeRate);
-    int batteryCapacityKwhIndexRan = stationIdRan % BATTERY_CAPACITY_KWH.size();
-    setBattery_capacity_kwh(BATTERY_CAPACITY_KWH.get(batteryCapacityKwhIndexRan));
-    setBattery_level_start(PubUtil.genRandomFloat(0.05f, 0.8f));
+    setAvg_charge_rate_kw(avgChargeRateKw);
+    setBattery_capacity_kwh(BATTERY_CAPACITY_KWH.get(randomNum % BATTERY_CAPACITY_KWH.size()));
+    setBattery_level_start(PublishUtil.genRandomFloat(0.05f, 0.8f));
   }
 }

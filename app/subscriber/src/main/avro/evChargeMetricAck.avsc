@@ -1,0 +1,51 @@
+{
+  "type": "record",
+  "namespace": "com.googlecodesamples.cloud.jss.metricsack.utilities",
+  "name": "EvChargeMetricAck",
+  "fields": [
+    {
+      "name": "session_id",
+      "type": "string"
+    },
+    {
+      "name": "station_id",
+      "type": "int"
+    },
+    {
+      "name": "location",
+      "type": "string"
+    },
+    {
+      "name": "event_timestamp",
+      "type": "string"
+    },
+    {
+      "name": "publish_timestamp",
+      "type": "string"
+    },
+    {
+      "name": "processing_time_sec",
+      "type": "float"
+    },
+    {
+      "name": "ack_timestamp",
+      "type": "string"
+    },
+    {
+      "name": "session_duration_hr",
+      "type": "float"
+    },
+    {
+      "name": "avg_charge_rate_kw",
+      "type": "float"
+    },
+    {
+      "name": "battery_capacity_kwh",
+      "type": "float"
+    },
+    {
+      "name": "battery_level_start",
+      "type": "float"
+    }
+  ]
+}

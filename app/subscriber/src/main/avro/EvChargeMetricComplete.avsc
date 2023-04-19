@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "com.googlecodesamples.cloud.jss.metricsack.utilities",
-  "name": "EvChargeMetric",
+  "name": "EvChargeMetricComplete",
   "fields": [
     {
       "name": "session_id",

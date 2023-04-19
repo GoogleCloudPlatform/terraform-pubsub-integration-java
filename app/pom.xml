@@ -10,12 +10,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.cienet</groupId>
+    <groupId>com.googlecodesamples.cloud.jss</groupId>
     <artifactId>cps</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cps</name>
     <packaging>pom</packaging>
-    <description>cps</description>
+    <description>Cloud Pub Sub</description>
 
     <properties>
         <java.version>17</java.version>
