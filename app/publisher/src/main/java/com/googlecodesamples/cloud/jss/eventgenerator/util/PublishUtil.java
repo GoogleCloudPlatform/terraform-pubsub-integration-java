@@ -2,22 +2,19 @@ package com.googlecodesamples.cloud.jss.eventgenerator.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
-import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PublishUtil {
   private static final Logger log = LoggerFactory.getLogger(PublishUtil.class);
-  private static final String UTC_TIME = "UTC";
-  private static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
   private static final Random RANDOM = new Random();
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(PATTERN);
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ISO_INSTANT;
 
-  public static synchronized String formatTime(long currentTime) {
-    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(UTC_TIME));
-    return DATE_FORMAT.format(currentTime);
+  public static String formatTime(long second) {
+    return DATE_FORMAT.format(Instant.ofEpochSecond(second));
   }
 
   public static int genRandomInt(int min, int max) {

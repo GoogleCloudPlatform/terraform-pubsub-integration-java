@@ -2,9 +2,11 @@ package com.googlecodesamples.cloud.jss.metricsack.metric;
 
 import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import com.google.cloud.spring.pubsub.support.converter.ConvertedBasicAcknowledgeablePubsubMessage;
+import com.google.protobuf.Timestamp;
 import com.googlecodesamples.cloud.jss.metricsack.util.SubscribeUtil;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
+import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +23,8 @@ public abstract class Metric<T> {
     this.pubSubTemplate = pubSubTemplate;
   }
 
-  public abstract T genMetricMessage(EvChargeEvent evChargeEvent, float processTime);
+  public abstract T genMetricMessage(
+      ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message, float processTime);
 
   public final void processMessage(
       ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message) {
@@ -32,7 +35,7 @@ public abstract class Metric<T> {
       log.error("ProcessMessage InterruptedException", e);
     }
     messageAckOrNack(message);
-    publishMessage(genMetricMessage(message.getPayload(), processTime));
+    publishMessage(genMetricMessage(message, processTime));
   }
 
   public void messageAckOrNack(ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message) {
@@ -49,14 +52,15 @@ public abstract class Metric<T> {
   }
 
   public final EvChargeMetricComplete genCommonMetricMessage(
-      EvChargeEvent evChargeEvent, float processTime) {
+      ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message, float processTime) {
     EvChargeMetricComplete metricMessage = new EvChargeMetricComplete();
+    EvChargeEvent evChargeEvent = message.getPayload();
+    Timestamp publishTime = message.getPubsubMessage().getPublishTime();
     BeanUtils.copyProperties(evChargeEvent, metricMessage);
     metricMessage.setEventTimestamp(evChargeEvent.getSessionEndTime());
-    // TODO
-    metricMessage.setPublishTimestamp(SubscribeUtil.formatTime(System.currentTimeMillis()));
+    metricMessage.setPublishTimestamp(SubscribeUtil.formatTime(publishTime.getSeconds()));
     metricMessage.setProcessingTimeSec(SubscribeUtil.formatFloat(processTime));
-    metricMessage.setAckTimestamp(SubscribeUtil.formatTime(System.currentTimeMillis()));
+    metricMessage.setAckTimestamp(SubscribeUtil.formatTime(Instant.now().getEpochSecond()));
     float diffInHour =
         SubscribeUtil.getDiffTimeInHour(
             evChargeEvent.getSessionEndTime().toString(),

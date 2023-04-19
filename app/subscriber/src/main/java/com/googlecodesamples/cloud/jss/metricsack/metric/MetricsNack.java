@@ -25,9 +25,10 @@ public class MetricsNack extends Metric<EvChargeMetricNack> {
   }
 
   @Override
-  public EvChargeMetricNack genMetricMessage(EvChargeEvent evChargeEvent, float processTime) {
+  public EvChargeMetricNack genMetricMessage(
+      ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message, float processTime) {
     EvChargeMetricNack metricMessage = new EvChargeMetricNack();
-    EvChargeMetricComplete commonMetricMessage = genCommonMetricMessage(evChargeEvent, processTime);
+    EvChargeMetricComplete commonMetricMessage = genCommonMetricMessage(message, processTime);
     BeanUtils.copyProperties(commonMetricMessage, metricMessage);
     return metricMessage;
   }

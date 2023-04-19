@@ -2,6 +2,7 @@ package com.googlecodesamples.cloud.jss.eventgenerator.model;
 
 import com.googlecodesamples.cloud.jss.eventgenerator.util.PublishUtil;
 import com.googlecodesamples.cloud.jss.eventgenerator.utilities.EvChargeEvent;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -107,9 +108,9 @@ public class BaseEvChargeEvent {
     setStation_id(randomNum);
     //    setLocation(System.getenv(LOCATION_ENV));
     setLocation("us-west1");
-    long sessionEndTime = System.currentTimeMillis();
+    long sessionEndTime = Instant.now().getEpochSecond();
     int processTime = PublishUtil.genRandomInt(5, 90);
-    long sessionStartTime = sessionEndTime - processTime * 60 * 1000L;
+    long sessionStartTime = sessionEndTime - processTime * 60L;
     setSession_start_time(PublishUtil.formatTime(sessionStartTime));
     setSession_end_time(PublishUtil.formatTime(sessionEndTime));
     float avgChargeRateKw = AVG_CHARGE_RATE_KW.get(randomNum % AVG_CHARGE_RATE_KW.size());
