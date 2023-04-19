@@ -55,6 +55,6 @@ public class PublishTask implements Runnable {
 
     private void validate() {
         this.count = Math.max(this.count, INFINITE_FLAG);
-        this.sleep = Math.max(this.count, MIN_SLEEP);
+        this.sleep = Math.max(this.sleep, MIN_SLEEP);
     }
 }
