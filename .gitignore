@@ -39,3 +39,13 @@ tmp
 data/*
 *.swp
 dist
+
+# Terraform files
+**/.terraform/*
+terraform/**/*.log
+terraform/**/*manifest.json
+terraform/entire-tf-output
+**/entire-tf-output
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
