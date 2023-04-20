@@ -1,6 +1,7 @@
 {
   "type": "record",
-  "name": "Avro",
+  "namespace": "com.googlecodesamples.cloud.jss.metricsack.utilities",
+  "name": "EvChargeMetricComplete",
   "fields": [
     {
       "name": "session_id",
@@ -48,17 +49,11 @@
     },
     {
       "name": "battery_level_end",
-      "type": [
-        "null",
-        "float"
-      ]
+      "type": ["null", "float"]
     },
     {
       "name": "charged_total_kwh",
-      "type": [
-        "null",
-        "float"
-      ]
+      "type": ["null", "float"]
     }
   ]
 }

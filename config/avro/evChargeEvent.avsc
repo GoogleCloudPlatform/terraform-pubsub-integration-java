@@ -1,7 +1,6 @@
 {
   "type": "record",
-  "namespace": "com.cienet.sub.utilities",
-  "name": "EvChargeMetric",
+  "name": "EvChargeEvent",
   "fields": [
     {
       "name": "session_id",
@@ -16,24 +15,12 @@
       "type": "string"
     },
     {
-      "name": "event_timestamp",
+      "name": "session_start_time",
       "type": "string"
     },
     {
-      "name": "publish_timestamp",
+      "name": "session_end_time",
       "type": "string"
-    },
-    {
-      "name": "processing_time_sec",
-      "type": "float"
-    },
-    {
-      "name": "ack_timestamp",
-      "type": "string"
-    },
-    {
-      "name": "session_duration_hr",
-      "type": "float"
     },
     {
       "name": "avg_charge_rate_kw",

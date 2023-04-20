@@ -1,6 +1,7 @@
 {
   "type": "record",
-  "name": "Avro",
+  "namespace": "com.googlecodesamples.cloud.jss.metricsack.utilities",
+  "name": "EvChargeMetricAck",
   "fields": [
     {
       "name": "session_id",
@@ -15,12 +16,24 @@
       "type": "string"
     },
     {
-      "name": "session_start_time",
+      "name": "event_timestamp",
       "type": "string"
     },
     {
-      "name": "session_end_time",
+      "name": "publish_timestamp",
       "type": "string"
+    },
+    {
+      "name": "processing_time_sec",
+      "type": "float"
+    },
+    {
+      "name": "ack_timestamp",
+      "type": "string"
+    },
+    {
+      "name": "session_duration_hr",
+      "type": "float"
     },
     {
       "name": "avg_charge_rate_kw",
