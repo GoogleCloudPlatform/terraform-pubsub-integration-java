@@ -88,7 +88,7 @@ module "europe_north1_publisher_helm" {
         value = var.publisher_image_url
       },
       {
-        name  = "config_maps.pubsub_topic"
+        name  = "config_maps.event_topic"
         value = google_pubsub_topic.events.id
       },
     ]
