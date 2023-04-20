@@ -18,23 +18,23 @@ spec:
       serviceAccountName: '{{ .Values.k8s_service_account_name }}'
       containers:
         - env:
-          - name: PUBSUB_SUBSCRIPTION
+          - name: EVENT_SUBSCRIPTION
             valueFrom:
               configMapKeyRef:
-                key: PUBSUB_SUBSCRIPTION
+                key: EVENT_SUBSCRIPTION
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
-          - name: PUBSUB_TOPIC
+          - name: METRIC_TOPIC
             valueFrom:
               configMapKeyRef:
-                key: PUBSUB_TOPIC
+                key: METRIC_TOPIC
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
-          - name: PUBSUB_PORT
+          - name: METRIC_APP_PORT
             valueFrom:
               configMapKeyRef:
-                key: PUBSUB_PORT
+                key: METRIC_APP_PORT
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
           name: '{{ .Values.project_id }}-subscriber-{{ .Values.region }}'
           image: '{{ .Values.image }}'
           resources:
             requests:
-              cpu: "4000m"
+              cpu: "1000m"

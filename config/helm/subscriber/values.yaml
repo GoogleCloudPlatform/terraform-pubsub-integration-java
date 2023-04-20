@@ -11,9 +11,9 @@ region: ${REGION}
 image: ${IMAGE}
 
 config_maps:
-  pubsub_subscription: ${PUBSUB_SUBSCRIPTION}
-  pubsub_topic: ${PUBSUB_TOPIC}
-  pubsub_port: ${PUBSUB_PORT}
+  event_subscription: ${PUBSUB_SUBSCRIPTION}
+  metric_topic: ${PUBSUB_TOPIC}
+  metric_app_port: ${PUBSUB_PORT}
 
 gcp_service_account_email: ${GCP_SERVICE_ACCOUNT_EMAIL}
 k8s_service_account_name: ${NAMESPACE}

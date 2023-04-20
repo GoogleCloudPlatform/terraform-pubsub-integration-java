@@ -14,9 +14,9 @@ resource "random_id" "code" {
 
 resource "helm_release" "manifest" {
   name  = "${local.helm_release_name}-${var.region}-${random_id.code.hex}"
-  chart = "${path.module}/../../../helm/${var.chart_folder_name}"
+  chart = "${path.module}/../../../config/helm/${var.chart_folder_name}"
   values = [
-    file("${path.module}/../../../helm/${var.chart_folder_name}/values.yaml"),
+    file("${path.module}/../../../config/helm/${var.chart_folder_name}/values.yaml"),
   ]
   dynamic "set" {
     for_each = var.entries == null ? local.default_entries : concat(local.default_entries, var.entries)
