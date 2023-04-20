@@ -55,12 +55,20 @@ resource "google_pubsub_topic" "events" {
 }
 
 resource "google_pubsub_schema" "events" {
+  depends_on = [
+    module.project_services,
+  ]
+
   name       = "evChargeEvent"
   type       = "AVRO"
-  definition = file("${path.module}/avro/evChargeEvent.avsc")
+  definition = file("${path.module}/../config/avro/evChargeEvent.avsc")
 }
 
 resource "google_pubsub_subscription" "events" {
+  depends_on = [
+    google_project_iam_member.pubsub
+  ]
+
   name  = "EventSubscription"
   topic = google_pubsub_topic.events.name
   dead_letter_policy {
@@ -72,7 +80,8 @@ resource "google_pubsub_subscription" "events" {
 
 resource "google_pubsub_topic" "errors" {
   depends_on = [
-    module.project_services
+    module.project_services,
+    google_project_iam_member.pubsub
   ]
 
   name                       = "ErrorsTopic"
@@ -98,42 +107,42 @@ resource "google_pubsub_topic" "metrics" {
 }
 
 resource "google_pubsub_schema" "metrics" {
+  depends_on = [
+    module.project_services,
+  ]
+
   name       = "evChargeMetric"
   type       = "AVRO"
-  definition = file("${path.module}/avro/evChargeMetricComplete.avsc")
+  definition = file("${path.module}/../config/avro/evChargeMetricComplete.avsc")
 }
 
 resource "google_pubsub_subscription" "metrics" {
   depends_on = [
-    google_project_iam_member.bigquery
+    google_project_iam_member.pubsub
   ]
+  
   name  = "MetricsSubscription"
   topic = google_pubsub_topic.metrics.name
   bigquery_config {
-    table            = "${google_bigquery_table.metrics.project}.${google_bigquery_table.metrics.dataset_id}.${google_bigquery_table.metrics.table_id}"
+    table            = "${data.google_project.current.project_id}.${module.bigquery.dataset_id}.${module.bigquery.table_id}"
     use_topic_schema = true
   }
   labels = var.labels
 }
 
-resource "google_bigquery_dataset" "metrics" {
+module "bigquery" {
   depends_on = [
-    module.project_services
+    module.project_services,
   ]
+  source = "./modules/bigquery"
 
   dataset_id = "ev_charging"
+  table_id   = "charging_sessions"
+  schema     = file("${path.module}/../config/avro/bigquery/evChargeMetricComplete.json")
   labels     = var.labels
 }
 
-resource "google_bigquery_table" "metrics" {
-  deletion_protection = false
-  table_id            = "charging_sessions"
-  dataset_id          = google_bigquery_dataset.metrics.dataset_id
-  schema              = file("${path.module}/avro/bigquery/evChargeMetricComplete.json")
-  labels              = var.labels
-}
-
-resource "google_project_iam_member" "bigquery" {
+resource "google_project_iam_member" "pubsub" {
   depends_on = [
     module.project_services
   ]
