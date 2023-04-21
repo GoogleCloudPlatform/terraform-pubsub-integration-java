@@ -1,7 +1,9 @@
 package com.googlecodesamples.cloud.jss.metricsack.metric;
 
-import com.google.cloud.spring.pubsub.core.PubSubTemplate;
-import com.google.cloud.spring.pubsub.support.converter.ConvertedBasicAcknowledgeablePubsubMessage;
+import com.google.cloud.pubsub.v1.AckReplyConsumer;
+import com.google.protobuf.Timestamp;
+import com.googlecodesamples.cloud.jss.metricsack.service.MessageService;
+import com.googlecodesamples.cloud.jss.metricsack.service.PublishService;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricNack;
@@ -14,21 +16,22 @@ import org.springframework.stereotype.Component;
 public class MetricsNack extends Metric<EvChargeMetricNack> {
   private static final Logger log = LoggerFactory.getLogger(MetricsNack.class);
 
-  protected MetricsNack(PubSubTemplate pubSubTemplate) {
-    super(pubSubTemplate);
+  protected MetricsNack(PublishService publishService, MessageService messageService) {
+    super(publishService, messageService);
   }
 
   @Override
-  public void messageAckOrNack(ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message) {
-    log.info("MessageAckOrNack nack");
-    message.nack(); // nack every message receives 🐞
+  public void consumerAckOrNack(AckReplyConsumer consumer) {
+    log.info("ConsumerAckOrNack nack");
+    consumer.nack(); // nack every message receives 🐞
   }
 
   @Override
   public EvChargeMetricNack genMetricMessage(
-      ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message, float processTime) {
+      EvChargeEvent evChargeEvent, float processTime, Timestamp publishTime) {
     EvChargeMetricNack metricMessage = new EvChargeMetricNack();
-    EvChargeMetricComplete commonMetricMessage = genCommonMetricMessage(message, processTime);
+    EvChargeMetricComplete commonMetricMessage =
+        genCommonMetricMessage(evChargeEvent, processTime, publishTime);
     BeanUtils.copyProperties(commonMetricMessage, metricMessage);
     return metricMessage;
   }

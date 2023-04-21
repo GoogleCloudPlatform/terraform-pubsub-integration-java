@@ -19,8 +19,9 @@
 
     <properties>
         <java.version>17</java.version>
-        <spring-cloud-gcp.version>3.4.7</spring-cloud-gcp.version>
+        <google.cloud.version>26.12.0</google.cloud.version>
         <avro.version>1.11.0</avro.version>
+        <jib.version>3.3.1</jib.version>
     </properties>
 
     <dependencies>
@@ -35,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>com.google.cloud</groupId>
-            <artifactId>spring-cloud-gcp-starter-pubsub</artifactId>
+            <artifactId>google-cloud-pubsub</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -48,8 +49,8 @@
         <dependencies>
             <dependency>
                 <groupId>com.google.cloud</groupId>
-                <artifactId>spring-cloud-gcp-dependencies</artifactId>
-                <version>${spring-cloud-gcp.version}</version>
+                <artifactId>libraries-bom</artifactId>
+                <version>${google.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

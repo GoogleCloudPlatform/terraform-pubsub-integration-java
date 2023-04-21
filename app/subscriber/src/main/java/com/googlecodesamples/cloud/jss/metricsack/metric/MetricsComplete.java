@@ -1,7 +1,8 @@
 package com.googlecodesamples.cloud.jss.metricsack.metric;
 
-import com.google.cloud.spring.pubsub.core.PubSubTemplate;
-import com.google.cloud.spring.pubsub.support.converter.ConvertedBasicAcknowledgeablePubsubMessage;
+import com.google.protobuf.Timestamp;
+import com.googlecodesamples.cloud.jss.metricsack.service.MessageService;
+import com.googlecodesamples.cloud.jss.metricsack.service.PublishService;
 import com.googlecodesamples.cloud.jss.metricsack.util.SubscribeUtil;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
@@ -13,14 +14,15 @@ import org.springframework.stereotype.Component;
 public class MetricsComplete extends Metric<EvChargeMetricComplete> {
   private static final Logger log = LoggerFactory.getLogger(MetricsComplete.class);
 
-  protected MetricsComplete(PubSubTemplate pubSubTemplate) {
-    super(pubSubTemplate);
+  protected MetricsComplete(PublishService publishService, MessageService messageService) {
+    super(publishService, messageService);
   }
 
   @Override
   public EvChargeMetricComplete genMetricMessage(
-      ConvertedBasicAcknowledgeablePubsubMessage<EvChargeEvent> message, float processTime) {
-    EvChargeMetricComplete metricMessage = genCommonMetricMessage(message, processTime);
+      EvChargeEvent evChargeEvent, float processTime, Timestamp publishTime) {
+    EvChargeMetricComplete metricMessage =
+        genCommonMetricMessage(evChargeEvent, processTime, publishTime);
     genExtraFields(metricMessage);
     return metricMessage;
   }
@@ -33,9 +35,10 @@ public class MetricsComplete extends Metric<EvChargeMetricComplete> {
             + evChargeMetric.getAvgChargeRateKw()
                 * evChargeMetric.getSessionDurationHr()
                 / batteryCapacityKwh;
-    float batteryLevelEnd = Math.min(1.0f, SubscribeUtil.formatFloat(batteryLevel));
-    evChargeMetric.setBatteryLevelEnd(batteryLevelEnd);
-    float chargedTotalKwh = (batteryLevelEnd - batteryLevelStart) * batteryCapacityKwh;
-    evChargeMetric.setChargedTotalKwh(SubscribeUtil.formatFloat(chargedTotalKwh));
+    float batteryLevelEnd = Math.min(1.0f, batteryLevel);
+    evChargeMetric.setBatteryLevelEnd(SubscribeUtil.formatFloat(batteryLevelEnd));
+    float chargedTotalKwh =
+        SubscribeUtil.formatFloat(((batteryLevelEnd - batteryLevelStart) * batteryCapacityKwh));
+    evChargeMetric.setChargedTotalKwh(chargedTotalKwh);
   }
 }

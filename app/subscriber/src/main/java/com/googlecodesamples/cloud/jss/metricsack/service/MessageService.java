@@ -1,9 +1,7 @@
-package com.googlecodesamples.cloud.jss.metricsack.converter;
+package com.googlecodesamples.cloud.jss.metricsack.service;
 
-import com.google.cloud.spring.pubsub.support.converter.PubSubMessageConverter;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
-import com.googlecodesamples.cloud.jss.metricsack.service.SubscribeService;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricAck;
 import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
@@ -12,7 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import org.apache.avro.Schema;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
@@ -23,17 +20,16 @@ import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class BaseMessageConverter implements PubSubMessageConverter {
-  private static final Logger log = LoggerFactory.getLogger(BaseMessageConverter.class);
+@Service
+public class MessageService {
+  private static final Logger log = LoggerFactory.getLogger(MessageService.class);
 
   @Value("${metric.app.type}")
   private String metricAppType;
 
-  @Override
-  public PubsubMessage toPubSubMessage(Object payload, Map<String, String> headers) {
+  public PubsubMessage toPubSubMessage(Object payload) {
     try {
       Schema schema = null;
       switch (metricAppType) {
@@ -58,8 +54,7 @@ public class BaseMessageConverter implements PubSubMessageConverter {
     return null;
   }
 
-  @Override
-  public <T> T fromPubSubMessage(PubsubMessage message, Class<T> payloadType) {
+  public <T> T fromPubSubMessage(PubsubMessage message) {
     try {
       Schema schema = EvChargeEvent.getClassSchema();
       SpecificDatumReader<T> reader = new SpecificDatumReader<>(schema);

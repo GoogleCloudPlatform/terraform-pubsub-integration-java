@@ -11,11 +11,12 @@ import org.slf4j.LoggerFactory;
 
 public class BaseEvChargeEvent {
   private static final Logger log = LoggerFactory.getLogger(BaseEvChargeEvent.class);
-  private final String LOCATION_ENV = "GOOGLE_CLOUD_LOCATION";
+  private static final String GOOGLE_CLOUD_LOCATION = "GOOGLE_CLOUD_LOCATION";
   private final List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 250);
-  private final float BIAS = 1 / 100f;
   private final List<Integer> BATTERY_CAPACITY_KWH =
       Arrays.asList(40, 50, 58, 62, 75, 77, 82, 100, 129, 131);
+  private final float BIAS = 1 / 100f;
+
   private String session_id;
   private int station_id;
   private String location;
@@ -106,8 +107,7 @@ public class BaseEvChargeEvent {
     int randomNum = PublishUtil.genRandomInt(0, 100);
     setSession_id(UUID.randomUUID().toString());
     setStation_id(randomNum);
-    //    setLocation(System.getenv(LOCATION_ENV));
-    setLocation("us-west1");
+    setLocation(System.getenv(GOOGLE_CLOUD_LOCATION));
     long sessionEndTime = Instant.now().getEpochSecond();
     int processTime = PublishUtil.genRandomInt(5, 90);
     long sessionStartTime = sessionEndTime - processTime * 60L;
