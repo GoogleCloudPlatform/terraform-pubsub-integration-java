@@ -16,13 +16,13 @@ variable "region" {
 variable "subscriber_image_url" {
   description = "pubsub subscriber app image url "
   type        = string
-  default     = "asia.gcr.io/aemon-projects-dev-012/pubsub-sub:0419"
+  default     = "asia.gcr.io/aemon-projects-dev-012/pubsub-sub:0422"
 }
 
 variable "publisher_image_url" {
   description = "pubsub publisher app image url "
   type        = string
-  default     = "asia.gcr.io/aemon-projects-dev-012/pubsub-pub:0419"
+  default     = "asia.gcr.io/aemon-projects-dev-012/pubsub-pub:0422"
 }
 
 variable "labels" {
