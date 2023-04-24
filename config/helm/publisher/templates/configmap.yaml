@@ -3,7 +3,7 @@ data:
   EVENT_TOPIC: '{{ .Values.config_maps.event_topic }}'
   PUBLISHER_THREADS: "4"
   PUBLISHER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES: "100"
-  REST_PORT: "8002"
+  REST_PORT: "8001"
 kind: ConfigMap
 metadata:
   namespace: '{{ .Values.namespace }}'
