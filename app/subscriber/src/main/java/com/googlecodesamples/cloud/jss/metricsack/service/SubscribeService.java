@@ -2,13 +2,14 @@ package com.googlecodesamples.cloud.jss.metricsack.service;
 
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricAck;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack;
 import com.googlecodesamples.cloud.jss.metricsack.factory.BaseSubscriberFactory;
-import com.googlecodesamples.cloud.jss.metricsack.metric.Metric;import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsAck;
+import com.googlecodesamples.cloud.jss.metricsack.metric.Metric;
+import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsAck;
 import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsComplete;
 import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsNack;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricAck;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricNack;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,8 @@ public class SubscribeService {
       MetricsAck metricsAck,
       MetricsNack metricsNack,
       MetricsComplete metricsComplete,
-      @Value("${metric.app.type}") String metricAppType) {
+      @Value("${metric.app.type}") String metricAppType)
+      throws Exception {
     this.metricAck = metricsAck;
     this.metricsNack = metricsNack;
     this.metricsComplete = metricsComplete;
@@ -34,16 +36,12 @@ public class SubscribeService {
     subscriber.startAsync().awaitRunning();
   }
 
-  private MessageReceiver getMetricReceiver(String metricAppType) {
-    switch (metricAppType) {
-      case METRICS_ACK:
-        return metricAck.getReceiver();
-      case METRICS_NACK:
-        return metricsNack.getReceiver();
-      case METRICS_COMPLETE:
-        return metricsComplete.getReceiver();
-      default:
-        return null;
-    }
+  private MessageReceiver getMetricReceiver(String metricAppType) throws Exception {
+    return switch (metricAppType) {
+      case METRICS_ACK -> metricAck.getReceiver();
+      case METRICS_NACK -> metricsNack.getReceiver();
+      case METRICS_COMPLETE -> metricsComplete.getReceiver();
+      default -> throw new Exception("Metric app type should not be null");
+    };
   }
 }

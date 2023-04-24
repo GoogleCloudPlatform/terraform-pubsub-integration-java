@@ -14,35 +14,22 @@ mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build
 ## Environment Variable
 ### Publisher
 ```bash
-EVENT_TOPIC=<EventTopic topic name>
-GOOGLE_CLOUD_LOCATION=<GKE deployment’s location>
-RETRY_TOTAL_TIMEOUT=<Retry total timeout in second, default 600>
-RETRY_INITIAL_RPC_TIMEOUT=<Retry initial timeout in second, default 5>
-RETRY_MAX_RPC_TIMEOUT=<Retry max rpc timeout in second, default 600>
-PUBLISHER_EXECUTOR_THREADS=<Publisher executor thread number, default 4>
-FLOW_CONTROL_MAX_OUTSTANDING_ELEMENT=<Outstanding element, default 100>
-FLOW_CONTROL_MAX_OUTSTANDING_REQUEST=<Outstanding request in MB, default 10>
-BATCH_ELEMENT_COUNT_THRESHOLD=<Element threshold, default 1>
-BATCH_REQUEST_BYTE_THRESHOLD=<Request threshold in bytes, default 100>
-BATCH_DELAY_THRESHOLD=<Delay threshold in millisecond, default 1>
+EVENT_TOPIC = <EventTopic topic name>
+PUBLISHER_THREADS = <Publisher executor thread number, default 4>
+PUBLISHER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES = <Outstanding message number, default 100>
+REST_PORT = <Rest port, default 8001>
+GOOGLE_CLOUD_LOCATION = <GKE deployment’s location>
 ```
 
 ### Subscriber
 ```bash
-EVENT_SUBSCRIPTION=<EventSubscription subscription name>
-METRIC_TOPIC=<MetricTopic topic name>
-METRIC_APP_PORT=<App rest port, default 8001>
-RETRY_TOTAL_TIMEOUT=<Retry total timeout in second, default 600>
-RETRY_INITIAL_RPC_TIMEOUT=<Retry initial timeout in second, default 5>
-RETRY_MAX_RPC_TIMEOUT=<Retry max rpc timeout in second, default 600>
-FLOW_CONTROL_MAX_OUTSTANDING_ELEMENT=<Outstanding element, default 100>
-FLOW_CONTROL_MAX_OUTSTANDING_REQUEST=<Outstanding request in MB, default 10>
-BATCH_ELEMENT_COUNT_THRESHOLD=<Element threshold, default 100>
-BATCH_REQUEST_BYTE_THRESHOLD=<Request threshold in bytes, default 1000>
-BATCH_DELAY_THRESHOLD=<Delay threshold in millisecond, default 1>
-PARALLEL_PULL_COUNT=<Parallel count, default 1>
-PUBLISHER_EXECUTOR_THREADS=<Publisher executor thread number, default 4>
-SUBSCRIBER_EXECUTOR_THREADS=<Subscriber executor thread number, default 4>
+EVENT_SUBSCRIPTION = <EventSubscription subscription name>
+SUBSCRIBER_PARALLEL_PULL_COUNT = <Parallel pull number, default 1>
+SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES = <Outstanding message number, default 100>
+SUBSCRIBER_THREADS = <Subscriber executor thread number, default 4>
+METRICS_TOPIC = <MetricTopic topic name>
+PUBLISHER_THREADS = <Publisher executor thread number, default 4>
+PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 ```
 
 ## Api
@@ -82,4 +69,5 @@ SUBSCRIBER_EXECUTOR_THREADS=<Subscriber executor thread number, default 4>
 
 ## TODO
 1. Avro time, Complete null
+2. ack sleep
 

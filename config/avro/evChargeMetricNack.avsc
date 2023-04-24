@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "com.googlecodesamples.cloud.jss.metricsack.utilities",
+  "namespace": "com.googlecodesamples.cloud.jss.common.utilities",
   "name": "EvChargeMetricNack",
   "fields": [
     {

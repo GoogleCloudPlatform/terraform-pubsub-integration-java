@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.googlecodesamples.cloud.jss.metricsack.utilities;
+package com.googlecodesamples.cloud.jss.common.utilities;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 7423986406024657921L;
+  private static final long serialVersionUID = 1046868154486981284L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeEvent\",\"namespace\":\"com.googlecodesamples.cloud.jss.metricsack.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":\"string\"},{\"name\":\"session_end_time\",\"type\":\"string\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeEvent\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":\"string\"},{\"name\":\"session_end_time\",\"type\":\"string\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -284,8 +284,8 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * Creates a new EvChargeEvent RecordBuilder.
    * @return A new EvChargeEvent RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder newBuilder() {
-    return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder();
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder() {
+    return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
   }
 
   /**
@@ -293,11 +293,11 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * @param other The existing builder to copy.
    * @return A new EvChargeEvent RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder(other);
     }
   }
 
@@ -306,11 +306,11 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * @param other The existing instance to copy.
    * @return A new EvChargeEvent RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder(other);
     }
   }
 
@@ -339,7 +339,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -379,7 +379,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
      * Creates a Builder by copying an existing EvChargeEvent instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -429,7 +429,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setSessionId(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.session_id = value;
       fieldSetFlags()[0] = true;
@@ -449,7 +449,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearSessionId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionId() {
       session_id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -469,7 +469,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'station_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setStationId(int value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setStationId(int value) {
       validate(fields()[1], value);
       this.station_id = value;
       fieldSetFlags()[1] = true;
@@ -489,7 +489,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'station_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearStationId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearStationId() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -508,7 +508,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setLocation(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setLocation(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.location = value;
       fieldSetFlags()[2] = true;
@@ -528,7 +528,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'location' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearLocation() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearLocation() {
       location = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -548,7 +548,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_start_time'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setSessionStartTime(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionStartTime(java.lang.CharSequence value) {
       validate(fields()[3], value);
       this.session_start_time = value;
       fieldSetFlags()[3] = true;
@@ -568,7 +568,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_start_time' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearSessionStartTime() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionStartTime() {
       session_start_time = null;
       fieldSetFlags()[3] = false;
       return this;
@@ -588,7 +588,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_end_time'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setSessionEndTime(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionEndTime(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.session_end_time = value;
       fieldSetFlags()[4] = true;
@@ -608,7 +608,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_end_time' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearSessionEndTime() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionEndTime() {
       session_end_time = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -628,7 +628,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'avg_charge_rate_kw'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setAvgChargeRateKw(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setAvgChargeRateKw(float value) {
       validate(fields()[5], value);
       this.avg_charge_rate_kw = value;
       fieldSetFlags()[5] = true;
@@ -648,7 +648,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'avg_charge_rate_kw' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearAvgChargeRateKw() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearAvgChargeRateKw() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -667,7 +667,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'battery_capacity_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setBatteryCapacityKwh(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setBatteryCapacityKwh(float value) {
       validate(fields()[6], value);
       this.battery_capacity_kwh = value;
       fieldSetFlags()[6] = true;
@@ -687,7 +687,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'battery_capacity_kwh' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearBatteryCapacityKwh() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearBatteryCapacityKwh() {
       fieldSetFlags()[6] = false;
       return this;
     }
@@ -706,7 +706,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'battery_level_start'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder setBatteryLevelStart(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setBatteryLevelStart(float value) {
       validate(fields()[7], value);
       this.battery_level_start = value;
       fieldSetFlags()[7] = true;
@@ -726,7 +726,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'battery_level_start' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent.Builder clearBatteryLevelStart() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearBatteryLevelStart() {
       fieldSetFlags()[7] = false;
       return this;
     }

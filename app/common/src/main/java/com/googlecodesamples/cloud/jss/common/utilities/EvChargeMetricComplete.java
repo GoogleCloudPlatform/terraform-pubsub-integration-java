@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.googlecodesamples.cloud.jss.metricsack.utilities;
+package com.googlecodesamples.cloud.jss.common.utilities;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2794012693512887110L;
+  private static final long serialVersionUID = 5884765634178677159L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeMetricComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.metricsack.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"publish_timestamp\",\"type\":\"string\"},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":\"string\"},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":[\"null\",\"float\"]},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"]}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeMetricComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"publish_timestamp\",\"type\":\"string\"},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":\"string\"},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":[\"null\",\"float\"]},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -394,8 +394,8 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
    * Creates a new EvChargeMetricComplete RecordBuilder.
    * @return A new EvChargeMetricComplete RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder newBuilder() {
-    return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder();
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder newBuilder() {
+    return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder();
   }
 
   /**
@@ -403,11 +403,11 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
    * @param other The existing builder to copy.
    * @return A new EvChargeMetricComplete RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder newBuilder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder(other);
     }
   }
 
@@ -416,11 +416,11 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
    * @param other The existing instance to copy.
    * @return A new EvChargeMetricComplete RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder newBuilder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder(other);
     }
   }
 
@@ -454,7 +454,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -514,7 +514,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
      * Creates a Builder by copying an existing EvChargeMetricComplete instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -584,7 +584,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'session_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setSessionId(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setSessionId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.session_id = value;
       fieldSetFlags()[0] = true;
@@ -604,7 +604,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'session_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearSessionId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearSessionId() {
       session_id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -624,7 +624,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'station_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setStationId(int value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setStationId(int value) {
       validate(fields()[1], value);
       this.station_id = value;
       fieldSetFlags()[1] = true;
@@ -644,7 +644,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'station_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearStationId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearStationId() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -663,7 +663,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setLocation(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setLocation(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.location = value;
       fieldSetFlags()[2] = true;
@@ -683,7 +683,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'location' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearLocation() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearLocation() {
       location = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -703,7 +703,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'event_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setEventTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setEventTimestamp(java.lang.CharSequence value) {
       validate(fields()[3], value);
       this.event_timestamp = value;
       fieldSetFlags()[3] = true;
@@ -723,7 +723,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'event_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearEventTimestamp() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearEventTimestamp() {
       event_timestamp = null;
       fieldSetFlags()[3] = false;
       return this;
@@ -743,7 +743,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'publish_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setPublishTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setPublishTimestamp(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.publish_timestamp = value;
       fieldSetFlags()[4] = true;
@@ -763,7 +763,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'publish_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearPublishTimestamp() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearPublishTimestamp() {
       publish_timestamp = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -783,7 +783,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'processing_time_sec'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setProcessingTimeSec(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setProcessingTimeSec(float value) {
       validate(fields()[5], value);
       this.processing_time_sec = value;
       fieldSetFlags()[5] = true;
@@ -803,7 +803,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'processing_time_sec' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearProcessingTimeSec() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearProcessingTimeSec() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -822,7 +822,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'ack_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setAckTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setAckTimestamp(java.lang.CharSequence value) {
       validate(fields()[6], value);
       this.ack_timestamp = value;
       fieldSetFlags()[6] = true;
@@ -842,7 +842,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'ack_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearAckTimestamp() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearAckTimestamp() {
       ack_timestamp = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -862,7 +862,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'session_duration_hr'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setSessionDurationHr(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setSessionDurationHr(float value) {
       validate(fields()[7], value);
       this.session_duration_hr = value;
       fieldSetFlags()[7] = true;
@@ -882,7 +882,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'session_duration_hr' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearSessionDurationHr() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearSessionDurationHr() {
       fieldSetFlags()[7] = false;
       return this;
     }
@@ -901,7 +901,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'avg_charge_rate_kw'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setAvgChargeRateKw(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setAvgChargeRateKw(float value) {
       validate(fields()[8], value);
       this.avg_charge_rate_kw = value;
       fieldSetFlags()[8] = true;
@@ -921,7 +921,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'avg_charge_rate_kw' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearAvgChargeRateKw() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearAvgChargeRateKw() {
       fieldSetFlags()[8] = false;
       return this;
     }
@@ -940,7 +940,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'battery_capacity_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setBatteryCapacityKwh(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setBatteryCapacityKwh(float value) {
       validate(fields()[9], value);
       this.battery_capacity_kwh = value;
       fieldSetFlags()[9] = true;
@@ -960,7 +960,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'battery_capacity_kwh' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearBatteryCapacityKwh() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearBatteryCapacityKwh() {
       fieldSetFlags()[9] = false;
       return this;
     }
@@ -979,7 +979,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'battery_level_start'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setBatteryLevelStart(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setBatteryLevelStart(float value) {
       validate(fields()[10], value);
       this.battery_level_start = value;
       fieldSetFlags()[10] = true;
@@ -999,7 +999,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'battery_level_start' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearBatteryLevelStart() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearBatteryLevelStart() {
       fieldSetFlags()[10] = false;
       return this;
     }
@@ -1018,7 +1018,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'battery_level_end'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setBatteryLevelEnd(java.lang.Float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setBatteryLevelEnd(java.lang.Float value) {
       validate(fields()[11], value);
       this.battery_level_end = value;
       fieldSetFlags()[11] = true;
@@ -1038,7 +1038,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'battery_level_end' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearBatteryLevelEnd() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearBatteryLevelEnd() {
       battery_level_end = null;
       fieldSetFlags()[11] = false;
       return this;
@@ -1058,7 +1058,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * @param value The value of 'charged_total_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder setChargedTotalKwh(java.lang.Float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder setChargedTotalKwh(java.lang.Float value) {
       validate(fields()[12], value);
       this.charged_total_kwh = value;
       fieldSetFlags()[12] = true;
@@ -1078,7 +1078,7 @@ public class EvChargeMetricComplete extends org.apache.avro.specific.SpecificRec
       * Clears the value of the 'charged_total_kwh' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete.Builder clearChargedTotalKwh() {
+    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete.Builder clearChargedTotalKwh() {
       charged_total_kwh = null;
       fieldSetFlags()[12] = false;
       return this;

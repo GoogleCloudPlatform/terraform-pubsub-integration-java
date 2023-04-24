@@ -2,14 +2,14 @@ package com.googlecodesamples.cloud.jss.metricsack.service;
 
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricAck;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricNack;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricAck;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack;
 import org.apache.avro.Schema;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;

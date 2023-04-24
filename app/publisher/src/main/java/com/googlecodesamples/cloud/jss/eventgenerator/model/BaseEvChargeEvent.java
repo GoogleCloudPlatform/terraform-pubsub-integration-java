@@ -1,7 +1,7 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.model;
 
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.eventgenerator.util.PublishUtil;
-import com.googlecodesamples.cloud.jss.eventgenerator.utilities.EvChargeEvent;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;

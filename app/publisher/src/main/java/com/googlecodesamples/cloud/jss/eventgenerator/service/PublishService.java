@@ -2,8 +2,8 @@ package com.googlecodesamples.cloud.jss.eventgenerator.service;
 
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
 import com.googlecodesamples.cloud.jss.eventgenerator.task.PublishTask;
-import com.googlecodesamples.cloud.jss.eventgenerator.utilities.EvChargeEvent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

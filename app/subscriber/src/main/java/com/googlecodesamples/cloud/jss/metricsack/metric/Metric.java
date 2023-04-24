@@ -4,11 +4,12 @@ import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.protobuf.Timestamp;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete;
 import com.googlecodesamples.cloud.jss.metricsack.service.MessageService;
 import com.googlecodesamples.cloud.jss.metricsack.service.PublishService;
 import com.googlecodesamples.cloud.jss.metricsack.util.SubscribeUtil;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
+
 import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,9 @@ public abstract class Metric<T> {
   }
 
   public final T processMessage(PubsubMessage message, AckReplyConsumer consumer) {
-    float processTime = SubscribeUtil.genRandomFloat(0.1f, 5);
+    // TODO
+//    float processTime = SubscribeUtil.genRandomFloat(0.1f, 5);
+    float processTime = 0.1f;
     try {
       Thread.sleep((long) (processTime * 1000));
     } catch (InterruptedException e) {

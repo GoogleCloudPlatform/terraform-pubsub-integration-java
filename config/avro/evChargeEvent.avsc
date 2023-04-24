@@ -1,5 +1,6 @@
 {
   "type": "record",
+  "namespace": "com.googlecodesamples.cloud.jss.common.utilities",
   "name": "EvChargeEvent",
   "fields": [
     {

@@ -2,9 +2,9 @@ package com.googlecodesamples.cloud.jss.eventgenerator.service;
 
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
-import com.googlecodesamples.cloud.jss.eventgenerator.utilities.EvChargeEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
 import org.slf4j.Logger;

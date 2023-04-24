@@ -2,11 +2,11 @@ package com.googlecodesamples.cloud.jss.metricsack.metric;
 
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.protobuf.Timestamp;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete;
+import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack;
 import com.googlecodesamples.cloud.jss.metricsack.service.MessageService;
 import com.googlecodesamples.cloud.jss.metricsack.service.PublishService;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeEvent;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricComplete;
-import com.googlecodesamples.cloud.jss.metricsack.utilities.EvChargeMetricNack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
