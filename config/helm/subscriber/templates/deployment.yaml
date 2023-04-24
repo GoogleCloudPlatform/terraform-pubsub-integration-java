@@ -38,10 +38,10 @@ spec:
               configMapKeyRef:
                 key: SUBSCRIBER_THREADS
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
-          - name: METRIC_TOPIC
+          - name: METRICS_TOPIC
             valueFrom:
               configMapKeyRef:
-                key: METRIC_TOPIC
+                key: METRICS_TOPIC
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
           - name: PUBLISHER_THREADS
             valueFrom:

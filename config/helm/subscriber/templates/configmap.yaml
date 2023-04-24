@@ -4,7 +4,7 @@ data:
   SUBSCRIBER_PARALLEL_PULL_COUNT: "1"
   SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES: "100"
   SUBSCRIBER_THREADS: "4"
-  METRIC_TOPIC: '{{ .Values.config_maps.metric_topic }}'
+  METRICS_TOPIC: '{{ .Values.config_maps.metrics_topic }}'
   PUBLISHER_THREADS: "4"
   PUBLISHER_BATCH_SIZE: "100"
   

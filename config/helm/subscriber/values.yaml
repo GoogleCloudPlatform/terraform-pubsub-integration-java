@@ -12,8 +12,7 @@ image: ${IMAGE}
 
 config_maps:
   event_subscription: ${PUBSUB_SUBSCRIPTION}
-  metric_topic: ${PUBSUB_TOPIC}
-  metric_app_port: ${PUBSUB_PORT}
+  metrics_topic: ${PUBSUB_TOPIC}
 
 gcp_service_account_email: ${GCP_SERVICE_ACCOUNT_EMAIL}
 k8s_service_account_name: ${NAMESPACE}

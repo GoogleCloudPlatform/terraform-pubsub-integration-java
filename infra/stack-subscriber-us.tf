@@ -93,12 +93,8 @@ module "us_west1_subscriber_helm" {
         value = google_pubsub_subscription.events.id
       },
       {
-        name  = "config_maps.metric_topic"
+        name  = "config_maps.metrics_topic"
         value = google_pubsub_topic.metrics.id
-      },
-      {
-        name  = "config_maps.metric_app_port"
-        value = "8001"
       },
     ]
   )
