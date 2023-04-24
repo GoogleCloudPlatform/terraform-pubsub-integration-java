@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: '{{ .Values.namespace }}'
-  name: '{{ .Values.project_id }}-subscriber-controller-{{ .Values.region }}'
+  name: '{{ .Values.project_id }}-subscriber-deployment-{{ .Values.region }}'
   labels:
     app: subscriber
 spec:
@@ -23,18 +23,39 @@ spec:
               configMapKeyRef:
                 key: EVENT_SUBSCRIPTION
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_PARALLEL_PULL_COUNT
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_PARALLEL_PULL_COUNT
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_THREADS
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_THREADS
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
           - name: METRIC_TOPIC
             valueFrom:
               configMapKeyRef:
                 key: METRIC_TOPIC
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
-          - name: METRIC_APP_PORT
+          - name: PUBLISHER_THREADS
             valueFrom:
               configMapKeyRef:
-                key: METRIC_APP_PORT
+                key: PUBLISHER_THREADS
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_BATCH_SIZE
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_BATCH_SIZE
                 name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
           name: '{{ .Values.project_id }}-subscriber-{{ .Values.region }}'
           image: '{{ .Values.image }}'
           resources:
             requests:
-              cpu: "1000m"
+              cpu: "250m"
+              memory: "0.5Gi"
