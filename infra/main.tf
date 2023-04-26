@@ -120,7 +120,7 @@ resource "google_pubsub_subscription" "metrics" {
   depends_on = [
     google_project_iam_member.pubsub
   ]
-  
+
   name  = "MetricsSubscription"
   topic = google_pubsub_topic.metrics.name
   bigquery_config {
