@@ -149,7 +149,9 @@ resource "google_project_iam_member" "pubsub" {
 
   for_each = toset([
     "roles/bigquery.metadataViewer",
-    "roles/bigquery.dataEditor"
+    "roles/bigquery.dataEditor",
+    "roles/pubsub.subscriber",
+    "roles/pubsub.publisher",
   ])
 
   project = data.google_project.current.project_id
