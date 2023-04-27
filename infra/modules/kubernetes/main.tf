@@ -31,6 +31,6 @@ resource "google_service_account_iam_binding" "k8s" {
   role               = each.value
 
   members = [
-    "serviceAccount:${var.project_id}.svc.id.goog[${var.k8s_namespace_name}/${var.k8s_service_account_name}]"
+    "serviceAccount:${google_container_cluster.control_plane.workload_identity_config[0].workload_pool}[${var.k8s_namespace_name}/${var.k8s_service_account_name}]"
   ]
 }
