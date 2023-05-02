@@ -13,26 +13,29 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
-public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 1046868154486981284L;
+public class Event extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -4559234085433086478L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeEvent\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":\"string\"},{\"name\":\"session_end_time\",\"type\":\"string\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Event\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_end_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
+  static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMicrosConversion());
+  }
 
-  private static final BinaryMessageEncoder<EvChargeEvent> ENCODER =
-      new BinaryMessageEncoder<EvChargeEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<Event> ENCODER =
+      new BinaryMessageEncoder<Event>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<EvChargeEvent> DECODER =
-      new BinaryMessageDecoder<EvChargeEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<Event> DECODER =
+      new BinaryMessageDecoder<Event>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<EvChargeEvent> getEncoder() {
+  public static BinaryMessageEncoder<Event> getEncoder() {
     return ENCODER;
   }
 
@@ -40,7 +43,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<EvChargeEvent> getDecoder() {
+  public static BinaryMessageDecoder<Event> getDecoder() {
     return DECODER;
   }
 
@@ -49,12 +52,12 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<EvChargeEvent> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<EvChargeEvent>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<Event> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<Event>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this EvChargeEvent to a ByteBuffer.
+   * Serializes this Event to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,12 +66,12 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   /**
-   * Deserializes a EvChargeEvent from a ByteBuffer.
+   * Deserializes a Event from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a EvChargeEvent instance decoded from the given buffer
+   * @return a Event instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static EvChargeEvent fromByteBuffer(
+  public static Event fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -76,8 +79,8 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
   private java.lang.CharSequence session_id;
   private int station_id;
   private java.lang.CharSequence location;
-  private java.lang.CharSequence session_start_time;
-  private java.lang.CharSequence session_end_time;
+  private java.time.Instant session_start_time;
+  private java.time.Instant session_end_time;
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
   private float battery_level_start;
@@ -87,7 +90,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public EvChargeEvent() {}
+  public Event() {}
 
   /**
    * All-args constructor.
@@ -100,12 +103,12 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * @param battery_capacity_kwh The new value for battery_capacity_kwh
    * @param battery_level_start The new value for battery_level_start
    */
-  public EvChargeEvent(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.lang.CharSequence session_start_time, java.lang.CharSequence session_end_time, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
+  public Event(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant session_start_time, java.time.Instant session_end_time, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
     this.session_id = session_id;
     this.station_id = station_id;
     this.location = location;
-    this.session_start_time = session_start_time;
-    this.session_end_time = session_end_time;
+    this.session_start_time = session_start_time.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
+    this.session_end_time = session_end_time.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
     this.avg_charge_rate_kw = avg_charge_rate_kw;
     this.battery_capacity_kwh = battery_capacity_kwh;
     this.battery_level_start = battery_level_start;
@@ -128,6 +131,24 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
     }
   }
 
+  private static final org.apache.avro.Conversion<?>[] conversions =
+      new org.apache.avro.Conversion<?>[] {
+      null,
+      null,
+      null,
+      new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      null,
+      null,
+      null,
+      null
+  };
+
+  @Override
+  public org.apache.avro.Conversion<?> getConversion(int field) {
+    return conversions[field];
+  }
+
   // Used by DatumReader.  Applications should not call.
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
@@ -135,8 +156,8 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
     case 0: session_id = (java.lang.CharSequence)value$; break;
     case 1: station_id = (java.lang.Integer)value$; break;
     case 2: location = (java.lang.CharSequence)value$; break;
-    case 3: session_start_time = (java.lang.CharSequence)value$; break;
-    case 4: session_end_time = (java.lang.CharSequence)value$; break;
+    case 3: session_start_time = (java.time.Instant)value$; break;
+    case 4: session_end_time = (java.time.Instant)value$; break;
     case 5: avg_charge_rate_kw = (java.lang.Float)value$; break;
     case 6: battery_capacity_kwh = (java.lang.Float)value$; break;
     case 7: battery_level_start = (java.lang.Float)value$; break;
@@ -199,7 +220,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * Gets the value of the 'session_start_time' field.
    * @return The value of the 'session_start_time' field.
    */
-  public java.lang.CharSequence getSessionStartTime() {
+  public java.time.Instant getSessionStartTime() {
     return session_start_time;
   }
 
@@ -208,15 +229,15 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'session_start_time' field.
    * @param value the value to set.
    */
-  public void setSessionStartTime(java.lang.CharSequence value) {
-    this.session_start_time = value;
+  public void setSessionStartTime(java.time.Instant value) {
+    this.session_start_time = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
   }
 
   /**
    * Gets the value of the 'session_end_time' field.
    * @return The value of the 'session_end_time' field.
    */
-  public java.lang.CharSequence getSessionEndTime() {
+  public java.time.Instant getSessionEndTime() {
     return session_end_time;
   }
 
@@ -225,8 +246,8 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'session_end_time' field.
    * @param value the value to set.
    */
-  public void setSessionEndTime(java.lang.CharSequence value) {
-    this.session_end_time = value;
+  public void setSessionEndTime(java.time.Instant value) {
+    this.session_end_time = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
   }
 
   /**
@@ -281,51 +302,51 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   /**
-   * Creates a new EvChargeEvent RecordBuilder.
-   * @return A new EvChargeEvent RecordBuilder
+   * Creates a new Event RecordBuilder.
+   * @return A new Event RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder() {
-    return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
+  public static com.googlecodesamples.cloud.jss.common.utilities.Event.Builder newBuilder() {
+    return new com.googlecodesamples.cloud.jss.common.utilities.Event.Builder();
   }
 
   /**
-   * Creates a new EvChargeEvent RecordBuilder by copying an existing Builder.
+   * Creates a new Event RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new EvChargeEvent RecordBuilder
+   * @return A new Event RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.Event.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.Event.Builder other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.Event.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.Event.Builder(other);
     }
   }
 
   /**
-   * Creates a new EvChargeEvent RecordBuilder by copying an existing EvChargeEvent instance.
+   * Creates a new Event RecordBuilder by copying an existing Event instance.
    * @param other The existing instance to copy.
-   * @return A new EvChargeEvent RecordBuilder
+   * @return A new Event RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.Event.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.Event other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.Event.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.Event.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for EvChargeEvent instances.
+   * RecordBuilder for Event instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<EvChargeEvent>
-    implements org.apache.avro.data.RecordBuilder<EvChargeEvent> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Event>
+    implements org.apache.avro.data.RecordBuilder<Event> {
 
     private java.lang.CharSequence session_id;
     private int station_id;
     private java.lang.CharSequence location;
-    private java.lang.CharSequence session_start_time;
-    private java.lang.CharSequence session_end_time;
+    private java.time.Instant session_start_time;
+    private java.time.Instant session_end_time;
     private float avg_charge_rate_kw;
     private float battery_capacity_kwh;
     private float battery_level_start;
@@ -339,7 +360,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.Event.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -376,10 +397,10 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
     }
 
     /**
-     * Creates a Builder by copying an existing EvChargeEvent instance
+     * Creates a Builder by copying an existing Event instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.Event other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -429,7 +450,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionId(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setSessionId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.session_id = value;
       fieldSetFlags()[0] = true;
@@ -449,7 +470,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearSessionId() {
       session_id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -469,7 +490,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'station_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setStationId(int value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setStationId(int value) {
       validate(fields()[1], value);
       this.station_id = value;
       fieldSetFlags()[1] = true;
@@ -489,7 +510,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'station_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearStationId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearStationId() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -508,7 +529,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setLocation(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setLocation(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.location = value;
       fieldSetFlags()[2] = true;
@@ -528,7 +549,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'location' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearLocation() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearLocation() {
       location = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -538,7 +559,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Gets the value of the 'session_start_time' field.
       * @return The value.
       */
-    public java.lang.CharSequence getSessionStartTime() {
+    public java.time.Instant getSessionStartTime() {
       return session_start_time;
     }
 
@@ -548,9 +569,9 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_start_time'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionStartTime(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setSessionStartTime(java.time.Instant value) {
       validate(fields()[3], value);
-      this.session_start_time = value;
+      this.session_start_time = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
       fieldSetFlags()[3] = true;
       return this;
     }
@@ -568,8 +589,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_start_time' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionStartTime() {
-      session_start_time = null;
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearSessionStartTime() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -578,7 +598,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Gets the value of the 'session_end_time' field.
       * @return The value.
       */
-    public java.lang.CharSequence getSessionEndTime() {
+    public java.time.Instant getSessionEndTime() {
       return session_end_time;
     }
 
@@ -588,9 +608,9 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'session_end_time'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setSessionEndTime(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setSessionEndTime(java.time.Instant value) {
       validate(fields()[4], value);
-      this.session_end_time = value;
+      this.session_end_time = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
       fieldSetFlags()[4] = true;
       return this;
     }
@@ -608,8 +628,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'session_end_time' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearSessionEndTime() {
-      session_end_time = null;
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearSessionEndTime() {
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -628,7 +647,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'avg_charge_rate_kw'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setAvgChargeRateKw(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setAvgChargeRateKw(float value) {
       validate(fields()[5], value);
       this.avg_charge_rate_kw = value;
       fieldSetFlags()[5] = true;
@@ -648,7 +667,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'avg_charge_rate_kw' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearAvgChargeRateKw() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearAvgChargeRateKw() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -667,7 +686,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'battery_capacity_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setBatteryCapacityKwh(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setBatteryCapacityKwh(float value) {
       validate(fields()[6], value);
       this.battery_capacity_kwh = value;
       fieldSetFlags()[6] = true;
@@ -687,7 +706,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'battery_capacity_kwh' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearBatteryCapacityKwh() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearBatteryCapacityKwh() {
       fieldSetFlags()[6] = false;
       return this;
     }
@@ -706,7 +725,7 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'battery_level_start'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder setBatteryLevelStart(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder setBatteryLevelStart(float value) {
       validate(fields()[7], value);
       this.battery_level_start = value;
       fieldSetFlags()[7] = true;
@@ -726,21 +745,21 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'battery_level_start' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent.Builder clearBatteryLevelStart() {
+    public com.googlecodesamples.cloud.jss.common.utilities.Event.Builder clearBatteryLevelStart() {
       fieldSetFlags()[7] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public EvChargeEvent build() {
+    public Event build() {
       try {
-        EvChargeEvent record = new EvChargeEvent();
+        Event record = new Event();
         record.session_id = fieldSetFlags()[0] ? this.session_id : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.station_id = fieldSetFlags()[1] ? this.station_id : (java.lang.Integer) defaultValue(fields()[1]);
         record.location = fieldSetFlags()[2] ? this.location : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.session_start_time = fieldSetFlags()[3] ? this.session_start_time : (java.lang.CharSequence) defaultValue(fields()[3]);
-        record.session_end_time = fieldSetFlags()[4] ? this.session_end_time : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.session_start_time = fieldSetFlags()[3] ? this.session_start_time : (java.time.Instant) defaultValue(fields()[3]);
+        record.session_end_time = fieldSetFlags()[4] ? this.session_end_time : (java.time.Instant) defaultValue(fields()[4]);
         record.avg_charge_rate_kw = fieldSetFlags()[5] ? this.avg_charge_rate_kw : (java.lang.Float) defaultValue(fields()[5]);
         record.battery_capacity_kwh = fieldSetFlags()[6] ? this.battery_capacity_kwh : (java.lang.Float) defaultValue(fields()[6]);
         record.battery_level_start = fieldSetFlags()[7] ? this.battery_level_start : (java.lang.Float) defaultValue(fields()[7]);
@@ -754,8 +773,8 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<EvChargeEvent>
-    WRITER$ = (org.apache.avro.io.DatumWriter<EvChargeEvent>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<Event>
+    WRITER$ = (org.apache.avro.io.DatumWriter<Event>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -763,99 +782,14 @@ public class EvChargeEvent extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<EvChargeEvent>
-    READER$ = (org.apache.avro.io.DatumReader<EvChargeEvent>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<Event>
+    READER$ = (org.apache.avro.io.DatumReader<Event>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
-  @Override protected boolean hasCustomCoders() { return true; }
-
-  @Override public void customEncode(org.apache.avro.io.Encoder out)
-    throws java.io.IOException
-  {
-    out.writeString(this.session_id);
-
-    out.writeInt(this.station_id);
-
-    out.writeString(this.location);
-
-    out.writeString(this.session_start_time);
-
-    out.writeString(this.session_end_time);
-
-    out.writeFloat(this.avg_charge_rate_kw);
-
-    out.writeFloat(this.battery_capacity_kwh);
-
-    out.writeFloat(this.battery_level_start);
-
-  }
-
-  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
-    throws java.io.IOException
-  {
-    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
-    if (fieldOrder == null) {
-      this.session_id = in.readString(this.session_id instanceof Utf8 ? (Utf8)this.session_id : null);
-
-      this.station_id = in.readInt();
-
-      this.location = in.readString(this.location instanceof Utf8 ? (Utf8)this.location : null);
-
-      this.session_start_time = in.readString(this.session_start_time instanceof Utf8 ? (Utf8)this.session_start_time : null);
-
-      this.session_end_time = in.readString(this.session_end_time instanceof Utf8 ? (Utf8)this.session_end_time : null);
-
-      this.avg_charge_rate_kw = in.readFloat();
-
-      this.battery_capacity_kwh = in.readFloat();
-
-      this.battery_level_start = in.readFloat();
-
-    } else {
-      for (int i = 0; i < 8; i++) {
-        switch (fieldOrder[i].pos()) {
-        case 0:
-          this.session_id = in.readString(this.session_id instanceof Utf8 ? (Utf8)this.session_id : null);
-          break;
-
-        case 1:
-          this.station_id = in.readInt();
-          break;
-
-        case 2:
-          this.location = in.readString(this.location instanceof Utf8 ? (Utf8)this.location : null);
-          break;
-
-        case 3:
-          this.session_start_time = in.readString(this.session_start_time instanceof Utf8 ? (Utf8)this.session_start_time : null);
-          break;
-
-        case 4:
-          this.session_end_time = in.readString(this.session_end_time instanceof Utf8 ? (Utf8)this.session_end_time : null);
-          break;
-
-        case 5:
-          this.avg_charge_rate_kw = in.readFloat();
-          break;
-
-        case 6:
-          this.battery_capacity_kwh = in.readFloat();
-          break;
-
-        case 7:
-          this.battery_level_start = in.readFloat();
-          break;
-
-        default:
-          throw new java.io.IOException("Corrupt ResolvingDecoder.");
-        }
-      }
-    }
-  }
 }
 
 

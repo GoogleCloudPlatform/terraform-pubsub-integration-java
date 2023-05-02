@@ -2,46 +2,58 @@ package com.googlecodesamples.cloud.jss.metricsack.service;
 
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
-import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricAck;
-import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricComplete;
-import com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack;
+import com.googlecodesamples.cloud.jss.common.utilities.MetricsAck;
+import com.googlecodesamples.cloud.jss.common.utilities.MetricsComplete;
+import com.googlecodesamples.cloud.jss.common.utilities.MetricsNack;
 import com.googlecodesamples.cloud.jss.metricsack.factory.BaseSubscriberFactory;
-import com.googlecodesamples.cloud.jss.metricsack.metric.Metric;
-import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsAck;
-import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsComplete;
-import com.googlecodesamples.cloud.jss.metricsack.metric.MetricsNack;
+import com.googlecodesamples.cloud.jss.metricsack.metric.AckMetric;
+import com.googlecodesamples.cloud.jss.metricsack.metric.BaseMetric;
+import com.googlecodesamples.cloud.jss.metricsack.metric.CompleteMetric;
+import com.googlecodesamples.cloud.jss.metricsack.metric.NackMetric;
+import javax.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SubscribeService {
+  private static final Logger log = LoggerFactory.getLogger(SubscribeService.class);
+
   protected static final String METRICS_ACK = "MetricsAck";
   protected static final String METRICS_NACK = "MetricsNack";
   protected static final String METRICS_COMPLETE = "MetricsComplete";
-  private final Metric<EvChargeMetricAck> metricAck;
-  private final Metric<EvChargeMetricNack> metricsNack;
-  private final Metric<EvChargeMetricComplete> metricsComplete;
+  private final BaseMetric<MetricsAck> ackMetric;
+  private final BaseMetric<MetricsNack> nackMetric;
+  private final BaseMetric<MetricsComplete> completeMetric;
+  private final Subscriber subscriber;
 
   public SubscribeService(
       BaseSubscriberFactory subscriberFactory,
-      MetricsAck metricsAck,
-      MetricsNack metricsNack,
-      MetricsComplete metricsComplete,
+      BaseMetric<MetricsAck> ackMetric,
+      BaseMetric<MetricsNack> nackMetric,
+      BaseMetric<MetricsComplete> completeMetric,
       @Value("${metric.app.type}") String metricAppType)
-      throws Exception {
-    this.metricAck = metricsAck;
-    this.metricsNack = metricsNack;
-    this.metricsComplete = metricsComplete;
-    Subscriber subscriber = subscriberFactory.createSubscriber(getMetricReceiver(metricAppType));
+      throws IllegalArgumentException {
+    this.ackMetric = ackMetric;
+    this.nackMetric = nackMetric;
+    this.completeMetric = completeMetric;
+    subscriber = subscriberFactory.createSubscriber(getMetricReceiver(metricAppType));
     subscriber.startAsync().awaitRunning();
   }
 
-  private MessageReceiver getMetricReceiver(String metricAppType) throws Exception {
+  private MessageReceiver getMetricReceiver(String metricAppType) throws IllegalArgumentException {
+    log.info("Metric app type [{}] start", metricAppType);
     return switch (metricAppType) {
-      case METRICS_ACK -> metricAck.getReceiver();
-      case METRICS_NACK -> metricsNack.getReceiver();
-      case METRICS_COMPLETE -> metricsComplete.getReceiver();
-      default -> throw new Exception("Metric app type should not be null");
+      case METRICS_ACK -> ackMetric.getReceiver();
+      case METRICS_NACK -> nackMetric.getReceiver();
+      case METRICS_COMPLETE -> completeMetric.getReceiver();
+      default -> throw new IllegalArgumentException("Metric app type should be specified");
     };
+  }
+
+  @PreDestroy
+  private void cleanUp() {
+    subscriber.stopAsync();
   }
 }

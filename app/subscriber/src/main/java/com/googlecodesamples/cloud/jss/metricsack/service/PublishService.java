@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PublishService {
   private static final Logger log = LoggerFactory.getLogger(PublishService.class);
-
   private final Publisher publisher;
 
   public PublishService(Publisher publisher) {
@@ -18,7 +17,9 @@ public class PublishService {
 
   public void publishMsg(PubsubMessage message) {
     log.info(
-        "Publish message to the topic [{}], message [{}]", publisher.getTopicName(), message.getData().toStringUtf8());
+        "Publish message to the topic [{}], message [{}]",
+        publisher.getTopicName(),
+        message.getData().toStringUtf8());
     publisher.publish(message);
   }
 }

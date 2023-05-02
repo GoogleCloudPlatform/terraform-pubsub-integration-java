@@ -1,7 +1,9 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.task;
 
-import com.googlecodesamples.cloud.jss.eventgenerator.model.BaseEvChargeEvent;
+import com.googlecodesamples.cloud.jss.eventgenerator.model.BaseEvent;
 import com.googlecodesamples.cloud.jss.eventgenerator.service.PublishService;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,29 +29,25 @@ public class PublishTask implements Runnable {
 
   @Override
   public void run() {
-    if (isSendInfinitely()) {
-      while (!Thread.currentThread().isInterrupted()) {
-        try {
+    try {
+      if (isSendInfinitely()) {
+        while (!Thread.currentThread().isInterrupted()) {
           sendMessage();
-        } catch (InterruptedException e) {
-          break;
+        }
+      } else {
+        for (int i = 0; i < this.count; i++) {
+          sendMessage();
         }
       }
-    } else {
-      for (int i = 0; i < this.count; i++) {
-        try {
-          sendMessage();
-        } catch (InterruptedException e) {
-          break;
-        }
-      }
+    } catch (InterruptedException | ExecutionException | IOException e) {
+      Thread.currentThread().interrupt();
     }
   }
 
-  private void sendMessage() throws InterruptedException {
-    BaseEvChargeEvent baseEvChargeEvent = new BaseEvChargeEvent();
-    baseEvChargeEvent.genRandomData();
-    publishService.publishMsg(baseEvChargeEvent.convert2Avro());
+  private void sendMessage() throws InterruptedException, ExecutionException, IOException {
+    BaseEvent event = new BaseEvent();
+    event.genRandomData();
+    publishService.publishMsg(event.convert2Avro());
     Thread.sleep((long) (sleep * 1000));
   }
 
