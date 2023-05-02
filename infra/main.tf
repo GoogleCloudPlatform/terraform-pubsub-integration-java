@@ -59,9 +59,9 @@ resource "google_pubsub_schema" "events" {
     module.project_services,
   ]
 
-  name       = "evChargeEvent"
+  name       = "Event"
   type       = "AVRO"
-  definition = file("${path.module}/../config/avro/evChargeEvent.avsc")
+  definition = file("${path.module}/../config/avro/Event.avsc")
 }
 
 resource "google_pubsub_subscription" "events" {
@@ -111,9 +111,9 @@ resource "google_pubsub_schema" "metrics" {
     module.project_services,
   ]
 
-  name       = "evChargeMetric"
+  name       = "Metrics"
   type       = "AVRO"
-  definition = file("${path.module}/../config/avro/evChargeMetricComplete.avsc")
+  definition = file("${path.module}/../config/avro/MetricsComplete.avsc")
 }
 
 resource "google_pubsub_subscription" "metrics" {
@@ -138,7 +138,7 @@ module "bigquery" {
 
   dataset_id = "ev_charging"
   table_id   = "charging_sessions"
-  schema     = file("${path.module}/../config/avro/bigquery/evChargeMetricComplete.json")
+  schema     = file("${path.module}/../config/avro/bigquery/MetricsComplete.json")
   labels     = var.labels
 }
 
