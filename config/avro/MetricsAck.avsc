@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "com.googlecodesamples.cloud.jss.common.utilities",
-  "name": "EvChargeMetricAck",
+  "name": "MetricsAck",
   "fields": [
     {
       "name": "session_id",
@@ -17,11 +17,17 @@
     },
     {
       "name": "event_timestamp",
-      "type": "string"
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      }
     },
     {
       "name": "publish_timestamp",
-      "type": "string"
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      }
     },
     {
       "name": "processing_time_sec",
@@ -29,7 +35,10 @@
     },
     {
       "name": "ack_timestamp",
-      "type": "string"
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      }
     },
     {
       "name": "session_duration_hr",
