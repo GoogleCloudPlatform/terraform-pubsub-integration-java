@@ -15,9 +15,9 @@ public class PublishConfig {
     return eventTopic;
   }
 
-  public void setEventTopic(String eventTopic) throws Exception {
+  public void setEventTopic(String eventTopic) throws IllegalArgumentException {
     if (!StringUtils.hasText(eventTopic)) {
-      throw new Exception("EventTopic should not be null");
+      throw new IllegalArgumentException("EventTopic should not be null");
     }
     this.eventTopic = eventTopic;
   }
@@ -34,9 +34,9 @@ public class PublishConfig {
     return executorThreads;
   }
 
-  public void setExecutorThreads(int executorThreads) throws Exception {
+  public void setExecutorThreads(int executorThreads) throws IllegalArgumentException {
     if (executorThreads <= 0) {
-      throw new Exception("Publisher executor thread should greater than zero");
+      throw new IllegalArgumentException("Publisher executor thread should greater than zero");
     }
     this.executorThreads = executorThreads;
   }

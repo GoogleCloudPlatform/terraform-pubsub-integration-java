@@ -1,15 +1,28 @@
 # app-large-data-sharing-java
 
+## Avro Codegen
+```bash
+mvn avro:schema
+```
+
 ## Dockerized a Spring Boot application
 ```bash
-// under pub dir
+# Under app dir
+mvn install
+
+# Under publisher dir
 export PUB_IMAGE_NAME=<your image, eg. gcr.io/my-project/spring-boot-jib>
 mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build
 
-// under sub dir
+# Under subscriber dir
 export SUB_IMAGE_NAME=<your image, eg. gcr.io/my-project/spring-boot-jib>
-mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build
+mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build [-P <profile>]
 ```
+
+| Parameter | Default  | Comment                           | 
+|-----------|----------|-----------------------------------|
+| profile   | complete | Value cane be ack, nack, complete | 
+
 
 ## Environment Variable
 ### Publisher
@@ -42,8 +55,8 @@ PUBLISHER_BATCH_SIZE = <Batch message, default 100>
   "session_id": "21c4f020-3918-4aa1-8fa4-204c8a56ff26",
   "station_id": 67,
   "location": "us-west1",
-  "session_start_time": "2023-04-20T07:11:00Z",
-  "session_end_time": "2023-04-20T07:47:00Z",
+  "session_start_time": 1683016764,
+  "session_end_time": 1683018864,
   "avg_charge_rate_kw": 99.99,
   "battery_capacity_kwh": 100.0,
   "battery_level_start": 0.6
@@ -66,8 +79,3 @@ PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 ```bash
 [POST] api/msg/shutdown
 ```
-
-## TODO
-1. Avro time, Complete null
-2. ack sleep
-

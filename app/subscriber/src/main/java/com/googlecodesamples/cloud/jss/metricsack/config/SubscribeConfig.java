@@ -16,9 +16,9 @@ public class SubscribeConfig {
     return eventSubscription;
   }
 
-  public void setEventSubscription(String eventSubscription) throws Exception {
+  public void setEventSubscription(String eventSubscription) throws IllegalArgumentException {
     if (!StringUtils.hasText(eventSubscription)) {
-      throw new Exception("EventSubscription should not be null");
+      throw new IllegalArgumentException("EventSubscription should not be null");
     }
     this.eventSubscription = eventSubscription;
   }
@@ -43,9 +43,9 @@ public class SubscribeConfig {
     return executorThreads;
   }
 
-  public void setExecutorThreads(int executorThreads) throws Exception {
+  public void setExecutorThreads(int executorThreads) throws IllegalArgumentException {
     if (executorThreads <= 0) {
-      throw new Exception("Subscriber executor thread should greater than zero");
+      throw new IllegalArgumentException("Subscriber executor thread should greater than zero");
     }
     this.executorThreads = executorThreads;
   }

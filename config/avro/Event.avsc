@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "com.googlecodesamples.cloud.jss.common.utilities",
-  "name": "EvChargeMetricNack",
+  "name": "Event",
   "fields": [
     {
       "name": "session_id",
@@ -16,24 +16,18 @@
       "type": "string"
     },
     {
-      "name": "event_timestamp",
-      "type": "string"
+      "name": "session_start_time",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      }
     },
     {
-      "name": "publish_timestamp",
-      "type": "string"
-    },
-    {
-      "name": "processing_time_sec",
-      "type": "float"
-    },
-    {
-      "name": "ack_timestamp",
-      "type": "string"
-    },
-    {
-      "name": "session_duration_hr",
-      "type": "float"
+      "name": "session_end_time",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      }
     },
     {
       "name": "avg_charge_rate_kw",

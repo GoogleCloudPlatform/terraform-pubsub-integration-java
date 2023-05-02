@@ -15,9 +15,9 @@ public class PublishConfig {
     return metricsTopic;
   }
 
-  public void setMetricsTopic(String metricsTopic) throws Exception {
+  public void setMetricsTopic(String metricsTopic) throws IllegalArgumentException {
     if (!StringUtils.hasText(metricsTopic)) {
-      throw new Exception("MetricsTopic should not be null");
+      throw new IllegalArgumentException("MetricsTopic should not be null");
     }
     this.metricsTopic = metricsTopic;
   }
@@ -26,9 +26,9 @@ public class PublishConfig {
     return executorThreads;
   }
 
-  public void setExecutorThreads(int executorThreads) throws Exception {
+  public void setExecutorThreads(int executorThreads) throws IllegalArgumentException {
     if (executorThreads <= 0) {
-      throw new Exception("Publisher executor thread should greater than zero");
+      throw new IllegalArgumentException("Publisher executor thread should greater than zero");
     }
     this.executorThreads = executorThreads;
   }
@@ -37,9 +37,9 @@ public class PublishConfig {
     return batchSize;
   }
 
-  public void setBatchSize(long batchSize) throws Exception {
+  public void setBatchSize(long batchSize) throws IllegalArgumentException {
     if (batchSize <= 0) {
-      throw new Exception("Publisher batch size should greater than zero");
+      throw new IllegalArgumentException("Publisher batch size should greater than zero");
     }
     this.batchSize = batchSize;
   }

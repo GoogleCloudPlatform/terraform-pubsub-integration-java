@@ -1,7 +1,9 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.controller;
 
-import com.googlecodesamples.cloud.jss.eventgenerator.model.BaseEvChargeEvent;
+import com.googlecodesamples.cloud.jss.eventgenerator.model.BaseEvent;
 import com.googlecodesamples.cloud.jss.eventgenerator.service.PublishService;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +24,9 @@ public class PublishController {
 
   /** Publish a message. */
   @PostMapping("")
-  public void publishMsg(@RequestBody BaseEvChargeEvent baseEvChargeEvent) {
-    publishService.publishMsg(baseEvChargeEvent.convert2Avro());
+  public void publishMsg(@RequestBody BaseEvent event)
+      throws InterruptedException, ExecutionException, IOException {
+    publishService.publishMsg(event.convert2Avro());
   }
 
   /** Publish random message. */

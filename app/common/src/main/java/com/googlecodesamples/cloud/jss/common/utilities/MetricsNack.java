@@ -13,26 +13,29 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
-public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 9148527691674627018L;
+public class MetricsNack extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -5342272184884993646L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EvChargeMetricNack\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"publish_timestamp\",\"type\":\"string\"},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":\"string\"},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MetricsNack\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.utilities\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"publish_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
+  static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMicrosConversion());
+  }
 
-  private static final BinaryMessageEncoder<EvChargeMetricNack> ENCODER =
-      new BinaryMessageEncoder<EvChargeMetricNack>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<MetricsNack> ENCODER =
+      new BinaryMessageEncoder<MetricsNack>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<EvChargeMetricNack> DECODER =
-      new BinaryMessageDecoder<EvChargeMetricNack>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<MetricsNack> DECODER =
+      new BinaryMessageDecoder<MetricsNack>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<EvChargeMetricNack> getEncoder() {
+  public static BinaryMessageEncoder<MetricsNack> getEncoder() {
     return ENCODER;
   }
 
@@ -40,7 +43,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<EvChargeMetricNack> getDecoder() {
+  public static BinaryMessageDecoder<MetricsNack> getDecoder() {
     return DECODER;
   }
 
@@ -49,12 +52,12 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<EvChargeMetricNack> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<EvChargeMetricNack>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<MetricsNack> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<MetricsNack>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this EvChargeMetricNack to a ByteBuffer.
+   * Serializes this MetricsNack to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,12 +66,12 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
   }
 
   /**
-   * Deserializes a EvChargeMetricNack from a ByteBuffer.
+   * Deserializes a MetricsNack from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a EvChargeMetricNack instance decoded from the given buffer
+   * @return a MetricsNack instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static EvChargeMetricNack fromByteBuffer(
+  public static MetricsNack fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -76,10 +79,10 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
   private java.lang.CharSequence session_id;
   private int station_id;
   private java.lang.CharSequence location;
-  private java.lang.CharSequence event_timestamp;
-  private java.lang.CharSequence publish_timestamp;
+  private java.time.Instant event_timestamp;
+  private java.time.Instant publish_timestamp;
   private float processing_time_sec;
-  private java.lang.CharSequence ack_timestamp;
+  private java.time.Instant ack_timestamp;
   private float session_duration_hr;
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
@@ -90,7 +93,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public EvChargeMetricNack() {}
+  public MetricsNack() {}
 
   /**
    * All-args constructor.
@@ -106,14 +109,14 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * @param battery_capacity_kwh The new value for battery_capacity_kwh
    * @param battery_level_start The new value for battery_level_start
    */
-  public EvChargeMetricNack(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.lang.CharSequence event_timestamp, java.lang.CharSequence publish_timestamp, java.lang.Float processing_time_sec, java.lang.CharSequence ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
+  public MetricsNack(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant event_timestamp, java.time.Instant publish_timestamp, java.lang.Float processing_time_sec, java.time.Instant ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
     this.session_id = session_id;
     this.station_id = station_id;
     this.location = location;
-    this.event_timestamp = event_timestamp;
-    this.publish_timestamp = publish_timestamp;
+    this.event_timestamp = event_timestamp.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
+    this.publish_timestamp = publish_timestamp.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
     this.processing_time_sec = processing_time_sec;
-    this.ack_timestamp = ack_timestamp;
+    this.ack_timestamp = ack_timestamp.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
     this.session_duration_hr = session_duration_hr;
     this.avg_charge_rate_kw = avg_charge_rate_kw;
     this.battery_capacity_kwh = battery_capacity_kwh;
@@ -140,6 +143,27 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
     }
   }
 
+  private static final org.apache.avro.Conversion<?>[] conversions =
+      new org.apache.avro.Conversion<?>[] {
+      null,
+      null,
+      null,
+      new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      null,
+      new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      null,
+      null,
+      null,
+      null,
+      null
+  };
+
+  @Override
+  public org.apache.avro.Conversion<?> getConversion(int field) {
+    return conversions[field];
+  }
+
   // Used by DatumReader.  Applications should not call.
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
@@ -147,10 +171,10 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
     case 0: session_id = (java.lang.CharSequence)value$; break;
     case 1: station_id = (java.lang.Integer)value$; break;
     case 2: location = (java.lang.CharSequence)value$; break;
-    case 3: event_timestamp = (java.lang.CharSequence)value$; break;
-    case 4: publish_timestamp = (java.lang.CharSequence)value$; break;
+    case 3: event_timestamp = (java.time.Instant)value$; break;
+    case 4: publish_timestamp = (java.time.Instant)value$; break;
     case 5: processing_time_sec = (java.lang.Float)value$; break;
-    case 6: ack_timestamp = (java.lang.CharSequence)value$; break;
+    case 6: ack_timestamp = (java.time.Instant)value$; break;
     case 7: session_duration_hr = (java.lang.Float)value$; break;
     case 8: avg_charge_rate_kw = (java.lang.Float)value$; break;
     case 9: battery_capacity_kwh = (java.lang.Float)value$; break;
@@ -214,7 +238,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Gets the value of the 'event_timestamp' field.
    * @return The value of the 'event_timestamp' field.
    */
-  public java.lang.CharSequence getEventTimestamp() {
+  public java.time.Instant getEventTimestamp() {
     return event_timestamp;
   }
 
@@ -223,15 +247,15 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Sets the value of the 'event_timestamp' field.
    * @param value the value to set.
    */
-  public void setEventTimestamp(java.lang.CharSequence value) {
-    this.event_timestamp = value;
+  public void setEventTimestamp(java.time.Instant value) {
+    this.event_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
   }
 
   /**
    * Gets the value of the 'publish_timestamp' field.
    * @return The value of the 'publish_timestamp' field.
    */
-  public java.lang.CharSequence getPublishTimestamp() {
+  public java.time.Instant getPublishTimestamp() {
     return publish_timestamp;
   }
 
@@ -240,8 +264,8 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Sets the value of the 'publish_timestamp' field.
    * @param value the value to set.
    */
-  public void setPublishTimestamp(java.lang.CharSequence value) {
-    this.publish_timestamp = value;
+  public void setPublishTimestamp(java.time.Instant value) {
+    this.publish_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
   }
 
   /**
@@ -265,7 +289,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Gets the value of the 'ack_timestamp' field.
    * @return The value of the 'ack_timestamp' field.
    */
-  public java.lang.CharSequence getAckTimestamp() {
+  public java.time.Instant getAckTimestamp() {
     return ack_timestamp;
   }
 
@@ -274,8 +298,8 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
    * Sets the value of the 'ack_timestamp' field.
    * @param value the value to set.
    */
-  public void setAckTimestamp(java.lang.CharSequence value) {
-    this.ack_timestamp = value;
+  public void setAckTimestamp(java.time.Instant value) {
+    this.ack_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
   }
 
   /**
@@ -347,53 +371,53 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
   }
 
   /**
-   * Creates a new EvChargeMetricNack RecordBuilder.
-   * @return A new EvChargeMetricNack RecordBuilder
+   * Creates a new MetricsNack RecordBuilder.
+   * @return A new MetricsNack RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder newBuilder() {
-    return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder();
+  public static com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder newBuilder() {
+    return new com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder();
   }
 
   /**
-   * Creates a new EvChargeMetricNack RecordBuilder by copying an existing Builder.
+   * Creates a new MetricsNack RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new EvChargeMetricNack RecordBuilder
+   * @return A new MetricsNack RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder(other);
     }
   }
 
   /**
-   * Creates a new EvChargeMetricNack RecordBuilder by copying an existing EvChargeMetricNack instance.
+   * Creates a new MetricsNack RecordBuilder by copying an existing MetricsNack instance.
    * @param other The existing instance to copy.
-   * @return A new EvChargeMetricNack RecordBuilder
+   * @return A new MetricsNack RecordBuilder
    */
-  public static com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack other) {
+  public static com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder newBuilder(com.googlecodesamples.cloud.jss.common.utilities.MetricsNack other) {
     if (other == null) {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder();
+      return new com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder();
     } else {
-      return new com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder(other);
+      return new com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for EvChargeMetricNack instances.
+   * RecordBuilder for MetricsNack instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<EvChargeMetricNack>
-    implements org.apache.avro.data.RecordBuilder<EvChargeMetricNack> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<MetricsNack>
+    implements org.apache.avro.data.RecordBuilder<MetricsNack> {
 
     private java.lang.CharSequence session_id;
     private int station_id;
     private java.lang.CharSequence location;
-    private java.lang.CharSequence event_timestamp;
-    private java.lang.CharSequence publish_timestamp;
+    private java.time.Instant event_timestamp;
+    private java.time.Instant publish_timestamp;
     private float processing_time_sec;
-    private java.lang.CharSequence ack_timestamp;
+    private java.time.Instant ack_timestamp;
     private float session_duration_hr;
     private float avg_charge_rate_kw;
     private float battery_capacity_kwh;
@@ -408,7 +432,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -457,10 +481,10 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
     }
 
     /**
-     * Creates a Builder by copying an existing EvChargeMetricNack instance
+     * Creates a Builder by copying an existing MetricsNack instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack other) {
+    private Builder(com.googlecodesamples.cloud.jss.common.utilities.MetricsNack other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.session_id)) {
         this.session_id = data().deepCopy(fields()[0].schema(), other.session_id);
@@ -522,7 +546,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'session_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setSessionId(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setSessionId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.session_id = value;
       fieldSetFlags()[0] = true;
@@ -542,7 +566,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'session_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearSessionId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearSessionId() {
       session_id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -562,7 +586,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'station_id'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setStationId(int value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setStationId(int value) {
       validate(fields()[1], value);
       this.station_id = value;
       fieldSetFlags()[1] = true;
@@ -582,7 +606,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'station_id' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearStationId() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearStationId() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -601,7 +625,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setLocation(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setLocation(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.location = value;
       fieldSetFlags()[2] = true;
@@ -621,7 +645,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'location' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearLocation() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearLocation() {
       location = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -631,7 +655,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Gets the value of the 'event_timestamp' field.
       * @return The value.
       */
-    public java.lang.CharSequence getEventTimestamp() {
+    public java.time.Instant getEventTimestamp() {
       return event_timestamp;
     }
 
@@ -641,9 +665,9 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'event_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setEventTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setEventTimestamp(java.time.Instant value) {
       validate(fields()[3], value);
-      this.event_timestamp = value;
+      this.event_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
       fieldSetFlags()[3] = true;
       return this;
     }
@@ -661,8 +685,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'event_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearEventTimestamp() {
-      event_timestamp = null;
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearEventTimestamp() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -671,7 +694,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Gets the value of the 'publish_timestamp' field.
       * @return The value.
       */
-    public java.lang.CharSequence getPublishTimestamp() {
+    public java.time.Instant getPublishTimestamp() {
       return publish_timestamp;
     }
 
@@ -681,9 +704,9 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'publish_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setPublishTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setPublishTimestamp(java.time.Instant value) {
       validate(fields()[4], value);
-      this.publish_timestamp = value;
+      this.publish_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
       fieldSetFlags()[4] = true;
       return this;
     }
@@ -701,8 +724,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'publish_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearPublishTimestamp() {
-      publish_timestamp = null;
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearPublishTimestamp() {
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -721,7 +743,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'processing_time_sec'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setProcessingTimeSec(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setProcessingTimeSec(float value) {
       validate(fields()[5], value);
       this.processing_time_sec = value;
       fieldSetFlags()[5] = true;
@@ -741,7 +763,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'processing_time_sec' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearProcessingTimeSec() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearProcessingTimeSec() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -750,7 +772,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Gets the value of the 'ack_timestamp' field.
       * @return The value.
       */
-    public java.lang.CharSequence getAckTimestamp() {
+    public java.time.Instant getAckTimestamp() {
       return ack_timestamp;
     }
 
@@ -760,9 +782,9 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'ack_timestamp'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setAckTimestamp(java.lang.CharSequence value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setAckTimestamp(java.time.Instant value) {
       validate(fields()[6], value);
-      this.ack_timestamp = value;
+      this.ack_timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MICROS);
       fieldSetFlags()[6] = true;
       return this;
     }
@@ -780,8 +802,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'ack_timestamp' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearAckTimestamp() {
-      ack_timestamp = null;
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearAckTimestamp() {
       fieldSetFlags()[6] = false;
       return this;
     }
@@ -800,7 +821,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'session_duration_hr'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setSessionDurationHr(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setSessionDurationHr(float value) {
       validate(fields()[7], value);
       this.session_duration_hr = value;
       fieldSetFlags()[7] = true;
@@ -820,7 +841,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'session_duration_hr' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearSessionDurationHr() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearSessionDurationHr() {
       fieldSetFlags()[7] = false;
       return this;
     }
@@ -839,7 +860,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'avg_charge_rate_kw'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setAvgChargeRateKw(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setAvgChargeRateKw(float value) {
       validate(fields()[8], value);
       this.avg_charge_rate_kw = value;
       fieldSetFlags()[8] = true;
@@ -859,7 +880,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'avg_charge_rate_kw' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearAvgChargeRateKw() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearAvgChargeRateKw() {
       fieldSetFlags()[8] = false;
       return this;
     }
@@ -878,7 +899,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'battery_capacity_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setBatteryCapacityKwh(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setBatteryCapacityKwh(float value) {
       validate(fields()[9], value);
       this.battery_capacity_kwh = value;
       fieldSetFlags()[9] = true;
@@ -898,7 +919,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'battery_capacity_kwh' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearBatteryCapacityKwh() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearBatteryCapacityKwh() {
       fieldSetFlags()[9] = false;
       return this;
     }
@@ -917,7 +938,7 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'battery_level_start'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder setBatteryLevelStart(float value) {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder setBatteryLevelStart(float value) {
       validate(fields()[10], value);
       this.battery_level_start = value;
       fieldSetFlags()[10] = true;
@@ -937,23 +958,23 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
       * Clears the value of the 'battery_level_start' field.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.utilities.EvChargeMetricNack.Builder clearBatteryLevelStart() {
+    public com.googlecodesamples.cloud.jss.common.utilities.MetricsNack.Builder clearBatteryLevelStart() {
       fieldSetFlags()[10] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public EvChargeMetricNack build() {
+    public MetricsNack build() {
       try {
-        EvChargeMetricNack record = new EvChargeMetricNack();
+        MetricsNack record = new MetricsNack();
         record.session_id = fieldSetFlags()[0] ? this.session_id : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.station_id = fieldSetFlags()[1] ? this.station_id : (java.lang.Integer) defaultValue(fields()[1]);
         record.location = fieldSetFlags()[2] ? this.location : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.event_timestamp = fieldSetFlags()[3] ? this.event_timestamp : (java.lang.CharSequence) defaultValue(fields()[3]);
-        record.publish_timestamp = fieldSetFlags()[4] ? this.publish_timestamp : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.event_timestamp = fieldSetFlags()[3] ? this.event_timestamp : (java.time.Instant) defaultValue(fields()[3]);
+        record.publish_timestamp = fieldSetFlags()[4] ? this.publish_timestamp : (java.time.Instant) defaultValue(fields()[4]);
         record.processing_time_sec = fieldSetFlags()[5] ? this.processing_time_sec : (java.lang.Float) defaultValue(fields()[5]);
-        record.ack_timestamp = fieldSetFlags()[6] ? this.ack_timestamp : (java.lang.CharSequence) defaultValue(fields()[6]);
+        record.ack_timestamp = fieldSetFlags()[6] ? this.ack_timestamp : (java.time.Instant) defaultValue(fields()[6]);
         record.session_duration_hr = fieldSetFlags()[7] ? this.session_duration_hr : (java.lang.Float) defaultValue(fields()[7]);
         record.avg_charge_rate_kw = fieldSetFlags()[8] ? this.avg_charge_rate_kw : (java.lang.Float) defaultValue(fields()[8]);
         record.battery_capacity_kwh = fieldSetFlags()[9] ? this.battery_capacity_kwh : (java.lang.Float) defaultValue(fields()[9]);
@@ -968,8 +989,8 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<EvChargeMetricNack>
-    WRITER$ = (org.apache.avro.io.DatumWriter<EvChargeMetricNack>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<MetricsNack>
+    WRITER$ = (org.apache.avro.io.DatumWriter<MetricsNack>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -977,123 +998,14 @@ public class EvChargeMetricNack extends org.apache.avro.specific.SpecificRecordB
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<EvChargeMetricNack>
-    READER$ = (org.apache.avro.io.DatumReader<EvChargeMetricNack>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<MetricsNack>
+    READER$ = (org.apache.avro.io.DatumReader<MetricsNack>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
-  @Override protected boolean hasCustomCoders() { return true; }
-
-  @Override public void customEncode(org.apache.avro.io.Encoder out)
-    throws java.io.IOException
-  {
-    out.writeString(this.session_id);
-
-    out.writeInt(this.station_id);
-
-    out.writeString(this.location);
-
-    out.writeString(this.event_timestamp);
-
-    out.writeString(this.publish_timestamp);
-
-    out.writeFloat(this.processing_time_sec);
-
-    out.writeString(this.ack_timestamp);
-
-    out.writeFloat(this.session_duration_hr);
-
-    out.writeFloat(this.avg_charge_rate_kw);
-
-    out.writeFloat(this.battery_capacity_kwh);
-
-    out.writeFloat(this.battery_level_start);
-
-  }
-
-  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
-    throws java.io.IOException
-  {
-    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
-    if (fieldOrder == null) {
-      this.session_id = in.readString(this.session_id instanceof Utf8 ? (Utf8)this.session_id : null);
-
-      this.station_id = in.readInt();
-
-      this.location = in.readString(this.location instanceof Utf8 ? (Utf8)this.location : null);
-
-      this.event_timestamp = in.readString(this.event_timestamp instanceof Utf8 ? (Utf8)this.event_timestamp : null);
-
-      this.publish_timestamp = in.readString(this.publish_timestamp instanceof Utf8 ? (Utf8)this.publish_timestamp : null);
-
-      this.processing_time_sec = in.readFloat();
-
-      this.ack_timestamp = in.readString(this.ack_timestamp instanceof Utf8 ? (Utf8)this.ack_timestamp : null);
-
-      this.session_duration_hr = in.readFloat();
-
-      this.avg_charge_rate_kw = in.readFloat();
-
-      this.battery_capacity_kwh = in.readFloat();
-
-      this.battery_level_start = in.readFloat();
-
-    } else {
-      for (int i = 0; i < 11; i++) {
-        switch (fieldOrder[i].pos()) {
-        case 0:
-          this.session_id = in.readString(this.session_id instanceof Utf8 ? (Utf8)this.session_id : null);
-          break;
-
-        case 1:
-          this.station_id = in.readInt();
-          break;
-
-        case 2:
-          this.location = in.readString(this.location instanceof Utf8 ? (Utf8)this.location : null);
-          break;
-
-        case 3:
-          this.event_timestamp = in.readString(this.event_timestamp instanceof Utf8 ? (Utf8)this.event_timestamp : null);
-          break;
-
-        case 4:
-          this.publish_timestamp = in.readString(this.publish_timestamp instanceof Utf8 ? (Utf8)this.publish_timestamp : null);
-          break;
-
-        case 5:
-          this.processing_time_sec = in.readFloat();
-          break;
-
-        case 6:
-          this.ack_timestamp = in.readString(this.ack_timestamp instanceof Utf8 ? (Utf8)this.ack_timestamp : null);
-          break;
-
-        case 7:
-          this.session_duration_hr = in.readFloat();
-          break;
-
-        case 8:
-          this.avg_charge_rate_kw = in.readFloat();
-          break;
-
-        case 9:
-          this.battery_capacity_kwh = in.readFloat();
-          break;
-
-        case 10:
-          this.battery_level_start = in.readFloat();
-          break;
-
-        default:
-          throw new java.io.IOException("Corrupt ResolvingDecoder.");
-        }
-      }
-    }
-  }
 }
 
 

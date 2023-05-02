@@ -1,7 +1,7 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.model;
 
-import com.googlecodesamples.cloud.jss.common.utilities.EvChargeEvent;
-import com.googlecodesamples.cloud.jss.eventgenerator.util.PublishUtil;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
+import com.googlecodesamples.cloud.jss.common.utilities.Event;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BaseEvChargeEvent {
-  private static final Logger log = LoggerFactory.getLogger(BaseEvChargeEvent.class);
+public class BaseEvent {
+  private static final Logger log = LoggerFactory.getLogger(BaseEvent.class);
   private static final String GOOGLE_CLOUD_LOCATION = "GOOGLE_CLOUD_LOCATION";
   private final List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 250);
   private final List<Integer> BATTERY_CAPACITY_KWH =
@@ -20,8 +20,8 @@ public class BaseEvChargeEvent {
   private String session_id;
   private int station_id;
   private String location;
-  private String session_start_time;
-  private String session_end_time;
+  private long session_start_time;
+  private long session_end_time;
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
   private float battery_level_start;
@@ -50,19 +50,19 @@ public class BaseEvChargeEvent {
     this.location = location;
   }
 
-  public String getSession_start_time() {
+  public long getSession_start_time() {
     return session_start_time;
   }
 
-  public void setSession_start_time(String session_start_time) {
+  public void setSession_start_time(long session_start_time) {
     this.session_start_time = session_start_time;
   }
 
-  public String getSession_end_time() {
+  public long getSession_end_time() {
     return session_end_time;
   }
 
-  public void setSession_end_time(String session_end_time) {
+  public void setSession_end_time(long session_end_time) {
     this.session_end_time = session_end_time;
   }
 
@@ -90,13 +90,13 @@ public class BaseEvChargeEvent {
     this.battery_level_start = battery_level_start;
   }
 
-  public EvChargeEvent convert2Avro() {
-    return EvChargeEvent.newBuilder()
+  public Event convert2Avro() {
+    return Event.newBuilder()
         .setSessionId(getSession_id())
         .setStationId(getStation_id())
         .setLocation(getLocation())
-        .setSessionStartTime(getSession_start_time())
-        .setSessionEndTime(getSession_end_time())
+        .setSessionStartTime(Instant.ofEpochSecond(getSession_start_time()))
+        .setSessionEndTime(Instant.ofEpochSecond(getSession_end_time()))
         .setAvgChargeRateKw(getAvg_charge_rate_kw())
         .setBatteryCapacityKwh(getBattery_capacity_kwh())
         .setBatteryLevelStart(getBattery_level_start())
@@ -104,23 +104,42 @@ public class BaseEvChargeEvent {
   }
 
   public void genRandomData() {
-    int randomNum = PublishUtil.genRandomInt(0, 100);
     setSession_id(UUID.randomUUID().toString());
-    setStation_id(randomNum);
+    setStation_id(genStationId());
     setLocation(System.getenv(GOOGLE_CLOUD_LOCATION));
     long sessionEndTime = Instant.now().getEpochSecond();
-    int processTime = PublishUtil.genRandomInt(5, 90);
-    long sessionStartTime = sessionEndTime - processTime * 60L;
-    setSession_start_time(PublishUtil.formatTime(sessionStartTime));
-    setSession_end_time(PublishUtil.formatTime(sessionEndTime));
-    float avgChargeRateKw = AVG_CHARGE_RATE_KW.get(randomNum % AVG_CHARGE_RATE_KW.size());
-    if (randomNum % 2 == 0) {
+    setSession_start_time(genSessionStartTime(sessionEndTime));
+    setSession_end_time(sessionEndTime);
+    setAvg_charge_rate_kw(genAvChargeRateKw());
+    setBattery_capacity_kwh(genBatteryCapacityKwh());
+    setBattery_level_start(genBatteryLevelStart());
+  }
+
+  private int genStationId() {
+    return PubSubUtil.genRandomInt(0, 100);
+  }
+
+  private long genSessionStartTime(long sessionEndTime) {
+    int processTime = PubSubUtil.genRandomInt(5, 90);
+    return (sessionEndTime - processTime * 60L);
+  }
+
+  private float genAvChargeRateKw() {
+    int index = PubSubUtil.genRandomInt(0, AVG_CHARGE_RATE_KW.size() - 1);
+    float avgChargeRateKw = AVG_CHARGE_RATE_KW.get(index);
+    if (index % 2 == 0) {
       avgChargeRateKw += BIAS;
     } else {
       avgChargeRateKw -= BIAS;
     }
-    setAvg_charge_rate_kw(avgChargeRateKw);
-    setBattery_capacity_kwh(BATTERY_CAPACITY_KWH.get(randomNum % BATTERY_CAPACITY_KWH.size()));
-    setBattery_level_start(PublishUtil.genRandomFloat(0.05f, 0.8f));
+    return avgChargeRateKw;
+  }
+
+  private float genBatteryCapacityKwh() {
+    return BATTERY_CAPACITY_KWH.get(PubSubUtil.genRandomInt(0, BATTERY_CAPACITY_KWH.size() - 1));
+  }
+
+  private float genBatteryLevelStart() {
+    return PubSubUtil.genRandomFloat(0.05f, 0.8f);
   }
 }
