@@ -14,47 +14,42 @@
  * limitations under the License.
  */
 
-output "project_id" {
-  description = "GCP project ID."
-  value       = data.google_project.project.project_id
-}
-
 output "errors_topic_name" {
   description = "The name of the error topic"
-  value       = google_pubsub_topic.errors.name
+  value       = module.simple.errors_topic_name
 }
 
 output "metrics_topic_name" {
   description = "The name of the metric topic"
-  value       = google_pubsub_topic.metrics.name
+  value       = module.simple.metrics_topic_name
 }
 
 output "event_topic_name" {
   description = "The name of the event topic"
-  value       = google_pubsub_topic.event.name
+  value       = module.simple.event_topic_name
 }
 
 output "event_subscription_name" {
   description = "The name of the event subscription created for Pub/Sub."
-  value       = google_pubsub_subscription.event.name
+  value       = module.simple.event_subscription_name
 }
 
 output "metrics_subscription_name" {
   description = "The name of the metrics subscription created for Pub/Sub."
-  value       = google_pubsub_subscription.metrics.name
+  value       = module.simple.metrics_subscription_name
 }
 
 output "europe_north1_publisher_cluster_name" {
   description = "The name of the GKE cluster in the europe-north1 region used by the publisher."
-  value       = module.europe_north1_publisher_cluster.cluster_name
+  value       = module.simple.europe_north1_publisher_cluster_name
 }
 
 output "us_west1_publisher_cluster_name" {
   description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.us_west1_publisher_cluster.cluster_name
+  value       = module.simple.us_west1_publisher_cluster_name
 }
 
 output "us_west1_subscriber_cluster_name" {
   description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.us_west1_subscriber_cluster.cluster_name
+  value       = module.simple.us_west1_subscriber_cluster_name
 }

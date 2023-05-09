@@ -28,7 +28,7 @@ steps:
     args: ['install']
 
   - id: build-and-push-event-generator-docker-image
-    dir: app/publisher
+    dir: app/eventgenerator
     volumes:
       - name: 'm2'
         path: /root/.m2
@@ -39,7 +39,7 @@ steps:
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build']
 
   - id: build-and-push-metrics-ack-docker-image
-    dir: app/subscriber
+    dir: app/metrics
     volumes:
       - name: 'm2'
         path: /root/.m2
@@ -50,7 +50,7 @@ steps:
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build', '-P', 'ack']
 
   - id: build-and-push-metrics-nack-docker-image
-    dir: app/subscriber
+    dir: app/metrics
     volumes:
       - name: 'm2'
         path: /root/.m2
@@ -61,7 +61,7 @@ steps:
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build', '-P', 'nack']
 
   - id: build-and-push-metrics-complete-docker-image
-    dir: app/subscriber
+    dir: app/metrics
     volumes:
       - name: 'm2'
         path: /root/.m2

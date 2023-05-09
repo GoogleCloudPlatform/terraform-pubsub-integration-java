@@ -1,0 +1,74 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.project_id }}-subscriber-deployment-{{ .Values.region }}'
+  labels:
+    app: subscriber
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: subscriber
+  template:
+    metadata:
+      labels:
+        app: subscriber
+    spec:
+      serviceAccountName: '{{ .Values.k8s_service_account_name }}'
+      containers:
+        - env:
+          - name: EVENT_SUBSCRIPTION
+            valueFrom:
+              configMapKeyRef:
+                key: EVENT_SUBSCRIPTION
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_PARALLEL_PULL_COUNT
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_PARALLEL_PULL_COUNT
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: SUBSCRIBER_THREADS
+            valueFrom:
+              configMapKeyRef:
+                key: SUBSCRIBER_THREADS
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: METRICS_TOPIC
+            valueFrom:
+              configMapKeyRef:
+                key: METRICS_TOPIC
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_THREADS
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_THREADS
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_BATCH_SIZE
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_BATCH_SIZE
+                name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'
+          name: '{{ .Values.project_id }}-subscriber-{{ .Values.region }}'
+          image: '{{ .Values.image }}'
+          resources:
+            requests:
+              cpu: "1000m"
