@@ -1,4 +1,4 @@
-module github.com/HSA-Integration/Migrate-Legacy-Java-App-GKE/infra/test/integration
+module github.com/HSA-Integration/terraform-pubsub-integration-java/infra/test/integration
 
 go 1.19
 
