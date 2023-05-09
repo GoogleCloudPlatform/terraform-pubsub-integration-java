@@ -13,15 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.common;
+package com.googlecodesamples.cloud.jss.common.task;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@SpringBootApplication
-public class CommonApplication {
+import java.util.TimerTask;
 
-  public static void main(String[] args) {
-    SpringApplication.run(CommonApplication.class, args);
+public abstract class BasePublisherTimerTask extends TimerTask {
+
+  private BasePublisherService service;
+
+  protected abstract void doScheduledTask();
+
+  public BasePublisherService getService() {
+    return service;
+  }
+
+  public void setService(BasePublisherService service) {
+    this.service = service;
+  }
+  
+  @Override
+  public void run() {
+    doScheduledTask();
   }
 }

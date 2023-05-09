@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.common;
+package com.googlecodesamples.cloud.jss.eventgenerator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CommonApplication {
+public class EventGeneratorApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(CommonApplication.class, args);
+    SpringApplication.run(EventGeneratorApplication.class, args);
   }
 }
