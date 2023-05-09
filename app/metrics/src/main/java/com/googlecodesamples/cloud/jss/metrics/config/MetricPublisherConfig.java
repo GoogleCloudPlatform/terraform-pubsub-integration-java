@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.common;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package com.googlecodesamples.cloud.jss.metrics.config;
 
-@SpringBootApplication
-public class CommonApplication {
+import com.googlecodesamples.cloud.jss.common.config.BasePublisherConfig;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-  public static void main(String[] args) {
-    SpringApplication.run(CommonApplication.class, args);
+@Configuration
+@ConfigurationProperties(prefix = "metric.publisher")
+public class MetricPublisherConfig extends BasePublisherConfig {
+  @Override
+  public String getInfo() {
+    return String.format(
+        "topic name: %s, batch size: %d, executor threads: %d",
+        getTopicName(), getBatchSize(), getExecutorThreads());
   }
 }

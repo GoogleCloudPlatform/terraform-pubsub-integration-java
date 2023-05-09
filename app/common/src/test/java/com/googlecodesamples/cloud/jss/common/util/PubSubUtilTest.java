@@ -1,18 +1,35 @@
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.googlecodesamples.cloud.jss.common.util;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.google.common.truth.Truth.assertThat;
 
 import java.time.Instant;
 
-import static com.google.common.truth.Truth.assertThat;
+import com.google.protobuf.ByteString;
+import com.google.pubsub.v1.PubsubMessage;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PubSubUtilTest {
 
   private static final Integer LOOP_COUNT = 200;
 
-  private static final Logger log = LoggerFactory.getLogger(PubSubUtilTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(PubSubUtilTest.class);
 
   @Test
   public void testGenRandomInt() {
@@ -51,23 +68,31 @@ public class PubSubUtilTest {
     assertThat(PubSubUtil.getDiffTimeInHour(end, start)).isEqualTo(1.5f);
   }
 
-  private void testRandomIntRange(int min, int max) {
-    log.info("Test random integer generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
+  @Test
+  public void testGetMessageData() {
+    String content = "test";
+    PubsubMessage message = PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(content)).build();
+    assertThat(PubSubUtil.getMessageData(message)).isNotEmpty();
+    assertThat(PubSubUtil.getMessageData(message)).isEqualTo(content);
+  }
+
+  private static void testRandomIntRange(int min, int max) {
+    logger.info("test random integer generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
     for (int i = 0; i < LOOP_COUNT; i++) {
       Integer result = PubSubUtil.genRandomInt(min, max);
       assertThat(result).isAtLeast(min);
       assertThat(result).isAtMost(max);
     }
-    log.info("Passed");
+    logger.info("passed");
   }
 
-  private void testRandomFloatRange(float min, float max) {
-    log.info("Test random float generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
+  private static void testRandomFloatRange(float min, float max) {
+    logger.info("test random float generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
     for (int i = 0; i < LOOP_COUNT; i++) {
       Float result = PubSubUtil.genRandomFloat(min, max);
       assertThat(result).isAtLeast(min);
       assertThat(result).isAtMost(max);
     }
-    log.info("Passed");
+    logger.info("passed");
   }
 }

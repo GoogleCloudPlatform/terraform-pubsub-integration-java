@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.common;
+package com.googlecodesamples.cloud.jss.eventgenerator.task;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.googlecodesamples.cloud.jss.common.task.BasePublisherTimerTask;
+import com.googlecodesamples.cloud.jss.eventgenerator.service.EventPublisherService;
 
-@SpringBootApplication
-public class CommonApplication {
+public class TimeoutTask extends BasePublisherTimerTask {
 
-  public static void main(String[] args) {
-    SpringApplication.run(CommonApplication.class, args);
+  public TimeoutTask(EventPublisherService service) {
+    setService(service);
+  }
+
+  @Override
+  protected void doScheduledTask() {
+    getService().shutdown();
   }
 }
