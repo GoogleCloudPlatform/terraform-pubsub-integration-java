@@ -21,7 +21,14 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 
+/** Reusable utility functions. */
 public class PubSubUtil {
+
+  private static final Float MIN_PROCESS_TIME = 0.1f;
+
+  private static final Float AVERAGE_PROCESS_TIME = 0.3f;
+
+  private static final Float MAX_PROCESS_TIME = 5f;
 
   /**
    * Generate random integer value.
@@ -42,7 +49,7 @@ public class PubSubUtil {
    * @return random float
    */
   public static float genRandomFloat(float min, float max) {
-    return formatFloat(ThreadLocalRandom.current().nextFloat() * (max - min) + min);
+    return (ThreadLocalRandom.current().nextFloat() * (max - min) + min);
   }
 
   /**
@@ -60,7 +67,7 @@ public class PubSubUtil {
   /**
    * Calculate the difference of hours between startTime and endTime
    *
-   * @param endTime   end of time
+   * @param endTime end of time
    * @param startTime start of time
    * @return difference in hours
    */
@@ -70,5 +77,19 @@ public class PubSubUtil {
 
   public static String getMessageData(PubsubMessage message) {
     return message.getData().toStringUtf8();
+  }
+
+  /**
+   * Generate random process time.
+   *
+   * @return random process time
+   */
+  public static float genProcessTime() {
+    float ratio = PubSubUtil.genRandomFloat(0, 100);
+    if (ratio <= MIN_PROCESS_TIME) {
+      return PubSubUtil.genRandomFloat(MIN_PROCESS_TIME, MAX_PROCESS_TIME);
+    } else {
+      return PubSubUtil.genRandomFloat(MIN_PROCESS_TIME, AVERAGE_PROCESS_TIME);
+    }
   }
 }

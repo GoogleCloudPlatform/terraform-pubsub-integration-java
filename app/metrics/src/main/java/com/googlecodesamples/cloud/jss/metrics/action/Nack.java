@@ -27,11 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/** MetricNack specified actions. */
 @Component
 public class Nack extends BaseAction<MetricsNack> {
+
   private static final Logger logger = LoggerFactory.getLogger(Nack.class);
 
-  protected Nack(MetricPublisherService publishService) {
+  public Nack(MetricPublisherService publishService) {
     super(publishService);
   }
 

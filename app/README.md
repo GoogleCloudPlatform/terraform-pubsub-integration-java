@@ -10,7 +10,10 @@ export GOOGLE_CLOUD_PROJECT=<your project-id>
 mvn test -Punit-test
 
 # [Integration Test]
-#
+# Please set up your cloud infrastructure before running the integration test
+# 1. Cloud Storage and Firestore database must be enabled first
+# 2. Set up gcloud cli tools on your environment
+# 3. Set up default credential with 'gcloud auth application-default login'
 mvn test -Pintegration-test
 ```
 
@@ -46,6 +49,9 @@ PUBLISHER_THREADS = <Publisher executor thread number, default 4>
 PUBLISHER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES = <Outstanding message number, default 100>
 REST_PORT = <Rest port, default 8001>
 GOOGLE_CLOUD_LOCATION = <GKE deployment’s location>
+EVENT_GENERATOR_THREADS = <Service api threa number, default 200>
+EVENT_GENERATOR_SLEEP_TIME = <Servie api sleep time in second, default 0.2>
+EVENT_GENERATOR_RUNTIME = <Servie api run time in minute, default 5>
 ```
 
 ### Metrics

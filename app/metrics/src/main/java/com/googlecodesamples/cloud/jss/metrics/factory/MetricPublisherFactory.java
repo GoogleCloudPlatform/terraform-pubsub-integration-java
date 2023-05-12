@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.googlecodesamples.cloud.jss.metrics.factory;
 
 import com.google.api.gax.batching.BatchingSettings;
@@ -22,15 +21,16 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.googlecodesamples.cloud.jss.common.factory.BasePublisherFactory;
 import com.googlecodesamples.cloud.jss.metrics.config.MetricPublisherConfig;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
+/** Factory for creating a metric {@link com.google.cloud.pubsub.v1.Publisher} instance. */
 @Component
 public class MetricPublisherFactory extends BasePublisherFactory<MetricPublisherConfig> {
+
   private static final Logger logger = LoggerFactory.getLogger(MetricPublisherFactory.class);
 
   public MetricPublisherFactory(MetricPublisherConfig config) {
@@ -51,8 +51,8 @@ public class MetricPublisherFactory extends BasePublisherFactory<MetricPublisher
   @Override
   protected BatchingSettings getBatchSettings() {
     return BatchingSettings.newBuilder()
-            .setElementCountThreshold(getConfig().getBatchSize())
-            .build();
+        .setElementCountThreshold(getConfig().getBatchSize())
+        .build();
   }
 
   @Override

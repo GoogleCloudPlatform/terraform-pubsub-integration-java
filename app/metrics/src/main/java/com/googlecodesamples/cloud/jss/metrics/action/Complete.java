@@ -27,11 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/** MetricComplete specified actions. */
 @Component
 public class Complete extends BaseAction<MetricsComplete> {
+
   private static final Logger logger = LoggerFactory.getLogger(Complete.class);
 
-  protected Complete(MetricPublisherService publishService) {
+  public Complete(MetricPublisherService publishService) {
     super(publishService);
   }
 
@@ -42,10 +44,11 @@ public class Complete extends BaseAction<MetricsComplete> {
         event,
         processTime,
         publishTime);
-    MetricsComplete metricMessage = genCommonMetricMessage(event, processTime, publishTime);
-    metricMessage.setBatteryLevelEnd(genBatteryLevelEnd(metricMessage));
-    metricMessage.setChargedTotalKwh(genChargedTotalKwh(metricMessage));
-    return metricMessage;
+
+    MetricsComplete message = genCommonMetricMessage(event, processTime, publishTime);
+    message.setBatteryLevelEnd(genBatteryLevelEnd(message));
+    message.setChargedTotalKwh(genChargedTotalKwh(message));
+    return message;
   }
 
   @Override

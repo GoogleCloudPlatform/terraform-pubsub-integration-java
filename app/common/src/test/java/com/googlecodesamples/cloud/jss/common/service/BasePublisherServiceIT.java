@@ -16,16 +16,15 @@
 package com.googlecodesamples.cloud.jss.common.service;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.Topic;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -37,25 +36,34 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.OutputCaptureRule;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
+/** Integration test for {@link BasePublisherService}. */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BasePublisherServiceIT {
 
   private static final Logger logger = LoggerFactory.getLogger(BasePublisherServiceIT.class);
 
+  private static final String EXPECTED_MSG_PUBLISH = "topic name";
+
   public static final String GOOGLE_CLOUD_PROJECT = System.getenv("GOOGLE_CLOUD_PROJECT");
-  private static final String TOPIC_NAME = String.format("projects/%s/topics/test-event-topic", GOOGLE_CLOUD_PROJECT);
+
+  private static final String WARN_MSG_GCP_PROJECT =
+      "environment variable 'GOOGLE_CLOUD_PROJECT' has not been set, test skipped.";
+
+  private static final String TOPIC_NAME =
+      String.format("projects/%s/topics/test-event-topic", GOOGLE_CLOUD_PROJECT);
+
   private static final String MESSAGE_CONTENT = "test";
-  private static final String MSG_PUBLISH_TOPIC = "publish message to the topic";
+
   private Publisher publisher;
 
-  @Rule
-  public OutputCaptureRule outputCapture = new OutputCaptureRule();
+  @Rule public OutputCaptureRule outputCapture = new OutputCaptureRule();
 
   @BeforeClass
   public static void checkRequirements() {
-    assertThat(GOOGLE_CLOUD_PROJECT).isNotNull();
+    assumeTrue(WARN_MSG_GCP_PROJECT, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
   }
 
   @Before
@@ -64,6 +72,7 @@ public class BasePublisherServiceIT {
       Topic topic = Topic.newBuilder().setName(TOPIC_NAME).build();
       topicAdminClient.createTopic(topic);
     }
+
     publisher = Publisher.newBuilder(TOPIC_NAME).build();
   }
 
@@ -72,15 +81,17 @@ public class BasePublisherServiceIT {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
       topicAdminClient.deleteTopic(TOPIC_NAME);
     }
+
     publisher.shutdown();
   }
 
   @Test
   public void testPublishMsg() throws InterruptedException, ExecutionException {
-    PubsubMessage message = PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(MESSAGE_CONTENT)).build();
+    PubsubMessage message =
+        PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(MESSAGE_CONTENT)).build();
     BasePublisherService publisherService = new SimplePublisherService(publisher);
     publisherService.publishMsg(message);
-    assertThat(outputCapture.getOut()).contains(MSG_PUBLISH_TOPIC);
+    assertThat(outputCapture.getOut()).contains(EXPECTED_MSG_PUBLISH);
   }
 
   static class SimplePublisherService extends BasePublisherService {

@@ -19,7 +19,7 @@ import com.googlecodesamples.cloud.jss.common.config.BasePublisherConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-/** Configurations for the publisher in EventGenerator. */
+/** Configurations for the event {@link com.google.cloud.pubsub.v1.Publisher}. */
 @Configuration
 @ConfigurationProperties(prefix = "event.publisher")
 public class EventPublisherConfig extends BasePublisherConfig {

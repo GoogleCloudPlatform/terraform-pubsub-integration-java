@@ -28,12 +28,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+/** MetricAck specified actions. */
 @Component
 public class Ack extends BaseAction<MetricsAck> {
 
   private static final Logger logger = LoggerFactory.getLogger(Ack.class);
 
-  protected Ack(MetricPublisherService publishService) {
+  public Ack(MetricPublisherService publishService) {
     super(publishService);
   }
 
@@ -44,10 +45,11 @@ public class Ack extends BaseAction<MetricsAck> {
         event,
         processTime,
         publishTime);
-    MetricsAck metricMessage = new MetricsAck();
-    MetricsComplete commonMetricMessage = genCommonMetricMessage(event, processTime, publishTime);
-    BeanUtils.copyProperties(commonMetricMessage, metricMessage);
-    return metricMessage;
+
+    MetricsAck message = new MetricsAck();
+    MetricsComplete commonMessage = genCommonMetricMessage(event, processTime, publishTime);
+    BeanUtils.copyProperties(commonMessage, message);
+    return message;
   }
 
   @Override

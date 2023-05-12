@@ -21,6 +21,7 @@ import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
 import com.googlecodesamples.cloud.jss.common.config.BaseSubscriberConfig;
 
+/** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Subscriber} instance */
 public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
 
   protected T config;
@@ -38,7 +39,8 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
   }
 
   protected Subscriber newInstance(MessageReceiver receiver) {
-    Subscriber.Builder builder = Subscriber.newBuilder(getConfig().getEventSubscription(), receiver);
+    Subscriber.Builder builder =
+        Subscriber.newBuilder(getConfig().getEventSubscription(), receiver);
     FlowControlSettings flowControlSettings = getFlowControlSettings();
     if (flowControlSettings != null) {
       builder.setFlowControlSettings(flowControlSettings);

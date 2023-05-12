@@ -23,19 +23,17 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.googlecodesamples.cloud.jss.common.factory.BasePublisherFactory;
 import com.googlecodesamples.cloud.jss.eventgenerator.config.EventPublisherConfig;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.Duration;
 
-import java.io.IOException;
-
-/**
- * Factory for creating the publisher.
- */
+/** Factory for creating an event {@link com.google.cloud.pubsub.v1.Publisher} instance. */
 @Component
 public class EventPublisherFactory extends BasePublisherFactory<EventPublisherConfig> {
+
   private static final Logger logger = LoggerFactory.getLogger(EventPublisherFactory.class);
 
   public EventPublisherFactory(EventPublisherConfig config) {
@@ -55,7 +53,8 @@ public class EventPublisherFactory extends BasePublisherFactory<EventPublisherCo
 
   @Override
   protected BatchingSettings getBatchSettings() {
-    FlowControlSettings flowControlSettings = FlowControlSettings.newBuilder()
+    FlowControlSettings flowControlSettings =
+        FlowControlSettings.newBuilder()
             .setMaxOutstandingElementCount(getConfig().getOutstandingMessages())
             .setMaxOutstandingRequestBytes(Long.MAX_VALUE)
             .build();
@@ -65,16 +64,16 @@ public class EventPublisherFactory extends BasePublisherFactory<EventPublisherCo
   @Override
   protected ExecutorProvider getExecutorProvider() {
     return InstantiatingExecutorProvider.newBuilder()
-            .setExecutorThreadCount(getConfig().getExecutorThreads())
-            .build();
+        .setExecutorThreadCount(getConfig().getExecutorThreads())
+        .build();
   }
 
   @Override
   protected RetrySettings getRetrySetting() {
     return RetrySettings.newBuilder()
-            .setInitialRpcTimeout(Duration.ofSeconds(getInitialRpcTimeout()))
-            .setMaxRpcTimeout(Duration.ofSeconds(getMaxRpcTimeout()))
-            .setTotalTimeout(Duration.ofSeconds(getTotalTimeout()))
-            .build();
+        .setInitialRpcTimeout(Duration.ofSeconds(getInitialRpcTimeout()))
+        .setMaxRpcTimeout(Duration.ofSeconds(getMaxRpcTimeout()))
+        .setTotalTimeout(Duration.ofSeconds(getTotalTimeout()))
+        .build();
   }
 }

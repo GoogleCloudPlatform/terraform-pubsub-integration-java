@@ -20,6 +20,7 @@ import com.googlecodesamples.cloud.jss.common.config.BasePublisherConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/** Configurations for the metric {@link com.google.cloud.pubsub.v1.Publisher}. */
 @Configuration
 @ConfigurationProperties(prefix = "metric.publisher")
 public class MetricPublisherConfig extends BasePublisherConfig {

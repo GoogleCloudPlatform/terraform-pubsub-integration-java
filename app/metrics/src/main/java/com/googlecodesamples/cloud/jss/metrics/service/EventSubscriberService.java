@@ -18,36 +18,44 @@ package com.googlecodesamples.cloud.jss.metrics.service;
 
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
+import com.googlecodesamples.cloud.jss.common.action.BaseAction;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsAck;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsComplete;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsNack;
-import com.googlecodesamples.cloud.jss.common.action.BaseAction;
 import com.googlecodesamples.cloud.jss.metrics.factory.EventSubscriberFactory;
+import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
-
+/** Backend service controller to process event messages from GCP Pub/Sub. */
 @Service
 public class EventSubscriberService {
+
   private static final Logger logger = LoggerFactory.getLogger(EventSubscriberService.class);
+
   protected static final String METRICS_ACK = "MetricsAck";
+
   protected static final String METRICS_NACK = "MetricsNack";
+
   protected static final String METRICS_COMPLETE = "MetricsComplete";
+
   private final BaseAction<MetricsAck> ackMetric;
+
   private final BaseAction<MetricsNack> nackMetric;
+
   private final BaseAction<MetricsComplete> completeMetric;
+
   private final Subscriber subscriber;
 
   public EventSubscriberService(
-          EventSubscriberFactory factory,
-          BaseAction<MetricsAck> ackMetric,
-          BaseAction<MetricsNack> nackMetric,
-          BaseAction<MetricsComplete> completeMetric,
-          @Value("${metric.app.type}") String metricAppType)
-          throws IllegalArgumentException {
+      EventSubscriberFactory factory,
+      BaseAction<MetricsAck> ackMetric,
+      BaseAction<MetricsNack> nackMetric,
+      BaseAction<MetricsComplete> completeMetric,
+      @Value("${metric.app.type}") String metricAppType)
+      throws IllegalArgumentException {
     this.ackMetric = ackMetric;
     this.nackMetric = nackMetric;
     this.completeMetric = completeMetric;
@@ -71,9 +79,7 @@ public class EventSubscriberService {
     };
   }
 
-  /**
-   * Stop pulling messages and release resources.
-   */
+  /** Stop pulling messages and release resources. */
   @PreDestroy
   public void cleanUp() {
     subscriber.stopAsync();

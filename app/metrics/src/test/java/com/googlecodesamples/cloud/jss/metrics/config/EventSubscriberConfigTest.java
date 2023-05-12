@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.eventgenerator.config;
+package com.googlecodesamples.cloud.jss.metrics.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -28,15 +28,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/** Unit test for {@link EventPublisherConfig}. */
+/** Unit tests for {@link EventSubscriberConfig}. */
 @RunWith(SpringJUnit4ClassRunner.class)
-@EnableConfigurationProperties(value = EventPublisherConfig.class)
+@EnableConfigurationProperties(value = EventSubscriberConfig.class)
 @TestPropertySource("classpath:application-test.properties")
-public class EventPublisherConfigTest {
+public class EventSubscriberConfigTest {
 
-  private static final Logger logger = LoggerFactory.getLogger(EventPublisherConfigTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(EventSubscriberConfigTest.class);
 
-  private static final String EXPECTED_TOPIC_NAME = "test-event-topic";
+  private static final String EXPECTED_SUBSCRIPTION = "test-subscription";
+
+  private static final Integer EXPECTED_PARALLEL_PULL = 5;
 
   private static final Integer EXPECTED_EXECUTOR_THREADS = 4;
 
@@ -48,20 +50,20 @@ public class EventPublisherConfigTest {
 
   private static final String ERROR_MSG_EMPTY_INPUT = "should not be empty";
 
-  @Autowired private EventPublisherConfig config;
+  @Autowired private EventSubscriberConfig config;
 
   @Test
   public void testDefaultPropertyBindings() {
     assertThat(config).isNotNull();
-    assertThat(config.getTopicName()).isEqualTo(EXPECTED_TOPIC_NAME);
+    assertThat(config.getEventSubscription()).isEqualTo(EXPECTED_SUBSCRIPTION);
+    assertThat(config.getParallelPull()).isEqualTo(EXPECTED_PARALLEL_PULL);
     assertThat(config.getExecutorThreads()).isEqualTo(EXPECTED_EXECUTOR_THREADS);
     assertThat(config.getOutstandingMessages()).isEqualTo(EXPECTED_OUTSTANDING_MSG);
-    assertThat(config.getBatchSize()).isNull();
     logger.info("config: {}", config.getInfo());
   }
 
   @Test
-  public void testIllegalExecutorThreadNumber() {
+  public void testUnexpectedExecutorThreadNumber() {
     for (Integer input : NEGATIVE_INPUTS) {
       try {
         config.setExecutorThreads(input);
@@ -72,22 +74,22 @@ public class EventPublisherConfigTest {
     }
   }
 
-  @Test
-  public void testIllegalBatchSize() {
-    for (Integer input : NEGATIVE_INPUTS) {
-      try {
-        config.setBatchSize(input.longValue());
-      } catch (IllegalArgumentException e) {
-        assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
-      }
-    }
-  }
+  //  @Test
+  //  public void testUnexpectedParallelPull() {
+  //    for (Integer input : NEGATIVE_INPUTS) {
+  //      try {
+  //        config.setParallelPull(input);
+  //      } catch (IllegalArgumentException e) {
+  //        assertThat(e).isInstanceOf(IllegalArgumentException.class);
+  //        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
+  //      }
+  //    }
+  //  }
 
   @Test
-  public void testNullTopicName() {
+  public void testNullSubscription() {
     try {
-      config.setTopicName(null);
+      config.setEventSubscription(null);
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
       assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
@@ -95,9 +97,9 @@ public class EventPublisherConfigTest {
   }
 
   @Test
-  public void testEmptyTopicName() {
+  public void testEmptySubscription() {
     try {
-      config.setTopicName("");
+      config.setEventSubscription("");
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
       assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);

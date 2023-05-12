@@ -15,13 +15,14 @@
  */
 package com.googlecodesamples.cloud.jss.common.task;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mockito;
 
-import static com.google.common.truth.Truth.assertThat;
-
+/** Unit test for {@link BasePublisherTask}. */
 public class BasePublisherTaskTest {
 
   private BasePublisherTask task;
