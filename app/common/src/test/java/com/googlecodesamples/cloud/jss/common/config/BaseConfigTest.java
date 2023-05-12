@@ -15,16 +15,16 @@
  */
 package com.googlecodesamples.cloud.jss.common.config;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static com.google.common.truth.Truth.assertThat;
-
+/** Unit test for {@link BaseConfig}. */
 public class BaseConfigTest {
 
   private static final List<Integer> NEGATIVE_INPUTS = Arrays.asList(0, -1, -10);

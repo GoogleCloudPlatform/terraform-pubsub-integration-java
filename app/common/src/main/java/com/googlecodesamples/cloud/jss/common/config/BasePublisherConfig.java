@@ -15,10 +15,11 @@
  */
 package com.googlecodesamples.cloud.jss.common.config;
 
-/** Base configurations for GCP publisher. */
+/** Base configurations for the publisher service. */
 public abstract class BasePublisherConfig extends BaseConfig {
 
-  private static final String ERROR_MSG_NEGATIVE_BATCH = "The batch size for publisher should be greater than zero";
+  private static final String ERROR_MSG_NEGATIVE_BATCH =
+      "The batch size for publisher should be greater than zero";
 
   private String topicName;
 

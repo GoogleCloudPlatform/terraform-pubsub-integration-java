@@ -16,15 +16,13 @@
 package com.googlecodesamples.cloud.jss.common.task;
 
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+/** Asynchronous task that will be used by the publisher. */
 public abstract class BasePublisherTask implements Runnable {
-  
+
   public static final Integer INFINITE_FLAG = -1;
 
   public static final Float MIN_SLEEP_INTERVAL = 0.2f;
@@ -59,7 +57,8 @@ public abstract class BasePublisherTask implements Runnable {
     this.sleep = sleep;
   }
 
-  protected abstract void doAsyncTask() throws InterruptedException, ExecutionException, IOException;
+  protected abstract void doAsyncTask()
+      throws InterruptedException, ExecutionException, IOException;
 
   @Override
   public void run() {

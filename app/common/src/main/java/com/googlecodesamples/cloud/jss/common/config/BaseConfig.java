@@ -17,12 +17,14 @@ package com.googlecodesamples.cloud.jss.common.config;
 
 import org.springframework.util.StringUtils;
 
-/** Base configurations for GCP publisher/subscriber. */
+/** Base configurations for the publisher/subscriber service. */
 public abstract class BaseConfig {
 
-  private static final String ERROR_MSG_EMPTY_INPUT = "The topic/subscription name should not be empty";
+  private static final String ERROR_MSG_EMPTY_INPUT =
+      "The topic/subscription name should not be empty";
 
-  private static final String ERROR_MSG_NEGATIVE_THREADS = "The number of executor threads should be greater than zero";
+  private static final String ERROR_MSG_NEGATIVE_THREADS =
+      "The number of executor threads should be greater than zero";
 
   protected Integer executorThreads;
 
@@ -30,11 +32,11 @@ public abstract class BaseConfig {
 
   public abstract String getInfo();
 
-  public int getExecutorThreads() {
+  public Integer getExecutorThreads() {
     return executorThreads;
   }
 
-  public void setExecutorThreads(int executorThreads) throws IllegalArgumentException {
+  public void setExecutorThreads(Integer executorThreads) throws IllegalArgumentException {
     if (executorThreads <= 0) {
       throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_THREADS);
     }

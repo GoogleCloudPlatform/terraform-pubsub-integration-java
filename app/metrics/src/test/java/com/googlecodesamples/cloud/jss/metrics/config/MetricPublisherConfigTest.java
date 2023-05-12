@@ -13,19 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecodesamples.cloud.jss.common.config;
+package com.googlecodesamples.cloud.jss.metrics.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Answers;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/** Unit test for {@link BasePublisherConfig}. */
-public class BasePublisherConfigTest {
+/** Unit tests for {@link MetricPublisherConfig}. */
+@RunWith(SpringJUnit4ClassRunner.class)
+@EnableConfigurationProperties(value = MetricPublisherConfig.class)
+@TestPropertySource("classpath:application-test.properties")
+public class MetricPublisherConfigTest {
+
+  private static final Logger logger = LoggerFactory.getLogger(MetricPublisherConfigTest.class);
+
+  private static final String EXPECTED_TOPIC_NAME = "test-metric-topic";
+
+  private static final Integer EXPECTED_EXECUTOR_THREADS = 5;
+
+  private static final Long EXPECTED_OUTSTANDING_MSG = 150L;
 
   private static final List<Integer> NEGATIVE_INPUTS = Arrays.asList(0, -1, -10);
 
@@ -33,22 +48,22 @@ public class BasePublisherConfigTest {
 
   private static final String ERROR_MSG_EMPTY_INPUT = "should not be empty";
 
-  private BasePublisherConfig config;
+  @Autowired private MetricPublisherConfig config;
 
-  protected BasePublisherConfig getConfig() {
-    return this.config;
-  }
-
-  @Before
-  public void setUp() {
-    config = Mockito.mock(BasePublisherConfig.class, Answers.CALLS_REAL_METHODS);
+  @Test
+  public void testDefaultPropertyBindings() {
+    assertThat(config).isNotNull();
+    assertThat(config.getTopicName()).isEqualTo(EXPECTED_TOPIC_NAME);
+    assertThat(config.getExecutorThreads()).isEqualTo(EXPECTED_EXECUTOR_THREADS);
+    assertThat(config.getOutstandingMessages()).isNull();
+    logger.info("config: {}", config.getInfo());
   }
 
   @Test
-  public void testIllegalBatchSize() {
+  public void testUnexpectedExecutorThreadNumber() {
     for (Integer input : NEGATIVE_INPUTS) {
       try {
-        getConfig().setBatchSize(input.longValue());
+        config.setExecutorThreads(input);
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
         assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
@@ -57,10 +72,10 @@ public class BasePublisherConfigTest {
   }
 
   @Test
-  public void testIllegalExecutorThreadNumber() {
+  public void testUnexpectedBatchSize() {
     for (Integer input : NEGATIVE_INPUTS) {
       try {
-        getConfig().setExecutorThreads(input);
+        config.setBatchSize(input.longValue());
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
         assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
@@ -71,7 +86,7 @@ public class BasePublisherConfigTest {
   @Test
   public void testNullTopicName() {
     try {
-      getConfig().setTopicName(null);
+      config.setTopicName(null);
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
       assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
@@ -81,7 +96,7 @@ public class BasePublisherConfigTest {
   @Test
   public void testEmptyTopicName() {
     try {
-      getConfig().setTopicName("");
+      config.setTopicName("");
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
       assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);

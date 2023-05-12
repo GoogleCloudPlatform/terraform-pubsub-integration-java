@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** REST API controller of the backend service. */
+/** REST API controller for the {@link EventPublisherService} instance. */
 @RestController
 @RequestMapping("/api/msg")
 public class EventPublisherController {

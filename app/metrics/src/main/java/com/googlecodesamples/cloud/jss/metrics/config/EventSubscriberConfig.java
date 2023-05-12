@@ -20,6 +20,7 @@ import com.googlecodesamples.cloud.jss.common.config.BaseSubscriberConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/** configurations for the event {@link com.google.cloud.pubsub.v1.Subscriber}. */
 @Configuration
 @ConfigurationProperties(prefix = "event.subscriber")
 public class EventSubscriberConfig extends BaseSubscriberConfig {

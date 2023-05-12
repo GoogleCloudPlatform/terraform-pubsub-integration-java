@@ -17,19 +17,25 @@ package com.googlecodesamples.cloud.jss.common.util;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.time.Instant;
-
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Unit test for {@link PubSubUtil}. */
 public class PubSubUtilTest {
+
+  private static final Logger logger = LoggerFactory.getLogger(PubSubUtilTest.class);
 
   private static final Integer LOOP_COUNT = 200;
 
-  private static final Logger logger = LoggerFactory.getLogger(PubSubUtilTest.class);
+  private static final Integer TEST_RATIO_LOOP_COUNT = 10000;
+
+  private static final Float EXPECTED_MIN_RATIO = 0.994f;
 
   @Test
   public void testGenRandomInt() {
@@ -71,13 +77,39 @@ public class PubSubUtilTest {
   @Test
   public void testGetMessageData() {
     String content = "test";
-    PubsubMessage message = PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(content)).build();
+    PubsubMessage message =
+        PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(content)).build();
     assertThat(PubSubUtil.getMessageData(message)).isNotEmpty();
     assertThat(PubSubUtil.getMessageData(message)).isEqualTo(content);
   }
 
+  @Test
+  public void testGenProcessTimeRatio() {
+    int times = 0;
+    for (int i = 0; i < TEST_RATIO_LOOP_COUNT; i++) {
+      float processTime = PubSubUtil.genProcessTime();
+      if (0.1 <= processTime && 0.3 >= processTime) {
+        times++;
+      }
+    }
+    assertThat(((float) times / TEST_RATIO_LOOP_COUNT)).isGreaterThan(EXPECTED_MIN_RATIO);
+  }
+
+  @Test
+  public void testGenProcessTimeValue() {
+    Set<Float> processTimeList = new HashSet<>();
+    for (int i = 0; i < LOOP_COUNT; i++) {
+      float processTime = PubSubUtil.genProcessTime();
+      processTimeList.add(processTime);
+      assertThat(processTime).isAtLeast(0.1f);
+      assertThat(processTime).isAtMost(5);
+    }
+    assertThat(processTimeList.size()).isGreaterThan(1);
+  }
+
   private static void testRandomIntRange(int min, int max) {
-    logger.info("test random integer generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
+    logger.info(
+        "test random integer generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
     for (int i = 0; i < LOOP_COUNT; i++) {
       Integer result = PubSubUtil.genRandomInt(min, max);
       assertThat(result).isAtLeast(min);
@@ -87,7 +119,8 @@ public class PubSubUtilTest {
   }
 
   private static void testRandomFloatRange(float min, float max) {
-    logger.info("test random float generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
+    logger.info(
+        "test random float generation...min: {}, max: {}, loop count: {}", min, max, LOOP_COUNT);
     for (int i = 0; i < LOOP_COUNT; i++) {
       Float result = PubSubUtil.genRandomFloat(min, max);
       assertThat(result).isAtLeast(min);

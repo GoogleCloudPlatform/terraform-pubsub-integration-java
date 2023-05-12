@@ -15,7 +15,7 @@
  */
 package com.googlecodesamples.cloud.jss.common.config;
 
-/** Base configurations for GCP subscriber. */
+/** Base configurations for the subscriber service. */
 public abstract class BaseSubscriberConfig extends BaseConfig {
 
   private String eventSubscription;

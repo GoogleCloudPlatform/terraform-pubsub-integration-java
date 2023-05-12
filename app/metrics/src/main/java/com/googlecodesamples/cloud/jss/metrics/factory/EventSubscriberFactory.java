@@ -27,8 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/** Factory for creating an event {@link com.google.cloud.pubsub.v1.Subscriber} instance. */
 @Component
 public class EventSubscriberFactory extends BaseSubscriberFactory<EventSubscriberConfig> {
+
   private static final Logger logger = LoggerFactory.getLogger(EventSubscriberFactory.class);
 
   public EventSubscriberFactory(EventSubscriberConfig config) {
@@ -48,14 +50,14 @@ public class EventSubscriberFactory extends BaseSubscriberFactory<EventSubscribe
   @Override
   protected FlowControlSettings getFlowControlSettings() {
     return FlowControlSettings.newBuilder()
-            .setMaxOutstandingElementCount(getConfig().getOutstandingMessages())
-            .build();
+        .setMaxOutstandingElementCount(getConfig().getOutstandingMessages())
+        .build();
   }
 
   @Override
   protected ExecutorProvider getExecutorProvider() {
     return InstantiatingExecutorProvider.newBuilder()
-            .setExecutorThreadCount(getConfig().getExecutorThreads())
-            .build();
+        .setExecutorThreadCount(getConfig().getExecutorThreads())
+        .build();
   }
 }

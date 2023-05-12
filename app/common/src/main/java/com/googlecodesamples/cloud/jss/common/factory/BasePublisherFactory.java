@@ -20,12 +20,9 @@ import com.google.api.gax.core.ExecutorProvider;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.googlecodesamples.cloud.jss.common.config.BasePublisherConfig;
-
 import java.io.IOException;
 
-/**
- * Base factory for creating GCP publisher.
- */
+/** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Publisher} instance */
 public abstract class BasePublisherFactory<T extends BasePublisherConfig> {
 
   protected Integer initialRpcTimeout = 5;

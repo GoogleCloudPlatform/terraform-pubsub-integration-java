@@ -25,27 +25,27 @@ import com.googlecodesamples.cloud.jss.common.generated.MetricsComplete;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import java.io.IOException;
-import java.time.Instant;
-import java.util.concurrent.ExecutionException;
-
+/** Base class for metric processing actions. */
 public abstract class BaseAction<T> {
 
   private static final Logger logger = LoggerFactory.getLogger(BaseAction.class);
 
   protected final BasePublisherService service;
 
-  protected BaseAction(BasePublisherService service) {
+  public BaseAction(BasePublisherService service) {
     this.service = service;
   }
 
   /**
-   * Generate a message for publishing to GCP pub/sub metric topic.
+   * Generate a GCP Pub/Sub message for the metric topic.
    *
    * @param event the received message
    * @param processTime the simulated process time
@@ -55,18 +55,18 @@ public abstract class BaseAction<T> {
   public abstract T genMetricMessage(Event event, float processTime, Timestamp publishTime);
 
   /**
-   * Get a Avro schema.
+   * Retrieve the Avro schema instance.
    *
    * @return Avro schema
    */
   public abstract Schema getSchema();
 
   /**
-   * Get a receiver, which defines actions when receiving a message.
+   * Retrieve the MessageReceiver instance, which defines the actions to be taken when a message is received.
    *
    * @return the message receiver
    */
-  public MessageReceiver getReceiver() {
+  public final MessageReceiver getReceiver() {
     return (PubsubMessage message, AckReplyConsumer consumer) -> {
       try {
         logger.info("metric receive message: {}", PubSubUtil.getMessageData(message));
@@ -81,16 +81,16 @@ public abstract class BaseAction<T> {
   }
 
   /**
-   * Process a received message and generate an output message.
+   * Process the GCP Pub/Sub message and generate an output message.
    *
    * @param message the received message
    * @param consumer the consumer
    * @return the output message
    */
-  public final T processMessage(PubsubMessage message, AckReplyConsumer consumer)
+  private T processMessage(PubsubMessage message, AckReplyConsumer consumer)
       throws InterruptedException, IOException {
     logger.info("process received message, message: {}", PubSubUtil.getMessageData(message));
-    float processTime = genProcessTime();
+    float processTime = PubSubUtil.genProcessTime();
     Thread.sleep((long) (processTime * 1000));
     consumerAckOrNack(consumer);
     Event event = MessageUtil.convertToAvroEvent(message);
@@ -98,7 +98,7 @@ public abstract class BaseAction<T> {
   }
 
   /**
-   * Do after processing a message.
+   * Post-action for the output message.
    *
    * @param newMessage the output message
    */
@@ -108,7 +108,7 @@ public abstract class BaseAction<T> {
   }
 
   /**
-   * Ack or nack a message.
+   * Generate an ACK or NACK response for the message.
    *
    * @param consumer the consumer
    */
@@ -118,7 +118,7 @@ public abstract class BaseAction<T> {
   }
 
   /**
-   * Generate a common message.
+   * Generate a MetricsComplete message.
    *
    * @param event the received message
    * @param processTime the simulated process time
@@ -127,28 +127,15 @@ public abstract class BaseAction<T> {
    */
   public final MetricsComplete genCommonMetricMessage(
       Event event, float processTime, Timestamp publishTime) {
-    MetricsComplete metricMessage = new MetricsComplete();
-    BeanUtils.copyProperties(event, metricMessage);
-    metricMessage.setEventTimestamp(event.getSessionEndTime());
-    metricMessage.setPublishTimestamp(Instant.ofEpochSecond(publishTime.getSeconds()));
-    metricMessage.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
-    metricMessage.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
-    float diffInHour = PubSubUtil.getDiffTimeInHour(event.getSessionEndTime(), event.getSessionStartTime());
-    metricMessage.setSessionDurationHr(diffInHour);
-    return metricMessage;
-  }
-
-  /**
-   * Generate random process time.
-   *
-   * @return random process time
-   */
-  private float genProcessTime() {
-    float ratio = PubSubUtil.genRandomFloat(0, 100);
-    if (ratio <= 0.1) {
-      return PubSubUtil.genRandomFloat(0.1f, 5);
-    } else {
-      return PubSubUtil.genRandomFloat(0.1f, 0.3f);
-    }
+    MetricsComplete message = new MetricsComplete();
+    BeanUtils.copyProperties(event, message);
+    message.setEventTimestamp(event.getSessionEndTime());
+    message.setPublishTimestamp(Instant.ofEpochSecond(publishTime.getSeconds()));
+    message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
+    message.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
+    float diffInHour =
+        PubSubUtil.getDiffTimeInHour(event.getSessionEndTime(), event.getSessionStartTime());
+    message.setSessionDurationHr(diffInHour);
+    return message;
   }
 }

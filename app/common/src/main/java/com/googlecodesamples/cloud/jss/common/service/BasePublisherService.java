@@ -19,12 +19,12 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.pubsub.v1.PubsubMessage;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
+import java.util.concurrent.ExecutionException;
+import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PreDestroy;
-import java.util.concurrent.ExecutionException;
-
+/** Base service controller for publisher. */
 public abstract class BasePublisherService {
 
   private static final Logger logger = LoggerFactory.getLogger(BasePublisherService.class);
@@ -50,17 +50,20 @@ public abstract class BasePublisherService {
    * @param message message to be published
    */
   public void publishMsg(PubsubMessage message) throws InterruptedException, ExecutionException {
-    logger.info("thread: {}, topic name: {}, message: {}",
-            Thread.currentThread().getName(), publisher.getTopicName(), PubSubUtil.getMessageData(message));
+    logger.info(
+        "thread: {}, topic name: {}, message: {}",
+        Thread.currentThread().getName(),
+        publisher.getTopicName(),
+        PubSubUtil.getMessageData(message));
 
     ApiFuture<String> messageId = publisher.publish(message);
-    logger.info("message id: {} callback received, message: {}",
-            messageId.get(), PubSubUtil.getMessageData(message));
+    logger.info(
+        "message id: {} callback received, message: {}",
+        messageId.get(),
+        PubSubUtil.getMessageData(message));
   }
 
-  /**
-   * Shutdown and release resources.
-   */
+  /** Shutdown and release resources. */
   @PreDestroy
   public void cleanUp() {
     shutdown();

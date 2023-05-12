@@ -16,11 +16,9 @@
 package com.googlecodesamples.cloud.jss.common.task;
 
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.TimerTask;
 
+/** Scheduled timer task that will be used by the publisher. */
 public abstract class BasePublisherTimerTask extends TimerTask {
 
   private BasePublisherService service;
@@ -34,7 +32,7 @@ public abstract class BasePublisherTimerTask extends TimerTask {
   public void setService(BasePublisherService service) {
     this.service = service;
   }
-  
+
   @Override
   public void run() {
     doScheduledTask();

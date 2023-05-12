@@ -32,20 +32,26 @@ import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
 
-/**
- * Reusable utility functions for creating message.
- */
+/** Reusable utility functions for creating message. */
 public class MessageUtil {
 
   private static final List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 250);
+
   private static final List<Integer> BATTERY_CAPACITY_KWH =
-          Arrays.asList(40, 50, 58, 62, 75, 77, 82, 100, 129, 131);
+      Arrays.asList(40, 50, 58, 62, 75, 77, 82, 100, 129, 131);
+
   private static final Integer MIN_STATION_ID = 0;
+
   private static final Integer MAX_STATION_ID = 100;
+
   private static final Integer MIN_SESSION_DURATION = 5;
+
   private static final Integer MAX_SESSION_DURATION = 90;
+
   private static final Float MIN_BATTERY_PERCENTAGE = 0.05f;
+
   private static final Float MAX_BATTERY_PERCENTAGE = 0.8f;
+
   private static final Float BIAS = 1 / 100f;
 
   private static final String LOCATIONS = System.getenv("GOOGLE_CLOUD_LOCATION");
@@ -101,34 +107,34 @@ public class MessageUtil {
    * @return random battery charge percentage
    */
   public static float genBatteryLevelStart() {
-    return PubSubUtil.genRandomFloat(MIN_BATTERY_PERCENTAGE, MAX_BATTERY_PERCENTAGE);
+    return PubSubUtil.formatFloat(
+        PubSubUtil.genRandomFloat(MIN_BATTERY_PERCENTAGE, MAX_BATTERY_PERCENTAGE));
   }
 
-  /**
-   * Generate random event data.
-   */
+  /** Generate random event data. */
   public static Event genRandomEvent() {
     long sessionEndTime = Instant.now().getEpochSecond();
     return Event.newBuilder()
-            .setSessionId(UUID.randomUUID().toString())
-            .setStationId(genStationId())
-            .setLocation(LOCATIONS)
-            .setSessionStartTime(Instant.ofEpochSecond(genSessionStartTime(sessionEndTime)))
-            .setSessionEndTime(Instant.ofEpochSecond(sessionEndTime))
-            .setAvgChargeRateKw(genAvChargeRateKw())
-            .setBatteryCapacityKwh(genBatteryCapacityKwh())
-            .setBatteryLevelStart(genBatteryLevelStart())
-            .build();
+        .setSessionId(UUID.randomUUID().toString())
+        .setStationId(genStationId())
+        .setLocation(LOCATIONS)
+        .setSessionStartTime(Instant.ofEpochSecond(genSessionStartTime(sessionEndTime)))
+        .setSessionEndTime(Instant.ofEpochSecond(sessionEndTime))
+        .setAvgChargeRateKw(genAvChargeRateKw())
+        .setBatteryCapacityKwh(genBatteryCapacityKwh())
+        .setBatteryLevelStart(genBatteryLevelStart())
+        .build();
   }
 
   /**
    * Convert an Avro object to GCP Pub/Sub compatible format.
    *
    * @param message message to be published
-   * @param schema  Avro schema of the message
+   * @param schema Avro schema of the message
    * @return encoded message
    */
-  public static PubsubMessage convertToPubSubMessage(Object message, Schema schema) throws IOException {
+  public static PubsubMessage convertToPubSubMessage(Object message, Schema schema)
+      throws IOException {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     Encoder encoder = EncoderFactory.get().jsonEncoder(schema, output);
     DatumWriter<SpecificRecordBase> writer = new SpecificDatumWriter<>(schema);

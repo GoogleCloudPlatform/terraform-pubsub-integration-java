@@ -18,6 +18,7 @@ package com.googlecodesamples.cloud.jss.eventgenerator.task;
 import com.googlecodesamples.cloud.jss.common.task.BasePublisherTimerTask;
 import com.googlecodesamples.cloud.jss.eventgenerator.service.EventPublisherService;
 
+/** Implementation of the timer task to shut down the event publisher thread pool. */
 public class TimeoutTask extends BasePublisherTimerTask {
 
   public TimeoutTask(EventPublisherService service) {
