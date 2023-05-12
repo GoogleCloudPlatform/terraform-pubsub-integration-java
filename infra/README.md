@@ -39,17 +39,22 @@ terraform destroy
 |------|-------------|------|---------|:--------:|
 | labels | A map of key/value label pairs to assign to the resources. | `map(string)` | <pre>{<br>  "app": "gcp-api-integration-java"<br>}</pre> | no |
 | project\_id | GCP project ID. | `string` | n/a | yes |
-| publisher\_image\_url | pubsub publisher app image url | `string` | `"asia.gcr.io/aemon-projects-dev-012/pubsub-pub:0503"` | no |
+| publisher\_image\_url | pubsub publisher app image url | `string` | `"gcr.io/aemon-projects-dev-000/jss-psi-java-event-generator:latest"` | no |
 | region | google cloud region where the resource will be created. | `string` | `"us-west1"` | no |
-| subscriber\_image\_url | pubsub subscriber app image url | `string` | `"asia.gcr.io/aemon-projects-dev-012/pubsub-sub:0503"` | no |
+| subscriber\_image\_url | pubsub subscriber app image url | `string` | `"gcr.io/aemon-projects-dev-000/jss-psi-java-metrics-ack:latest"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | errors\_topic\_name | The name of the error topic |
+| europe\_north1\_publisher\_cluster\_info | The cluster information for the publisher cluster in europe-north1 |
+| event\_subscription\_name | The name of the event subscription created for Pub/Sub |
 | event\_topic\_name | The name of the event topic |
+| metrics\_subscription\_name | The name of the metrics subscription created for Pub/Sub |
 | metrics\_topic\_name | The name of the metric topic |
 | project\_id | GCP project ID. |
+| us\_west1\_publisher\_cluster\_info | The cluster information for the publisher cluster in us-west1 |
+| us\_west1\_subscriber\_cluster\_info | The cluster information for the subscriber cluster in us-west1 |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

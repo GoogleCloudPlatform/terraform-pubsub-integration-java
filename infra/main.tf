@@ -130,7 +130,7 @@ resource "google_pubsub_schema" "metrics" {
 
   name       = "metrics-pubsub-integration-java"
   type       = "AVRO"
-  definition = file("${path.module}/config/avro/MetricsAck.avsc") //TODO
+  definition = file("${path.module}/config/avro/MetricsAck.avsc")
 }
 
 resource "google_pubsub_subscription" "metrics" {

@@ -39,12 +39,12 @@ module "us_west1_subscriber_cluster" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name            = "us-west1-subscriber-java"
-  region                  = "us-west1"
-  zones                   = ["us-west1-a"]
-  xwiki_network_self_link = google_compute_network.primary.self_link
-  project_id              = data.google_project.project.project_id
-  gcp_service_account_id  = "us-west1-subscriber-java"
+  cluster_name           = "us-west1-subscriber-java"
+  region                 = "us-west1"
+  zones                  = ["us-west1-a"]
+  network_self_link      = google_compute_network.primary.self_link
+  project_id             = data.google_project.project.project_id
+  gcp_service_account_id = "us-west1-subscriber-java"
   gcp_service_account_iam_roles = [
     "roles/pubsub.subscriber",
     "roles/pubsub.publisher",

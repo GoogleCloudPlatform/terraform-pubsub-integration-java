@@ -15,7 +15,7 @@
  */
 
 output "project_id" {
-  description = "GCP project ID."
+  description = "The ID of the project where resources are deployed to"
   value       = data.google_project.project.project_id
 }
 
@@ -35,26 +35,26 @@ output "event_topic_name" {
 }
 
 output "event_subscription_name" {
-  description = "The name of the event subscription created for Pub/Sub."
+  description = "The name of the event subscription created for Pub/Sub"
   value       = google_pubsub_subscription.event.name
 }
 
 output "metrics_subscription_name" {
-  description = "The name of the metrics subscription created for Pub/Sub."
+  description = "The name of the metrics subscription created for Pub/Sub"
   value       = google_pubsub_subscription.metrics.name
 }
 
-output "europe_north1_publisher_cluster_name" {
-  description = "The name of the GKE cluster in the europe-north1 region used by the publisher."
-  value       = module.europe_north1_publisher_cluster.cluster_name
+output "europe_north1_publisher_cluster_info" {
+  description = "The cluster information for the publisher cluster in europe-north1"
+  value       = module.europe_north1_publisher_cluster.cluster_info
 }
 
-output "us_west1_publisher_cluster_name" {
-  description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.us_west1_publisher_cluster.cluster_name
+output "us_west1_publisher_cluster_info" {
+  description = "The cluster information for the publisher cluster in us-west1"
+  value       = module.us_west1_publisher_cluster.cluster_info
 }
 
-output "us_west1_subscriber_cluster_name" {
-  description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.us_west1_subscriber_cluster.cluster_name
+output "us_west1_subscriber_cluster_info" {
+  description = "The cluster information for the subscriber cluster in us-west1"
+  value       = module.us_west1_subscriber_cluster.cluster_info
 }
