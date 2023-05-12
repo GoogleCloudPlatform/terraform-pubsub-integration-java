@@ -41,15 +41,30 @@ output "metrics_subscription_name" {
 
 output "europe_north1_publisher_cluster_name" {
   description = "The name of the GKE cluster in the europe-north1 region used by the publisher."
-  value       = module.simple.europe_north1_publisher_cluster_name
+  value       = module.simple.europe_north1_publisher_cluster_info.name
 }
 
 output "us_west1_publisher_cluster_name" {
   description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.simple.us_west1_publisher_cluster_name
+  value       = module.simple.us_west1_publisher_cluster_info.name
 }
 
 output "us_west1_subscriber_cluster_name" {
   description = "The name of the GKE cluster in the us-west1 region used by the publisher."
-  value       = module.simple.us_west1_subscriber_cluster_name
+  value       = module.simple.us_west1_subscriber_cluster_info.name
+}
+
+output "europe_north1_publisher_cluster_namespace" {
+  description = "The namespace of the GKE cluster in the europe-north1 region used by the publisher."
+  value       = module.simple.europe_north1_publisher_cluster_info.namespace
+}
+
+output "us_west1_publisher_cluster_namespace" {
+  description = "The namespace of the GKE cluster in the us-west1 region used by the publisher."
+  value       = module.simple.us_west1_publisher_cluster_info.namespace
+}
+
+output "us_west1_subscriber_cluster_namespace" {
+  description = "The namespace of the GKE cluster in the us-west1 region used by the subscriber."
+  value       = module.simple.us_west1_subscriber_cluster_info.namespace
 }

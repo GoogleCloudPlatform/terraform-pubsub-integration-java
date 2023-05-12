@@ -29,7 +29,6 @@ variable "schema" {
   type        = string
 }
 
-
 variable "labels" {
   type        = map(string)
   description = "A map of key/value label pairs to assign to the resources."

@@ -15,16 +15,20 @@
  */
 
 output "control_plane" {
-  description = "Cluster informations"
+  description = "Control plane in deployed GKE cluster"
   value       = google_container_cluster.control_plane
 }
 
 output "gcp_service_account_email" {
-  description = "gcp service account's email"
+  description = "Service account’s email address in the project"
   value       = google_service_account.gcp.email
 }
 
-output "cluster_name" {
-  description = "name of the Google Kubernetes Engine cluster"
-  value       = google_container_cluster.control_plane.name
+output "cluster_info" {
+  description = "GKE cluster information containing name, location and namespace"
+  value = {
+    name      = google_container_cluster.control_plane.name,
+    location  = google_container_cluster.control_plane.location,
+    namespace = var.k8s_namespace_name,
+  }
 }

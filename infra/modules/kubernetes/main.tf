@@ -18,7 +18,7 @@ resource "google_container_cluster" "control_plane" {
   name             = var.cluster_name
   location         = var.region
   node_locations   = var.zones
-  network          = var.xwiki_network_self_link
+  network          = var.network_self_link
   networking_mode  = "VPC_NATIVE"
   enable_autopilot = true
   ip_allocation_policy {
