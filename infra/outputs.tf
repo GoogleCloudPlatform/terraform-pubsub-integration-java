@@ -44,17 +44,27 @@ output "metrics_subscription_name" {
   value       = google_pubsub_subscription.metrics.name
 }
 
-output "europe_north1_publisher_cluster_info" {
-  description = "The cluster information for the publisher cluster in europe-north1"
-  value       = module.europe_north1_publisher_cluster.cluster_info
+output "eu_publisher_cluster_info" {
+  description = "The cluster information for the publisher cluster in eu"
+  value       = module.eu_publisher_cluster.cluster_info
 }
 
-output "us_west1_publisher_cluster_info" {
-  description = "The cluster information for the publisher cluster in us-west1"
-  value       = module.us_west1_publisher_cluster.cluster_info
+output "us_publisher_cluster_info" {
+  description = "The cluster information for the publisher cluster in us"
+  value       = module.us_publisher_cluster.cluster_info
 }
 
-output "us_west1_subscriber_cluster_info" {
-  description = "The cluster information for the subscriber cluster in us-west1"
-  value       = module.us_west1_subscriber_cluster.cluster_info
+output "us_subscriber_cluster_info" {
+  description = "The cluster information for the subscriber cluster in us"
+  value       = module.us_subscriber_cluster.cluster_info
+}
+
+output "bq_table_id" {
+  description = "The ID of the BigQuery table"
+  value       = "${data.google_project.project.project_id}.${module.bigquery.dataset_id}.${module.bigquery.table_id}"
+}
+
+output "metrics_schema_name" {
+  description = "The name of the metrics schema"
+  value       = google_pubsub_schema.metrics.name
 }

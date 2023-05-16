@@ -29,6 +29,24 @@ variable "region" {
   default     = "us-west1"
 }
 
+variable "zones" {
+  description = "google cloud zones where the resource will be created."
+  type        = list(string)
+  default     = ["us-west1-a"]
+}
+
+variable "publisher_region" {
+  description = "publisher region where the resource will be created."
+  type        = string
+  default     = "europe-north1"
+}
+
+variable "publisher_zones" {
+  description = "publisher zones where the resource will be created."
+  type        = list(string)
+  default     = ["europe-north1-a"]
+}
+
 variable "subscriber_image_url" {
   description = "pubsub subscriber app image url "
   type        = string
