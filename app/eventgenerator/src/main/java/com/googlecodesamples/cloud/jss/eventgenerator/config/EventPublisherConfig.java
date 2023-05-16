@@ -26,7 +26,13 @@ public class EventPublisherConfig extends BasePublisherConfig {
   @Override
   public String getInfo() {
     return String.format(
-        "topic name: %s, flow Control outStanding message: %d, executor threads: %d",
-        getTopicName(), getOutstandingMessages(), getExecutorThreads());
+        "topic name: %s, flow Control outStanding message: %d, executor threads: %d, initial"
+            + " timeout: %d, total timeout %d, batch size: %d",
+        getTopicName(),
+        getOutstandingMessages(),
+        getExecutorThreads(),
+        getInitialTimeout(),
+        getTotalTimeout(),
+        getBatchSize());
   }
 }

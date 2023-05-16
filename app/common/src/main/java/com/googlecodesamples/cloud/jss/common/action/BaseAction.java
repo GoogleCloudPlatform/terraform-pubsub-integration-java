@@ -20,39 +20,28 @@ import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.protobuf.Timestamp;
 import com.google.pubsub.v1.PubsubMessage;
-import com.googlecodesamples.cloud.jss.common.generated.Event;
-import com.googlecodesamples.cloud.jss.common.generated.MetricsComplete;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
-import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
 /** Base class for metric processing actions. */
-public abstract class BaseAction<T> {
+public abstract class BaseAction<T> implements Action<T> {
 
   private static final Logger logger = LoggerFactory.getLogger(BaseAction.class);
 
-  protected final BasePublisherService service;
+  private BasePublisherService service;
 
-  public BaseAction(BasePublisherService service) {
-    this.service = service;
+  public BasePublisherService getService() {
+    return service;
   }
 
-  /**
-   * Generate a GCP Pub/Sub message for the metric topic.
-   *
-   * @param event the received message
-   * @param processTime the simulated process time
-   * @param publishTime publishTime of the received message
-   * @return the generated message
-   */
-  public abstract T genMetricMessage(Event event, float processTime, Timestamp publishTime);
+  public void setService(BasePublisherService service) {
+    this.service = service;
+  }
 
   /**
    * Retrieve the Avro schema instance.
@@ -62,7 +51,29 @@ public abstract class BaseAction<T> {
   public abstract Schema getSchema();
 
   /**
-   * Retrieve the MessageReceiver instance, which defines the actions to be taken when a message is received.
+   * Metric respond to the received message
+   *
+   * @param consumer the consumer
+   * @param message the received message
+   * @param processTime the simulated process time
+   * @param publishTime message publish time
+   * @return the output message
+   */
+  public abstract T respond(
+      AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime)
+      throws IOException;
+
+  /**
+   * Post-action for the output message.
+   *
+   * @param newMessage the output message
+   */
+  public abstract void postProcess(T newMessage)
+      throws IOException, InterruptedException, ExecutionException;
+
+  /**
+   * Retrieve the MessageReceiver instance, which defines the actions to be taken when a message is
+   * received.
    *
    * @return the message receiver
    */
@@ -70,8 +81,8 @@ public abstract class BaseAction<T> {
     return (PubsubMessage message, AckReplyConsumer consumer) -> {
       try {
         logger.info("metric receive message: {}", PubSubUtil.getMessageData(message));
-        T newMessage = processMessage(message, consumer);
-        postProcessMessage(newMessage);
+        T newMessage = process(message, consumer);
+        postProcess(newMessage);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       } catch (IOException | ExecutionException e) {
@@ -87,55 +98,11 @@ public abstract class BaseAction<T> {
    * @param consumer the consumer
    * @return the output message
    */
-  private T processMessage(PubsubMessage message, AckReplyConsumer consumer)
+  public final T process(PubsubMessage message, AckReplyConsumer consumer)
       throws InterruptedException, IOException {
     logger.info("process received message, message: {}", PubSubUtil.getMessageData(message));
     float processTime = PubSubUtil.genProcessTime();
     Thread.sleep((long) (processTime * 1000));
-    consumerAckOrNack(consumer);
-    Event event = MessageUtil.convertToAvroEvent(message);
-    return genMetricMessage(event, processTime, message.getPublishTime());
-  }
-
-  /**
-   * Post-action for the output message.
-   *
-   * @param newMessage the output message
-   */
-  public void postProcessMessage(T newMessage)
-      throws IOException, InterruptedException, ExecutionException {
-    service.publishMsg(MessageUtil.convertToPubSubMessage(newMessage, getSchema()));
-  }
-
-  /**
-   * Generate an ACK or NACK response for the message.
-   *
-   * @param consumer the consumer
-   */
-  public void consumerAckOrNack(AckReplyConsumer consumer) {
-    logger.info("consumerAckOrNack: ack");
-    consumer.ack();
-  }
-
-  /**
-   * Generate a MetricsComplete message.
-   *
-   * @param event the received message
-   * @param processTime the simulated process time
-   * @param publishTime publishTime of the received message
-   * @return the common message
-   */
-  public final MetricsComplete genCommonMetricMessage(
-      Event event, float processTime, Timestamp publishTime) {
-    MetricsComplete message = new MetricsComplete();
-    BeanUtils.copyProperties(event, message);
-    message.setEventTimestamp(event.getSessionEndTime());
-    message.setPublishTimestamp(Instant.ofEpochSecond(publishTime.getSeconds()));
-    message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
-    message.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
-    float diffInHour =
-        PubSubUtil.getDiffTimeInHour(event.getSessionEndTime(), event.getSessionStartTime());
-    message.setSessionDurationHr(diffInHour);
-    return message;
+    return respond(consumer, message, processTime, message.getPublishTime());
   }
 }

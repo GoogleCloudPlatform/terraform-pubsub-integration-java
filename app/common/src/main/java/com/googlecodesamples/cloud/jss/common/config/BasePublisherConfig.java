@@ -25,6 +25,10 @@ public abstract class BasePublisherConfig extends BaseConfig {
 
   private Long batchSize;
 
+  private Integer initialTimeout;
+
+  private Integer totalTimeout;
+
   public String getTopicName() {
     return topicName;
   }
@@ -43,5 +47,21 @@ public abstract class BasePublisherConfig extends BaseConfig {
       throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_BATCH);
     }
     this.batchSize = batchSize;
+  }
+
+  public Integer getInitialTimeout() {
+    return initialTimeout;
+  }
+
+  public void setInitialTimeout(Integer initialTimeout) {
+    this.initialTimeout = initialTimeout;
+  }
+
+  public Integer getTotalTimeout() {
+    return totalTimeout;
+  }
+
+  public void setTotalTimeout(Integer totalTimeout) {
+    this.totalTimeout = totalTimeout;
   }
 }

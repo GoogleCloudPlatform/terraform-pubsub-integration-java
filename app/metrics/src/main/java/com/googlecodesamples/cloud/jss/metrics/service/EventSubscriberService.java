@@ -16,13 +16,8 @@
 
 package com.googlecodesamples.cloud.jss.metrics.service;
 
-import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
-import com.googlecodesamples.cloud.jss.common.action.BaseAction;
-import com.googlecodesamples.cloud.jss.common.generated.MetricsAck;
-import com.googlecodesamples.cloud.jss.common.generated.MetricsComplete;
-import com.googlecodesamples.cloud.jss.common.generated.MetricsNack;
-import com.googlecodesamples.cloud.jss.metrics.factory.EventSubscriberFactory;
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,53 +30,26 @@ public class EventSubscriberService {
 
   private static final Logger logger = LoggerFactory.getLogger(EventSubscriberService.class);
 
-  protected static final String METRICS_ACK = "MetricsAck";
-
-  protected static final String METRICS_NACK = "MetricsNack";
-
-  protected static final String METRICS_COMPLETE = "MetricsComplete";
-
-  private final BaseAction<MetricsAck> ackMetric;
-
-  private final BaseAction<MetricsNack> nackMetric;
-
-  private final BaseAction<MetricsComplete> completeMetric;
-
   private final Subscriber subscriber;
 
-  public EventSubscriberService(
-      EventSubscriberFactory factory,
-      BaseAction<MetricsAck> ackMetric,
-      BaseAction<MetricsNack> nackMetric,
-      BaseAction<MetricsComplete> completeMetric,
-      @Value("${metric.app.type}") String metricAppType)
-      throws IllegalArgumentException {
-    this.ackMetric = ackMetric;
-    this.nackMetric = nackMetric;
-    this.completeMetric = completeMetric;
-    subscriber = factory.createSubscriber(getMetricReceiver(metricAppType));
-    subscriber.startAsync().awaitRunning();
+  @Value("${metric.app.type}")
+  private String metricAppType;
+
+  public EventSubscriberService(Subscriber subscriber) {
+    this.subscriber = subscriber;
   }
 
-  /**
-   * Get a receiver, which defines actions when receiving a message.
-   *
-   * @param metricAppType type of the metric
-   * @return the message receiver
-   */
-  private MessageReceiver getMetricReceiver(String metricAppType) throws IllegalArgumentException {
+  @PostConstruct
+  public void startSubscriberAsync() {
     logger.info("metric app type: {}", metricAppType);
-    return switch (metricAppType) {
-      case METRICS_ACK -> ackMetric.getReceiver();
-      case METRICS_NACK -> nackMetric.getReceiver();
-      case METRICS_COMPLETE -> completeMetric.getReceiver();
-      default -> throw new IllegalArgumentException("Metric app type should be specified");
-    };
+    subscriber.startAsync().awaitRunning();
   }
 
   /** Stop pulling messages and release resources. */
   @PreDestroy
   public void cleanUp() {
-    subscriber.stopAsync();
+    if (subscriber != null) {
+      subscriber.stopAsync();
+    }
   }
 }

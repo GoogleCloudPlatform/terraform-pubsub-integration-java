@@ -1,6 +1,14 @@
 # app-large-data-sharing-java
 
+## Avro Codegen
+
+```bash
+# Please ensure the generated avro files exist or run the following command to generate
+mvn avro:schema
+```
+
 ## Quick testing
+
 ```bash
 # [SetUp]
 export GOOGLE_CLOUD_LOCATION=<your region>
@@ -17,12 +25,8 @@ mvn test -Punit-test
 mvn test -Pintegration-test
 ```
 
-## Avro Codegen
-```bash
-mvn avro:schema
-```
-
 ## Dockerized a Spring Boot application
+
 ```bash
 # Under app dir
 mvn install
@@ -40,9 +44,10 @@ mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build [-P <profile>]
 |-----------|----------|------------------------------------|
 | profile   | complete | Value can be ack, nack or complete | 
 
-
 ## Environment Variable
+
 ### EventGenerator
+
 ```bash
 EVENT_TOPIC = <EventTopic topic name>
 PUBLISHER_THREADS = <Publisher executor thread number, default 4>
@@ -52,9 +57,13 @@ GOOGLE_CLOUD_LOCATION = <GKE deployment’s location>
 EVENT_GENERATOR_THREADS = <Service api threa number, default 200>
 EVENT_GENERATOR_SLEEP_TIME = <Servie api sleep time in second, default 0.2>
 EVENT_GENERATOR_RUNTIME = <Servie api run time in minute, default 5>
+PUBLISHER_RETRY_INITIAL_TIMEOUT = <Publisher retry initial rpc timeout in second, default 5>
+PUBLISHER_RETRY_TOTAL_TIMEOUT = <Publisher retry total timeout in second, default 600>
+PUBLISHER_BATCH_SIZE = <Batch message, default 1>
 ```
 
 ### Metrics
+
 ```bash
 EVENT_SUBSCRIPTION = <EventSubscription subscription name>
 SUBSCRIBER_PARALLEL_PULL_COUNT = <Parallel pull number, default 1>
@@ -66,8 +75,11 @@ PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 ```
 
 ## Api
+
 ### Publisher
+
 #### 1. Publish a random generate message
+
 | Parameter     | Type  | Default | Comment                                                    |
 |---------------|-------|---------|------------------------------------------------------------|
 | times         | int   | -1      | number of msg each thread publish (-1 means infinite loop) |
@@ -75,7 +87,8 @@ PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 | sleep         | float | 1       | time to sleep after each message (in second)               |
 | executionTime | float | -1      | time to execute the task (in minute) (-1 means no limit)   |
 
-ExecutionTime works when times is in infinite mode (times = -1) 
+ExecutionTime works when times is in infinite mode (times = -1)
+
 ```bash
 [POST] api/msg/random?times=30&thread=2
 ```

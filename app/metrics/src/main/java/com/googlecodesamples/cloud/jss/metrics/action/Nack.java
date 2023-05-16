@@ -13,40 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.googlecodesamples.cloud.jss.metrics.action;
 
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.protobuf.Timestamp;
+import com.google.pubsub.v1.PubsubMessage;
 import com.googlecodesamples.cloud.jss.common.action.BaseAction;
-import com.googlecodesamples.cloud.jss.common.generated.Event;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsNack;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /** MetricNack specified actions. */
 @Component
+@ConditionalOnProperty(name = "metric.app.type", havingValue = PubSubConst.METRICS_NACK)
 public class Nack extends BaseAction<MetricsNack> {
 
   private static final Logger logger = LoggerFactory.getLogger(Nack.class);
 
-  public Nack(MetricPublisherService publishService) {
-    super(publishService);
-  }
-
-  @Override
-  public void consumerAckOrNack(AckReplyConsumer consumer) {
-    logger.info("consumerAckOrNack: nack");
-    consumer.nack(); // nack every message receives 🐞
-  }
-
-  @Override
-  public MetricsNack genMetricMessage(Event event, float processTime, Timestamp publishTime) {
-    logger.info("nack messages not generating metric message");
-    return null;
+  public Nack(MetricPublisherService service) {
+    setService(service);
   }
 
   @Override
@@ -55,7 +45,15 @@ public class Nack extends BaseAction<MetricsNack> {
   }
 
   @Override
-  public void postProcessMessage(MetricsNack newMessage) {
+  public MetricsNack respond(
+      AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime) {
+    logger.info("consumer response: NACK");
+    consumer.nack(); // nack every message receives 🐞
+    return null;
+  }
+
+  @Override
+  public void postProcess(MetricsNack newMessage) {
     logger.info("nack messages not publishing to metric topic");
   }
 }

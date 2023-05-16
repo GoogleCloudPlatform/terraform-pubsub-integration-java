@@ -23,6 +23,8 @@ import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.Topic;
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.junit.After;
@@ -30,27 +32,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.OutputCaptureRule;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 /** Integration test for {@link BasePublisherService}. */
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class BasePublisherServiceIT {
 
   private static final Logger logger = LoggerFactory.getLogger(BasePublisherServiceIT.class);
 
   private static final String EXPECTED_MSG_PUBLISH = "topic name";
 
-  public static final String GOOGLE_CLOUD_PROJECT = System.getenv("GOOGLE_CLOUD_PROJECT");
-
-  private static final String WARN_MSG_GCP_PROJECT =
-      "environment variable 'GOOGLE_CLOUD_PROJECT' has not been set, test skipped.";
+  public static final String GOOGLE_CLOUD_PROJECT = System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
 
   private static final String TOPIC_NAME =
       String.format("projects/%s/topics/test-event-topic", GOOGLE_CLOUD_PROJECT);
@@ -63,7 +57,7 @@ public class BasePublisherServiceIT {
 
   @BeforeClass
   public static void checkRequirements() {
-    assumeTrue(WARN_MSG_GCP_PROJECT, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
   }
 
   @Before

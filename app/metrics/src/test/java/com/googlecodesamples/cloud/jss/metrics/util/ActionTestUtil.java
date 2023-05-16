@@ -16,8 +16,11 @@
 package com.googlecodesamples.cloud.jss.metrics.util;
 
 import com.google.protobuf.Timestamp;
+import com.google.pubsub.v1.PubsubMessage;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
+import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -32,7 +35,8 @@ public class ActionTestUtil {
 
   public static final String EXPECTED_LOCATION = "us-west1";
 
-  public static final Instant EXPECTED_SESSION_END_TIME = Instant.now();
+  public static final Instant EXPECTED_SESSION_END_TIME =
+      Instant.ofEpochSecond(Instant.now().getEpochSecond());
 
   public static final Float EXPECTED_AVG_CHARGE_RATE_KW = 20.2f;
 
@@ -78,20 +82,21 @@ public class ActionTestUtil {
         .build();
   }
 
+  public static PubsubMessage genEventMessage(Event event) throws IOException {
+    return MessageUtil.convertToPubSubMessage(event, Event.getClassSchema());
+  }
+
   public static float getBatteryLevelEnd() {
-    float batteryLevelEnd =
-        PubSubUtil.formatFloat(
-            EXPECTED_BATTERY_LEVEL_START
-                + (EXPECTED_AVG_CHARGE_RATE_KW
-                    * getSessionDurationHr()
-                    / EXPECTED_BATTERY_CAPACITY_KWH));
-    return Math.min(1.0f, batteryLevelEnd);
+    return ActionUtil.genBatteryLevelEnd(
+        EXPECTED_BATTERY_LEVEL_START,
+        EXPECTED_AVG_CHARGE_RATE_KW,
+        EXPECTED_BATTERY_CAPACITY_KWH,
+        getSessionDurationHr());
   }
 
   public static float getChargedTotalKwh() {
-    return PubSubUtil.formatFloat(
-        ((EXPECTED_BATTERY_LEVEL_END - EXPECTED_BATTERY_LEVEL_START)
-            * EXPECTED_BATTERY_CAPACITY_KWH));
+    return ActionUtil.genChargedTotalKwh(
+        EXPECTED_BATTERY_LEVEL_START, EXPECTED_BATTERY_LEVEL_END, EXPECTED_BATTERY_CAPACITY_KWH);
   }
 
   private static float getSessionDurationHr() {

@@ -21,6 +21,8 @@ import static org.junit.Assume.assumeTrue;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.pubsub.v1.Topic;
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.eventgenerator.config.EventGeneratorConfig;
 import java.io.IOException;
 import org.junit.*;
@@ -35,16 +37,9 @@ public class EventPublisherServiceIT {
   private static final String EXPECTED_MSG_SHUTDOWN =
       "shutting down the thread pool and timer for EventPublisherService";
 
-  public static final String GOOGLE_CLOUD_PROJECT = "GOOGLE_CLOUD_PROJECT";
+  public static final String ENV_GCP_PROJECT = System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
 
-  public static final String GOOGLE_CLOUD_LOCATION = "GOOGLE_CLOUD_LOCATION";
-
-  public static final String ENV_GCP_PROJECT = System.getenv(GOOGLE_CLOUD_PROJECT);
-
-  public static final String ENV_GCP_LOCATION = System.getenv(GOOGLE_CLOUD_LOCATION);
-
-  private static final String WARN_MSG_GCP =
-      "environment variable '%s' has not been set, test skipped.";
+  public static final String ENV_GCP_LOCATION = System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION);
 
   private static final String EVENT_TOPIC_NAME =
       String.format("projects/%s/topics/test-event-topic", ENV_GCP_PROJECT);
@@ -57,10 +52,8 @@ public class EventPublisherServiceIT {
 
   @BeforeClass
   public static void checkRequirements() {
-    assumeTrue(
-        String.format(WARN_MSG_GCP, GOOGLE_CLOUD_PROJECT), StringUtils.hasText(ENV_GCP_PROJECT));
-    assumeTrue(
-        String.format(WARN_MSG_GCP, GOOGLE_CLOUD_LOCATION), StringUtils.hasText(ENV_GCP_LOCATION));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_PROJECT));
+    assumeTrue(LogMessage.WARN_GCP_LOCATION_NOT_SET, StringUtils.hasText(ENV_GCP_LOCATION));
   }
 
   @Before

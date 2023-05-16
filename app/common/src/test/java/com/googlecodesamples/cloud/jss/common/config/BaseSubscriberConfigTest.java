@@ -17,6 +17,7 @@ package com.googlecodesamples.cloud.jss.common.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -28,10 +29,6 @@ import org.mockito.Mockito;
 public class BaseSubscriberConfigTest {
 
   private static final List<Integer> NEGATIVE_INPUTS = Arrays.asList(0, -1, -10);
-
-  private static final String ERROR_MSG_NEGATIVE_INPUT = "should be greater than zero";
-
-  private static final String ERROR_MSG_EMPTY_INPUT = "should not be empty";
 
   private BaseSubscriberConfig config;
 
@@ -51,7 +48,7 @@ public class BaseSubscriberConfigTest {
         getConfig().setExecutorThreads(input);
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
+        assertThat(e).hasMessageThat().contains(LogMessage.ERROR_NEGATIVE_VALUE);
       }
     }
   }
@@ -62,7 +59,7 @@ public class BaseSubscriberConfigTest {
       getConfig().setEventSubscription(null);
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 
@@ -72,7 +69,7 @@ public class BaseSubscriberConfigTest {
       getConfig().setEventSubscription("");
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 }

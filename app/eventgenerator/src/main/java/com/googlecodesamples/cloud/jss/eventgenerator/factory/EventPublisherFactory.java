@@ -58,7 +58,10 @@ public class EventPublisherFactory extends BasePublisherFactory<EventPublisherCo
             .setMaxOutstandingElementCount(getConfig().getOutstandingMessages())
             .setMaxOutstandingRequestBytes(Long.MAX_VALUE)
             .build();
-    return BatchingSettings.newBuilder().setFlowControlSettings(flowControlSettings).build();
+    return BatchingSettings.newBuilder()
+        .setFlowControlSettings(flowControlSettings)
+        .setElementCountThreshold(getConfig().getBatchSize())
+        .build();
   }
 
   @Override
@@ -71,9 +74,9 @@ public class EventPublisherFactory extends BasePublisherFactory<EventPublisherCo
   @Override
   protected RetrySettings getRetrySetting() {
     return RetrySettings.newBuilder()
-        .setInitialRpcTimeout(Duration.ofSeconds(getInitialRpcTimeout()))
-        .setMaxRpcTimeout(Duration.ofSeconds(getMaxRpcTimeout()))
-        .setTotalTimeout(Duration.ofSeconds(getTotalTimeout()))
+        .setInitialRpcTimeout(Duration.ofSeconds(getConfig().getInitialTimeout()))
+        .setMaxRpcTimeout(Duration.ofSeconds(getConfig().getTotalTimeout()))
+        .setTotalTimeout(Duration.ofSeconds(getConfig().getTotalTimeout()))
         .build();
   }
 }

@@ -16,20 +16,29 @@
 package com.googlecodesamples.cloud.jss.metrics.action;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeTrue;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsAck;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
 import com.googlecodesamples.cloud.jss.metrics.util.ActionTestUtil;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /** Unit test for {@link Ack}. */
 public class AckTest {
 
-  private static final String topicName = "test-topic";
+  private static final String TOPIC_NAME = "test-topic";
 
   private MetricPublisherService service;
 
@@ -37,9 +46,18 @@ public class AckTest {
 
   private Ack ack;
 
+  @BeforeClass
+  public static void checkRequirements() {
+    try {
+      assumeTrue(LogMessage.WARN_GCP_CREDENTIALS_NOT_SET, PubSubUtil.getGCPCredentials() != null);
+    } catch (IOException e) {
+      assumeNoException(e);
+    }
+  }
+
   @Before
   public void setUp() throws IOException {
-    publisher = Publisher.newBuilder(topicName).build();
+    publisher = Publisher.newBuilder(TOPIC_NAME).build();
     service = new MetricPublisherService(publisher);
     ack = new Ack(service);
   }
@@ -51,10 +69,15 @@ public class AckTest {
   }
 
   @Test
-  public void testGenMetricMessage() {
+  public void testRespond() throws IOException {
+    PubsubMessage eventMessage = ActionTestUtil.genEventMessage(ActionTestUtil.genEvent());
+    AckReplyConsumer consumer = Mockito.mock(AckReplyConsumer.class);
+    Mockito.doNothing().when(consumer).ack();
+
     MetricsAck message =
-        ack.genMetricMessage(
-            ActionTestUtil.genEvent(),
+        ack.respond(
+            consumer,
+            eventMessage,
             ActionTestUtil.EXPECTED_PROCESS_TIME,
             ActionTestUtil.PUBLISH_TIME);
 

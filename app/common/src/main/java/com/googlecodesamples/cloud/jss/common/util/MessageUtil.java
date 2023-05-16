@@ -17,6 +17,7 @@ package com.googlecodesamples.cloud.jss.common.util;
 
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,8 +54,6 @@ public class MessageUtil {
   private static final Float MAX_BATTERY_PERCENTAGE = 0.8f;
 
   private static final Float BIAS = 1 / 100f;
-
-  private static final String LOCATIONS = System.getenv("GOOGLE_CLOUD_LOCATION");
 
   /**
    * Generate random stationId.
@@ -117,7 +116,7 @@ public class MessageUtil {
     return Event.newBuilder()
         .setSessionId(UUID.randomUUID().toString())
         .setStationId(genStationId())
-        .setLocation(LOCATIONS)
+        .setLocation(System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION))
         .setSessionStartTime(Instant.ofEpochSecond(genSessionStartTime(sessionEndTime)))
         .setSessionEndTime(Instant.ofEpochSecond(sessionEndTime))
         .setAvgChargeRateKw(genAvChargeRateKw())

@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -46,10 +48,6 @@ public class EventSubscriberConfigTest {
 
   private static final List<Integer> NEGATIVE_INPUTS = Arrays.asList(0, -1, -10);
 
-  private static final String ERROR_MSG_NEGATIVE_INPUT = "should be greater than zero";
-
-  private static final String ERROR_MSG_EMPTY_INPUT = "should not be empty";
-
   @Autowired private EventSubscriberConfig config;
 
   @Test
@@ -69,22 +67,10 @@ public class EventSubscriberConfigTest {
         config.setExecutorThreads(input);
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
+        assertThat(e).hasMessageThat().contains(LogMessage.ERROR_NEGATIVE_VALUE);
       }
     }
   }
-
-  //  @Test
-  //  public void testUnexpectedParallelPull() {
-  //    for (Integer input : NEGATIVE_INPUTS) {
-  //      try {
-  //        config.setParallelPull(input);
-  //      } catch (IllegalArgumentException e) {
-  //        assertThat(e).isInstanceOf(IllegalArgumentException.class);
-  //        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
-  //      }
-  //    }
-  //  }
 
   @Test
   public void testNullSubscription() {
@@ -92,7 +78,7 @@ public class EventSubscriberConfigTest {
       config.setEventSubscription(null);
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 
@@ -102,7 +88,7 @@ public class EventSubscriberConfigTest {
       config.setEventSubscription("");
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 }

@@ -16,6 +16,7 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.task;
 
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import com.googlecodesamples.cloud.jss.common.task.BasePublisherTask;
@@ -29,8 +30,8 @@ public class MessageTask extends BasePublisherTask {
 
   public MessageTask(EventPublisherService service, Float sleep, Integer count) {
     setService(service);
-    setSleep(Math.max(sleep, MIN_SLEEP_INTERVAL));
-    setCount(Math.max(count, INFINITE_FLAG));
+    setSleep(Math.max(sleep, PubSubConst.MIN_SLEEP_INTERVAL));
+    setCount(Math.max(count, PubSubConst.INFINITE_FLAG));
   }
 
   @Override
