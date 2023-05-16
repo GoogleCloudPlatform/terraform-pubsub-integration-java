@@ -13,42 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.googlecodesamples.cloud.jss.metrics.action;
 
+import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.protobuf.Timestamp;
+import com.google.pubsub.v1.PubsubMessage;
 import com.googlecodesamples.cloud.jss.common.action.BaseAction;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import com.googlecodesamples.cloud.jss.common.generated.MetricsComplete;
+import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
+import com.googlecodesamples.cloud.jss.metrics.util.ActionUtil;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /** MetricComplete specified actions. */
 @Component
+@ConditionalOnProperty(name = "metric.app.type", havingValue = PubSubConst.METRICS_COMPLETE)
 public class Complete extends BaseAction<MetricsComplete> {
 
   private static final Logger logger = LoggerFactory.getLogger(Complete.class);
 
-  public Complete(MetricPublisherService publishService) {
-    super(publishService);
-  }
-
-  @Override
-  public MetricsComplete genMetricMessage(Event event, float processTime, Timestamp publishTime) {
-    logger.info(
-        "generate complete metric message, event: {}, processTime {}, publishTime {}",
-        event,
-        processTime,
-        publishTime);
-
-    MetricsComplete message = genCommonMetricMessage(event, processTime, publishTime);
-    message.setBatteryLevelEnd(genBatteryLevelEnd(message));
-    message.setChargedTotalKwh(genChargedTotalKwh(message));
-    return message;
+  public Complete(MetricPublisherService service) {
+    setService(service);
   }
 
   @Override
@@ -56,19 +52,40 @@ public class Complete extends BaseAction<MetricsComplete> {
     return MetricsComplete.getClassSchema();
   }
 
-  private float genBatteryLevelEnd(MetricsComplete metric) {
-    float batteryLevelEnd =
-        PubSubUtil.formatFloat(
-            metric.getBatteryLevelStart()
-                + (metric.getAvgChargeRateKw()
-                    * metric.getSessionDurationHr()
-                    / metric.getBatteryCapacityKwh()));
-    return Math.min(1.0f, batteryLevelEnd);
+  @Override
+  public MetricsComplete respond(
+      AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime)
+      throws IOException {
+    logger.info("consumer response: ACK");
+    consumer.ack();
+    Event event = MessageUtil.convertToAvroEvent(message);
+    return genAckMessage(event, processTime, publishTime);
   }
 
-  private float genChargedTotalKwh(MetricsComplete metric) {
-    return PubSubUtil.formatFloat(
-        ((metric.getBatteryLevelEnd() - metric.getBatteryLevelStart())
-            * metric.getBatteryCapacityKwh()));
+  @Override
+  public void postProcess(MetricsComplete newMessage)
+      throws IOException, InterruptedException, ExecutionException {
+    getService().publishMsg(MessageUtil.convertToPubSubMessage(newMessage, getSchema()));
+  }
+
+  private MetricsComplete genAckMessage(Event event, float processTime, Timestamp publishTime) {
+    logger.info("event: {}, processTime {}, publishTime {}", event, processTime, publishTime);
+
+    MetricsComplete message = new MetricsComplete();
+    // copy common attributes from event
+    BeanUtils.copyProperties(event, message);
+    Instant startTime = event.getSessionStartTime();
+    Instant endTime = event.getSessionEndTime();
+
+    // set additional attributes for ack message
+    message.setEventTimestamp(endTime);
+    message.setPublishTimestamp(Instant.ofEpochSecond(publishTime.getSeconds()));
+    message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
+    message.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
+    message.setSessionDurationHr(PubSubUtil.getDiffTimeInHour(endTime, startTime));
+    message.setBatteryLevelEnd(ActionUtil.genBatteryLevelEnd(message));
+    message.setChargedTotalKwh(ActionUtil.genChargedTotalKwh(message));
+    logger.info("generated metric ack message: {}", message);
+    return message;
   }
 }

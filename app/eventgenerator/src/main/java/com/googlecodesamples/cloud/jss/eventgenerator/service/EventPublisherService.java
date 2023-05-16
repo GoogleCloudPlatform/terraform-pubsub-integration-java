@@ -16,6 +16,7 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.service;
 
 import com.google.cloud.pubsub.v1.Publisher;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import com.googlecodesamples.cloud.jss.eventgenerator.config.EventGeneratorConfig;
 import com.googlecodesamples.cloud.jss.eventgenerator.task.MessageTask;
@@ -54,7 +55,7 @@ public class EventPublisherService extends BasePublisherService {
   @PostConstruct
   public void startPublishMsgAsync() {
     publishMsgAsync(
-        MessageTask.INFINITE_FLAG, config.getThreads(), config.getSleepTime(), config.getRuntime());
+        PubSubConst.INFINITE_FLAG, config.getThreads(), config.getSleepTime(), config.getRuntime());
   }
 
   /**
@@ -65,7 +66,8 @@ public class EventPublisherService extends BasePublisherService {
    * @param sleep time to sleep after each message (in second)
    * @param executionTime time to execute the task (in minute)
    */
-  public synchronized void publishMsgAsync(int times, int thread, float sleep, float executionTime) {
+  public synchronized void publishMsgAsync(
+      int times, int thread, float sleep, float executionTime) {
     if ((executor != null && !executor.isTerminated()) || timer != null) {
       logger.warn("thread pool or timer already exist");
       return;
@@ -78,7 +80,7 @@ public class EventPublisherService extends BasePublisherService {
         sleep,
         executionTime);
 
-    if (times == MessageTask.INFINITE_FLAG && executionTime > 0) {
+    if (times == PubSubConst.INFINITE_FLAG && executionTime > 0) {
       timer = new Timer();
       timer.schedule(new TimeoutTask(this), (long) (executionTime * 60 * 1000));
     }
@@ -100,12 +102,12 @@ public class EventPublisherService extends BasePublisherService {
 
     try {
       executor.shutdown();
-      if (!executor.awaitTermination(1, TimeUnit.MILLISECONDS)) {
+      if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
         executor.shutdownNow();
       }
     } catch (InterruptedException e) {
       logger.error("thread pool interrupted", e);
-    } finally{
+    } finally {
       executor.shutdownNow();
       closeTimer();
     }

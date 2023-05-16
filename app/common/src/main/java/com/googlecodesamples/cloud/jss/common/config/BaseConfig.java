@@ -15,20 +15,15 @@
  */
 package com.googlecodesamples.cloud.jss.common.config;
 
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import org.springframework.util.StringUtils;
 
 /** Base configurations for the publisher/subscriber service. */
 public abstract class BaseConfig {
 
-  private static final String ERROR_MSG_EMPTY_INPUT =
-      "The topic/subscription name should not be empty";
+  private Integer executorThreads;
 
-  private static final String ERROR_MSG_NEGATIVE_THREADS =
-      "The number of executor threads should be greater than zero";
-
-  protected Integer executorThreads;
-
-  protected Long outstandingMessages;
+  private Long outstandingMessages;
 
   public abstract String getInfo();
 
@@ -38,7 +33,7 @@ public abstract class BaseConfig {
 
   public void setExecutorThreads(Integer executorThreads) throws IllegalArgumentException {
     if (executorThreads <= 0) {
-      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_THREADS);
+      throw new IllegalArgumentException(LogMessage.ERROR_NEGATIVE_THREADS);
     }
     this.executorThreads = executorThreads;
   }
@@ -53,7 +48,7 @@ public abstract class BaseConfig {
 
   protected void checkEmptyName(String queueName) throws IllegalArgumentException {
     if (!StringUtils.hasText(queueName)) {
-      throw new IllegalArgumentException(ERROR_MSG_EMPTY_INPUT);
+      throw new IllegalArgumentException(LogMessage.ERROR_EMPTY_NAME);
     }
   }
 

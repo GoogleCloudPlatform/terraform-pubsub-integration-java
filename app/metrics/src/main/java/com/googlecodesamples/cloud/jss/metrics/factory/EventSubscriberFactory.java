@@ -21,10 +21,11 @@ import com.google.api.gax.core.ExecutorProvider;
 import com.google.api.gax.core.InstantiatingExecutorProvider;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
-import com.googlecodesamples.cloud.jss.common.factory.BaseSubscriberFactory;
+import com.googlecodesamples.cloud.jss.common.action.BaseAction;import com.googlecodesamples.cloud.jss.common.factory.BaseSubscriberFactory;
 import com.googlecodesamples.cloud.jss.metrics.config.EventSubscriberConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /** Factory for creating an event {@link com.google.cloud.pubsub.v1.Subscriber} instance. */
@@ -33,8 +34,9 @@ public class EventSubscriberFactory extends BaseSubscriberFactory<EventSubscribe
 
   private static final Logger logger = LoggerFactory.getLogger(EventSubscriberFactory.class);
 
-  public EventSubscriberFactory(EventSubscriberConfig config) {
+  public EventSubscriberFactory(EventSubscriberConfig config, BaseAction metric) {
     setConfig(config);
+    setMetric(metric);
   }
 
   /**
@@ -42,9 +44,10 @@ public class EventSubscriberFactory extends BaseSubscriberFactory<EventSubscribe
    *
    * @return subscriber
    */
-  public Subscriber createSubscriber(MessageReceiver receiver) {
+  @Bean
+  public Subscriber createSubscriber() {
     logger.info("eventSubscriberConfig: {}", getConfig());
-    return newInstance(receiver);
+    return newInstance(getMetric().getReceiver());
   }
 
   @Override

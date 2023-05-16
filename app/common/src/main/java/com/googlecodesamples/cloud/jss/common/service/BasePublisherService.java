@@ -66,6 +66,8 @@ public abstract class BasePublisherService {
   /** Shutdown and release resources. */
   @PreDestroy
   public void cleanUp() {
+    logger.info("shutdown publisher");
+    publisher.shutdown();
     shutdown();
   }
 }

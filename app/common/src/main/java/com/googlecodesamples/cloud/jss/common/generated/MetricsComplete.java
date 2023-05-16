@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -5701486110630727918L;
+  private static final long serialVersionUID = 8458425218659753067L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MetricsComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"publish_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":\"float\"},{\"name\":\"charged_total_kwh\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MetricsComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"publish_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":[\"null\",\"float\"],\"default\":null},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -87,8 +87,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
   private float battery_level_start;
-  private float battery_level_end;
-  private float charged_total_kwh;
+  private java.lang.Float battery_level_end;
+  private java.lang.Float charged_total_kwh;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -386,7 +386,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
    * Gets the value of the 'battery_level_end' field.
    * @return The value of the 'battery_level_end' field.
    */
-  public float getBatteryLevelEnd() {
+  public java.lang.Float getBatteryLevelEnd() {
     return battery_level_end;
   }
 
@@ -395,7 +395,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
    * Sets the value of the 'battery_level_end' field.
    * @param value the value to set.
    */
-  public void setBatteryLevelEnd(float value) {
+  public void setBatteryLevelEnd(java.lang.Float value) {
     this.battery_level_end = value;
   }
 
@@ -403,7 +403,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
    * Gets the value of the 'charged_total_kwh' field.
    * @return The value of the 'charged_total_kwh' field.
    */
-  public float getChargedTotalKwh() {
+  public java.lang.Float getChargedTotalKwh() {
     return charged_total_kwh;
   }
 
@@ -412,7 +412,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
    * Sets the value of the 'charged_total_kwh' field.
    * @param value the value to set.
    */
-  public void setChargedTotalKwh(float value) {
+  public void setChargedTotalKwh(java.lang.Float value) {
     this.charged_total_kwh = value;
   }
 
@@ -468,8 +468,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
     private float avg_charge_rate_kw;
     private float battery_capacity_kwh;
     private float battery_level_start;
-    private float battery_level_end;
-    private float charged_total_kwh;
+    private java.lang.Float battery_level_end;
+    private java.lang.Float charged_total_kwh;
 
     /** Creates a new Builder */
     private Builder() {
@@ -1031,7 +1031,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * Gets the value of the 'battery_level_end' field.
       * @return The value.
       */
-    public float getBatteryLevelEnd() {
+    public java.lang.Float getBatteryLevelEnd() {
       return battery_level_end;
     }
 
@@ -1041,7 +1041,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'battery_level_end'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setBatteryLevelEnd(float value) {
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setBatteryLevelEnd(java.lang.Float value) {
       validate(fields()[11], value);
       this.battery_level_end = value;
       fieldSetFlags()[11] = true;
@@ -1062,6 +1062,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * @return This builder.
       */
     public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder clearBatteryLevelEnd() {
+      battery_level_end = null;
       fieldSetFlags()[11] = false;
       return this;
     }
@@ -1070,7 +1071,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * Gets the value of the 'charged_total_kwh' field.
       * @return The value.
       */
-    public float getChargedTotalKwh() {
+    public java.lang.Float getChargedTotalKwh() {
       return charged_total_kwh;
     }
 
@@ -1080,7 +1081,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'charged_total_kwh'.
       * @return This builder.
       */
-    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setChargedTotalKwh(float value) {
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setChargedTotalKwh(java.lang.Float value) {
       validate(fields()[12], value);
       this.charged_total_kwh = value;
       fieldSetFlags()[12] = true;
@@ -1101,6 +1102,7 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       * @return This builder.
       */
     public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder clearChargedTotalKwh() {
+      charged_total_kwh = null;
       fieldSetFlags()[12] = false;
       return this;
     }

@@ -25,43 +25,13 @@ import java.io.IOException;
 /** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Publisher} instance */
 public abstract class BasePublisherFactory<T extends BasePublisherConfig> {
 
-  protected Integer initialRpcTimeout = 5;
-
-  protected Integer maxRpcTimeout = initialRpcTimeout;
-
-  protected Integer totalTimeout = 600;
-
-  protected T config;
+  private T config;
 
   protected abstract BatchingSettings getBatchSettings();
 
   protected abstract ExecutorProvider getExecutorProvider();
 
   protected abstract RetrySettings getRetrySetting();
-
-  public Integer getInitialRpcTimeout() {
-    return initialRpcTimeout;
-  }
-
-  public void setInitialRpcTimeout(Integer initialRpcTimeout) {
-    this.initialRpcTimeout = initialRpcTimeout;
-  }
-
-  public Integer getMaxRpcTimeout() {
-    return maxRpcTimeout;
-  }
-
-  public void setMaxRpcTimeout(Integer maxRpcTimeout) {
-    this.maxRpcTimeout = maxRpcTimeout;
-  }
-
-  public Integer getTotalTimeout() {
-    return totalTimeout;
-  }
-
-  public void setTotalTimeout(Integer totalTimeout) {
-    this.totalTimeout = totalTimeout;
-  }
 
   public T getConfig() {
     return config;

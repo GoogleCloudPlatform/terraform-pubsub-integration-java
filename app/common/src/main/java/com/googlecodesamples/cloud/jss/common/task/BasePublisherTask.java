@@ -15,6 +15,7 @@
  */
 package com.googlecodesamples.cloud.jss.common.task;
 
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import java.io.IOException;
 import java.util.Objects;
@@ -22,10 +23,6 @@ import java.util.concurrent.ExecutionException;
 
 /** Asynchronous task that will be used by the publisher. */
 public abstract class BasePublisherTask implements Runnable {
-
-  public static final Integer INFINITE_FLAG = -1;
-
-  public static final Float MIN_SLEEP_INTERVAL = 0.2f;
 
   private BasePublisherService service;
 
@@ -80,6 +77,6 @@ public abstract class BasePublisherTask implements Runnable {
   }
 
   public boolean isRunInfinitely() {
-    return Objects.equals(getCount(), INFINITE_FLAG);
+    return Objects.equals(getCount(), PubSubConst.INFINITE_FLAG);
   }
 }

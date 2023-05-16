@@ -19,12 +19,14 @@ import com.google.api.gax.batching.FlowControlSettings;
 import com.google.api.gax.core.ExecutorProvider;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
-import com.googlecodesamples.cloud.jss.common.config.BaseSubscriberConfig;
+import com.googlecodesamples.cloud.jss.common.action.BaseAction;import com.googlecodesamples.cloud.jss.common.config.BaseSubscriberConfig;
 
 /** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Subscriber} instance */
 public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
 
-  protected T config;
+  private T config;
+
+  private BaseAction metric;
 
   protected abstract FlowControlSettings getFlowControlSettings();
 
@@ -36,6 +38,14 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
 
   public void setConfig(T config) {
     this.config = config;
+  }
+
+  public BaseAction getMetric() {
+    return metric;
+  }
+
+  public void setMetric(BaseAction metric) {
+    this.metric = metric;
   }
 
   protected Subscriber newInstance(MessageReceiver receiver) {

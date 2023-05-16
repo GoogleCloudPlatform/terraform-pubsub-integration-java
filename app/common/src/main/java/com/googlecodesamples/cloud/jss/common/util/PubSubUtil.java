@@ -15,18 +15,21 @@
  */
 package com.googlecodesamples.cloud.jss.common.util;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
+
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** Reusable utility functions. */
 public class PubSubUtil {
 
-  private static final Float MIN_PROCESS_TIME = 0.1f;
+  private static final Float DISTRIB_MIN_PROCESS_TIME = 0.1f;
 
-  private static final Float AVERAGE_PROCESS_TIME = 0.3f;
+  private static final Float DISTRIB_MAX_PROCESS_TIME = 0.3f;
 
   private static final Float MAX_PROCESS_TIME = 5f;
 
@@ -60,7 +63,7 @@ public class PubSubUtil {
    */
   public static float formatFloat(float floatValue) {
     BigDecimal value = new BigDecimal(floatValue);
-    value = value.setScale(2, RoundingMode.HALF_UP);
+    value = value.setScale(PubSubConst.SCALE, PubSubConst.ROUNDING_MODE);
     return value.floatValue();
   }
 
@@ -86,10 +89,20 @@ public class PubSubUtil {
    */
   public static float genProcessTime() {
     float ratio = PubSubUtil.genRandomFloat(0, 100);
-    if (ratio <= MIN_PROCESS_TIME) {
-      return PubSubUtil.genRandomFloat(MIN_PROCESS_TIME, MAX_PROCESS_TIME);
+    if (ratio <= DISTRIB_MIN_PROCESS_TIME) {
+      return PubSubUtil.genRandomFloat(DISTRIB_MIN_PROCESS_TIME, MAX_PROCESS_TIME);
     } else {
-      return PubSubUtil.genRandomFloat(MIN_PROCESS_TIME, AVERAGE_PROCESS_TIME);
+      return PubSubUtil.genRandomFloat(DISTRIB_MIN_PROCESS_TIME, DISTRIB_MAX_PROCESS_TIME);
     }
+  }
+
+  /**
+   * Get default credentials.
+   *
+   * @return {@link GoogleCredentials}
+   * @throws IOException if the credentials file is not found
+   */
+  public static GoogleCredentials getGCPCredentials() throws IOException {
+    return GoogleCredentials.getApplicationDefault();
   }
 }

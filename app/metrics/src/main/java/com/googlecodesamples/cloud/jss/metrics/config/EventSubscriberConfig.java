@@ -27,7 +27,8 @@ public class EventSubscriberConfig extends BaseSubscriberConfig {
   @Override
   public String getInfo() {
     return String.format(
-        "subscription: %s, flow Control outStanding message: %d, parallel pull: %d, executor threads: %d",
+        "subscription: %s, flow Control outStanding message: %d, parallel pull: %d, executor "
+            + "threads: %d",
         getEventSubscription(), getOutstandingMessages(), getParallelPull(), getExecutorThreads());
   }
 }
