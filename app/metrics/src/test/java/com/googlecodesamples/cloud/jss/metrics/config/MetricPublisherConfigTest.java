@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,13 +42,7 @@ public class MetricPublisherConfigTest {
 
   private static final Integer EXPECTED_EXECUTOR_THREADS = 5;
 
-  private static final Long EXPECTED_OUTSTANDING_MSG = 150L;
-
   private static final List<Integer> NEGATIVE_INPUTS = Arrays.asList(0, -1, -10);
-
-  private static final String ERROR_MSG_NEGATIVE_INPUT = "should be greater than zero";
-
-  private static final String ERROR_MSG_EMPTY_INPUT = "should not be empty";
 
   @Autowired private MetricPublisherConfig config;
 
@@ -66,7 +62,7 @@ public class MetricPublisherConfigTest {
         config.setExecutorThreads(input);
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
+        assertThat(e).hasMessageThat().contains(LogMessage.ERROR_NEGATIVE_VALUE);
       }
     }
   }
@@ -78,7 +74,7 @@ public class MetricPublisherConfigTest {
         config.setBatchSize(input.longValue());
       } catch (IllegalArgumentException e) {
         assertThat(e).isInstanceOf(IllegalArgumentException.class);
-        assertThat(e).hasMessageThat().contains(ERROR_MSG_NEGATIVE_INPUT);
+        assertThat(e).hasMessageThat().contains(LogMessage.ERROR_NEGATIVE_VALUE);
       }
     }
   }
@@ -89,7 +85,7 @@ public class MetricPublisherConfigTest {
       config.setTopicName(null);
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 
@@ -99,7 +95,7 @@ public class MetricPublisherConfigTest {
       config.setTopicName("");
     } catch (IllegalArgumentException e) {
       assertThat(e).isInstanceOf(IllegalArgumentException.class);
-      assertThat(e).hasMessageThat().contains(ERROR_MSG_EMPTY_INPUT);
+      assertThat(e).hasMessageThat().contains(LogMessage.ERROR_EMPTY_VALUE);
     }
   }
 }

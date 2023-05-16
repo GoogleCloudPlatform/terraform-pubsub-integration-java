@@ -22,6 +22,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import java.io.IOException;
 import java.time.Instant;
@@ -55,10 +57,7 @@ public class MessageUtilTest {
 
   private static final Float EXPECTED_MAX_BATTERY_PERCENTAGE = 0.8f;
 
-  private static final String ENV_GCP_LOCATION = System.getenv("GOOGLE_CLOUD_LOCATION");
-
-  private static final String WARN_MSG_GCP_LOCATION =
-      "environment variable 'GOOGLE_CLOUD_LOCATION' has not been set, test skipped.";
+  private static final String ENV_GCP_LOCATION = System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION);
 
   private static final Integer LOOP_COUNT = 200;
 
@@ -112,7 +111,7 @@ public class MessageUtilTest {
 
   @Test
   public void testGenRandomEvent() {
-    assumeTrue(WARN_MSG_GCP_LOCATION, StringUtils.hasText(ENV_GCP_LOCATION));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_LOCATION));
 
     for (int i = 0; i < LOOP_COUNT; i++) {
       Event event = MessageUtil.genRandomEvent();
@@ -128,7 +127,7 @@ public class MessageUtilTest {
 
   @Test
   public void testConvertToPubSubMessage() throws IOException {
-    assumeTrue(WARN_MSG_GCP_LOCATION, StringUtils.hasText(ENV_GCP_LOCATION));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_LOCATION));
 
     for (int i = 0; i < LOOP_COUNT; i++) {
       Event event = MessageUtil.genRandomEvent();
