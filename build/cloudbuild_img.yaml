@@ -34,7 +34,6 @@ steps:
         path: /root/.m2
     name: 'maven'
     entrypoint: 'mvn'
-    waitFor: ['mvn-install']
     env: ['PUB_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_EVENT_GENERATOR_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build']
 
@@ -45,7 +44,6 @@ steps:
         path: /root/.m2
     name: 'maven'
     entrypoint: 'mvn'
-    waitFor: ['mvn-install']
     env: ['SUB_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_METRICS_ACK_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build', '-P', 'ack']
 
@@ -56,7 +54,6 @@ steps:
         path: /root/.m2
     name: 'maven'
     entrypoint: 'mvn'
-    waitFor: ['mvn-install']
     env: ['SUB_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_METRICS_NACK_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build', '-P', 'nack']
 
@@ -67,7 +64,6 @@ steps:
         path: /root/.m2
     name: 'maven'
     entrypoint: 'mvn'
-    waitFor: ['mvn-install']
     env: ['SUB_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_METRICS_COMPLETE_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
     args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build', '-P', 'complete']
 
