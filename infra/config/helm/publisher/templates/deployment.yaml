@@ -54,6 +54,36 @@ spec:
                 name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
           - name: GOOGLE_CLOUD_LOCATION
             value: '{{ .Values.region }}'
+          - name: EVENT_GENERATOR_THREADS
+            valueFrom:
+              configMapKeyRef:
+                key: EVENT_GENERATOR_THREADS
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          - name: EVENT_GENERATOR_SLEEP_TIME
+            valueFrom:
+              configMapKeyRef:
+                key: EVENT_GENERATOR_SLEEP_TIME
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          - name: EVENT_GENERATOR_RUNTIME
+            valueFrom:
+              configMapKeyRef:
+                key: EVENT_GENERATOR_RUNTIME
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_RETRY_INITIAL_TIMEOUT
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_RETRY_INITIAL_TIMEOUT
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_RETRY_TOTAL_TIMEOUT
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_RETRY_TOTAL_TIMEOUT
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
+          - name: PUBLISHER_BATCH_SIZE
+            valueFrom:
+              configMapKeyRef:
+                key: PUBLISHER_BATCH_SIZE
+                name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'
           name: '{{ .Values.project_id }}-publisher-{{ .Values.region }}'
           image: '{{ .Values.image }}'
           resources:

@@ -58,11 +58,13 @@
     },
     {
       "name": "battery_level_end",
-      "type": "float"
+      "type": ["null", "float"],
+      "default": null
     },
     {
       "name": "charged_total_kwh",
-      "type": "float"
+      "type": ["null", "float"],
+      "default": null
     }
   ]
 }
