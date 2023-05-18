@@ -10,8 +10,6 @@ public class EventGeneratorConfig {
 
   private Integer threads;
 
-  private Float sleepTime;
-
   private Float runtime;
 
   public Integer getThreads() {
@@ -20,14 +18,6 @@ public class EventGeneratorConfig {
 
   public void setThreads(Integer threads) {
     this.threads = threads;
-  }
-
-  public Float getSleepTime() {
-    return sleepTime;
-  }
-
-  public void setSleepTime(Float sleepTime) {
-    this.sleepTime = sleepTime;
   }
 
   public Float getRuntime() {

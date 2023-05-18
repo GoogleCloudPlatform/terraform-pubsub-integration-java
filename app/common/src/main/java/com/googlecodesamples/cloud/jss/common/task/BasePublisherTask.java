@@ -15,20 +15,14 @@
  */
 package com.googlecodesamples.cloud.jss.common.task;
 
-import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /** Asynchronous task that will be used by the publisher. */
 public abstract class BasePublisherTask implements Runnable {
 
   private BasePublisherService service;
-
-  private Integer count;
-
-  private Float sleep;
 
   public BasePublisherService getService() {
     return service;
@@ -38,45 +32,19 @@ public abstract class BasePublisherTask implements Runnable {
     this.service = service;
   }
 
-  public Integer getCount() {
-    return count;
-  }
-
-  public void setCount(Integer count) {
-    this.count = count;
-  }
-
-  public Float getSleep() {
-    return sleep;
-  }
-
-  public void setSleep(Float sleep) {
-    this.sleep = sleep;
-  }
-
   protected abstract void doAsyncTask()
       throws InterruptedException, ExecutionException, IOException;
 
   @Override
   public void run() {
     try {
-      if (isRunInfinitely()) {
-        while (!Thread.currentThread().isInterrupted()) {
-          doAsyncTask();
-        }
-      } else {
-        for (int i = 0; i < getCount(); i++) {
-          doAsyncTask();
-        }
+      while (!Thread.currentThread().isInterrupted()) {
+        doAsyncTask();
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     } catch (IOException | ExecutionException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public boolean isRunInfinitely() {
-    return Objects.equals(getCount(), PubSubConst.INFINITE_FLAG);
   }
 }

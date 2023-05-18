@@ -63,5 +63,15 @@
     "name": "charged_total_kwh",
     "type": "FLOAT",
     "mode": "NULLABLE"
+  },
+  {
+    "name": "event_node",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "metric_node",
+    "type": "STRING",
+    "mode": "REQUIRED"
   }
 ]

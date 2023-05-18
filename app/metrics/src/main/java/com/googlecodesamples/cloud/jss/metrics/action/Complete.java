@@ -27,6 +27,7 @@ import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
 import com.googlecodesamples.cloud.jss.metrics.util.ActionUtil;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
@@ -68,7 +69,8 @@ public class Complete extends BaseAction<MetricsComplete> {
     getService().publishMsg(MessageUtil.convertToPubSubMessage(newMessage, getSchema()));
   }
 
-  private MetricsComplete genAckMessage(Event event, float processTime, Timestamp publishTime) {
+  private MetricsComplete genAckMessage(Event event, float processTime, Timestamp publishTime)
+      throws UnknownHostException {
     logger.info("event: {}, processTime {}, publishTime {}", event, processTime, publishTime);
 
     MetricsComplete message = new MetricsComplete();
@@ -85,6 +87,7 @@ public class Complete extends BaseAction<MetricsComplete> {
     message.setSessionDurationHr(PubSubUtil.getDiffTimeInHour(endTime, startTime));
     message.setBatteryLevelEnd(ActionUtil.genBatteryLevelEnd(message));
     message.setChargedTotalKwh(ActionUtil.genChargedTotalKwh(message));
+    message.setMetricNode(MessageUtil.getHostname());
     logger.info("generated metric ack message: {}", message);
     return message;
   }

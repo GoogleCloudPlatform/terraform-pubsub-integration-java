@@ -66,6 +66,8 @@ public class ActionTestUtil {
               .plusMillis((long) (EXPECTED_PROCESS_TIME * 1000))
               .getEpochSecond());
 
+  public static final String EXPECTED_EVENT_NODE = "10.0.0.1";
+
   public static final Timestamp PUBLISH_TIME =
       Timestamp.newBuilder().setSeconds(EXPECTED_SESSION_END_TIME.getEpochSecond()).build();
 
@@ -79,6 +81,7 @@ public class ActionTestUtil {
         .setAvgChargeRateKw(EXPECTED_AVG_CHARGE_RATE_KW)
         .setBatteryCapacityKwh(EXPECTED_BATTERY_CAPACITY_KWH)
         .setBatteryLevelStart(EXPECTED_BATTERY_LEVEL_START)
+        .setEventNode(EXPECTED_EVENT_NODE)
         .build();
   }
 

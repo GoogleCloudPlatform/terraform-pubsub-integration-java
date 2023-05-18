@@ -42,7 +42,7 @@ public class BasePublisherServiceIT {
 
   private static final Logger logger = LoggerFactory.getLogger(BasePublisherServiceIT.class);
 
-  private static final String EXPECTED_MSG_PUBLISH = "topic name";
+  private static final String EXPECTED_MSG_PUBLISH = "topic";
 
   public static final String GOOGLE_CLOUD_PROJECT = System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
 

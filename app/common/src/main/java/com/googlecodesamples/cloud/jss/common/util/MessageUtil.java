@@ -23,6 +23,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +34,13 @@ import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Reusable utility functions for creating message. */
 public class MessageUtil {
+
+  private static final Logger logger = LoggerFactory.getLogger(MessageUtil.class);
 
   private static final List<Integer> AVG_CHARGE_RATE_KW = Arrays.asList(20, 72, 100, 120, 250);
 
@@ -54,6 +60,8 @@ public class MessageUtil {
   private static final Float MAX_BATTERY_PERCENTAGE = 0.8f;
 
   private static final Float BIAS = 1 / 100f;
+
+  private static final String UNKNOWN_HOST = "Unknown Host";
 
   /**
    * Generate random stationId.
@@ -111,7 +119,7 @@ public class MessageUtil {
   }
 
   /** Generate random event data. */
-  public static Event genRandomEvent() {
+  public static Event genRandomEvent() throws UnknownHostException {
     long sessionEndTime = Instant.now().getEpochSecond();
     return Event.newBuilder()
         .setSessionId(UUID.randomUUID().toString())
@@ -122,6 +130,7 @@ public class MessageUtil {
         .setAvgChargeRateKw(genAvChargeRateKw())
         .setBatteryCapacityKwh(genBatteryCapacityKwh())
         .setBatteryLevelStart(genBatteryLevelStart())
+        .setEventNode(getHostname())
         .build();
   }
 
@@ -154,5 +163,17 @@ public class MessageUtil {
     InputStream inputStream = new ByteArrayInputStream(message.getData().toByteArray());
     Decoder decoder = DecoderFactory.get().jsonDecoder(schema, inputStream);
     return reader.read(null, decoder);
+  }
+
+  /** Get hostname of the current node. */
+  public static String getHostname() {
+    String hostname;
+    try {
+      hostname = InetAddress.getLocalHost().getHostName();
+    } catch (UnknownHostException e) {
+      logger.error("Failed to get hostname", e);
+      hostname = UNKNOWN_HOST;
+    }
+    return hostname;
   }
 }

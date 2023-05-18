@@ -1,4 +1,4 @@
-# app-large-data-sharing-java
+# terraform-pubsub-integration-java
 
 ## Avro Codegen
 
@@ -54,8 +54,7 @@ PUBLISHER_THREADS = <Publisher executor thread number, default 4>
 PUBLISHER_FLOW_CONTROL_MAX_OUTSTANDING_MESSAGES = <Outstanding message number, default 100>
 REST_PORT = <Rest port, default 8001>
 GOOGLE_CLOUD_LOCATION = <GKE deployment’s location>
-EVENT_GENERATOR_THREADS = <Service api threa number, default 200>
-EVENT_GENERATOR_SLEEP_TIME = <Servie api sleep time in second, default 0.2>
+EVENT_GENERATOR_THREADS = <Service api thread number, default 200>
 EVENT_GENERATOR_RUNTIME = <Servie api run time in minute, default 5>
 PUBLISHER_RETRY_INITIAL_TIMEOUT = <Publisher retry initial rpc timeout in second, default 5>
 PUBLISHER_RETRY_TOTAL_TIMEOUT = <Publisher retry total timeout in second, default 600>
@@ -80,17 +79,15 @@ PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 
 #### 1. Publish a random generate message
 
-| Parameter     | Type  | Default | Comment                                                    |
-|---------------|-------|---------|------------------------------------------------------------|
-| times         | int   | -1      | number of msg each thread publish (-1 means infinite loop) |
-| thread        | int   | 1       | number of thread                                           |
-| sleep         | float | 1       | time to sleep after each message (in second)               |
-| executionTime | float | -1      | time to execute the task (in minute) (-1 means no limit)   |
+Form-data
 
-ExecutionTime works when times is in infinite mode (times = -1)
+| Parameter | Type  | Default | Comment                               |
+|-----------|-------|---------|---------------------------------------|
+| threads   | int   | 1       | number of thread                      |
+| runtime   | float | 1       | time to execute the task (in minute)  |
 
 ```bash
-[POST] api/msg/random?times=30&thread=2
+[POST] api/msg/random
 ```
 
 #### 2. Shutdown msg publishing

@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Event extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 3228825452942349170L;
+  private static final long serialVersionUID = 281754626551466295L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Event\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_end_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Event\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"session_start_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_end_time\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"event_node\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -84,6 +84,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
   private float avg_charge_rate_kw;
   private float battery_capacity_kwh;
   private float battery_level_start;
+  private java.lang.CharSequence event_node;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -102,8 +103,9 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
    * @param avg_charge_rate_kw The new value for avg_charge_rate_kw
    * @param battery_capacity_kwh The new value for battery_capacity_kwh
    * @param battery_level_start The new value for battery_level_start
+   * @param event_node The new value for event_node
    */
-  public Event(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant session_start_time, java.time.Instant session_end_time, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start) {
+  public Event(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant session_start_time, java.time.Instant session_end_time, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start, java.lang.CharSequence event_node) {
     this.session_id = session_id;
     this.station_id = station_id;
     this.location = location;
@@ -112,6 +114,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
     this.avg_charge_rate_kw = avg_charge_rate_kw;
     this.battery_capacity_kwh = battery_capacity_kwh;
     this.battery_level_start = battery_level_start;
+    this.event_node = event_node;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -127,6 +130,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
     case 5: return avg_charge_rate_kw;
     case 6: return battery_capacity_kwh;
     case 7: return battery_level_start;
+    case 8: return event_node;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -138,6 +142,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
       null,
       new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
       new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      null,
       null,
       null,
       null,
@@ -161,6 +166,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
     case 5: avg_charge_rate_kw = (java.lang.Float)value$; break;
     case 6: battery_capacity_kwh = (java.lang.Float)value$; break;
     case 7: battery_level_start = (java.lang.Float)value$; break;
+    case 8: event_node = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -302,6 +308,23 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
   }
 
   /**
+   * Gets the value of the 'event_node' field.
+   * @return The value of the 'event_node' field.
+   */
+  public java.lang.CharSequence getEventNode() {
+    return event_node;
+  }
+
+
+  /**
+   * Sets the value of the 'event_node' field.
+   * @param value the value to set.
+   */
+  public void setEventNode(java.lang.CharSequence value) {
+    this.event_node = value;
+  }
+
+  /**
    * Creates a new Event RecordBuilder.
    * @return A new Event RecordBuilder
    */
@@ -350,6 +373,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
     private float avg_charge_rate_kw;
     private float battery_capacity_kwh;
     private float battery_level_start;
+    private java.lang.CharSequence event_node;
 
     /** Creates a new Builder */
     private Builder() {
@@ -394,6 +418,10 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
         this.battery_level_start = data().deepCopy(fields()[7].schema(), other.battery_level_start);
         fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
+      if (isValidValue(fields()[8], other.event_node)) {
+        this.event_node = data().deepCopy(fields()[8].schema(), other.event_node);
+        fieldSetFlags()[8] = other.fieldSetFlags()[8];
+      }
     }
 
     /**
@@ -433,6 +461,10 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
       if (isValidValue(fields()[7], other.battery_level_start)) {
         this.battery_level_start = data().deepCopy(fields()[7].schema(), other.battery_level_start);
         fieldSetFlags()[7] = true;
+      }
+      if (isValidValue(fields()[8], other.event_node)) {
+        this.event_node = data().deepCopy(fields()[8].schema(), other.event_node);
+        fieldSetFlags()[8] = true;
       }
     }
 
@@ -750,6 +782,46 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
       return this;
     }
 
+    /**
+      * Gets the value of the 'event_node' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getEventNode() {
+      return event_node;
+    }
+
+
+    /**
+      * Sets the value of the 'event_node' field.
+      * @param value The value of 'event_node'.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.Event.Builder setEventNode(java.lang.CharSequence value) {
+      validate(fields()[8], value);
+      this.event_node = value;
+      fieldSetFlags()[8] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'event_node' field has been set.
+      * @return True if the 'event_node' field has been set, false otherwise.
+      */
+    public boolean hasEventNode() {
+      return fieldSetFlags()[8];
+    }
+
+
+    /**
+      * Clears the value of the 'event_node' field.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.Event.Builder clearEventNode() {
+      event_node = null;
+      fieldSetFlags()[8] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Event build() {
@@ -763,6 +835,7 @@ public class Event extends org.apache.avro.specific.SpecificRecordBase implement
         record.avg_charge_rate_kw = fieldSetFlags()[5] ? this.avg_charge_rate_kw : (java.lang.Float) defaultValue(fields()[5]);
         record.battery_capacity_kwh = fieldSetFlags()[6] ? this.battery_capacity_kwh : (java.lang.Float) defaultValue(fields()[6]);
         record.battery_level_start = fieldSetFlags()[7] ? this.battery_level_start : (java.lang.Float) defaultValue(fields()[7]);
+        record.event_node = fieldSetFlags()[8] ? this.event_node : (java.lang.CharSequence) defaultValue(fields()[8]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

@@ -26,6 +26,7 @@ import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
@@ -67,7 +68,8 @@ public class Ack extends BaseAction<MetricsAck> {
     getService().publishMsg(MessageUtil.convertToPubSubMessage(newMessage, getSchema()));
   }
 
-  private MetricsAck genAckMessage(Event event, float processTime, Timestamp publishTime) {
+  private MetricsAck genAckMessage(Event event, float processTime, Timestamp publishTime)
+      throws UnknownHostException {
     logger.info("event: {}, processTime {}, publishTime {}", event, processTime, publishTime);
 
     MetricsAck message = new MetricsAck();
@@ -82,6 +84,7 @@ public class Ack extends BaseAction<MetricsAck> {
     message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
     message.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
     message.setSessionDurationHr(PubSubUtil.getDiffTimeInHour(endTime, startTime));
+    message.setMetricNode(MessageUtil.getHostname());
     logger.info("generated metric ack message: {}", message);
     return message;
   }
