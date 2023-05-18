@@ -32,7 +32,7 @@ import org.springframework.util.StringUtils;
 /** Integration test for {@link EventPublisherService}. */
 public class EventPublisherServiceIT {
 
-  private static final String EXPECTED_MSG_PUBLISH = "settings for publishMsgAsync() times";
+  private static final String EXPECTED_MSG_PUBLISH = "settings for publishMsgAsync()";
 
   private static final String EXPECTED_MSG_SHUTDOWN =
       "shutting down the thread pool and timer for EventPublisherService";
@@ -81,10 +81,10 @@ public class EventPublisherServiceIT {
   @Test
   public void testPublisher() {
     // test publishMsgAsync
-    int times = 1, thread = 1;
-    float sleep = 1, executionTime = 1;
+    int threads = 1;
+    float runtime = 1;
 
-    service.publishMsgAsync(times, thread, sleep, executionTime);
+    service.publishMsgAsync(threads, runtime);
     assertThat(outputCapture.getOut()).contains(EXPECTED_MSG_PUBLISH);
 
     // test shutdown

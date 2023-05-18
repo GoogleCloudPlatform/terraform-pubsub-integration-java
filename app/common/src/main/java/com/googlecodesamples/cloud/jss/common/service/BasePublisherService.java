@@ -18,8 +18,10 @@ package com.googlecodesamples.cloud.jss.common.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.pubsub.v1.PubsubMessage;
+import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +31,22 @@ public abstract class BasePublisherService {
 
   private static final Logger logger = LoggerFactory.getLogger(BasePublisherService.class);
 
+  private final AtomicInteger totalMessage;
+
   private final Publisher publisher;
 
   public BasePublisherService(Publisher publisher) {
+    this.totalMessage = new AtomicInteger(PubSubConst.INITIAL_TOTAL_MESSAGE);
     this.publisher = publisher;
     init();
   }
 
   public Publisher getPublisher() {
     return publisher;
+  }
+
+  public void resetTotalMessage() {
+    totalMessage.set(PubSubConst.INITIAL_TOTAL_MESSAGE);
   }
 
   public abstract void init();
@@ -50,17 +59,14 @@ public abstract class BasePublisherService {
    * @param message message to be published
    */
   public void publishMsg(PubsubMessage message) throws InterruptedException, ExecutionException {
-    logger.info(
-        "thread: {}, topic name: {}, message: {}",
-        Thread.currentThread().getName(),
-        publisher.getTopicName(),
-        PubSubUtil.getMessageData(message));
+    int messageCount = totalMessage.incrementAndGet();
+    ApiFuture<String> future = publisher.publish(message);
+    String result = future.get();
+    logger.info("message: {}, callback received: {}", PubSubUtil.getMessageData(message), result);
 
-    ApiFuture<String> messageId = publisher.publish(message);
-    logger.info(
-        "message id: {} callback received, message: {}",
-        messageId.get(),
-        PubSubUtil.getMessageData(message));
+    String threadName = Thread.currentThread().getName();
+    String topicName = publisher.getTopicName().toString();
+    logger.info("thread: {}, topic: {}, messageCount: {}", threadName, topicName, messageCount);
   }
 
   /** Shutdown and release resources. */

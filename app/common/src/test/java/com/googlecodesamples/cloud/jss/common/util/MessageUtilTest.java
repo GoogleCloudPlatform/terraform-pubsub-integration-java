@@ -26,6 +26,7 @@ import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -110,7 +111,7 @@ public class MessageUtilTest {
   }
 
   @Test
-  public void testGenRandomEvent() {
+  public void testGenRandomEvent() throws UnknownHostException {
     assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_LOCATION));
 
     for (int i = 0; i < LOOP_COUNT; i++) {
@@ -161,7 +162,7 @@ public class MessageUtilTest {
         "{\"session_id\":\"00c180a3-afbb-4766-a6ed-086a983e353d\","
             + "\"station_id\":74,\"location\":\"us-central1\","
             + "\"session_start_time\":1683622175000000,\"session_end_time\":1683625295000000,"
-            + "\"avg_charge_rate_kw\":100.01,\"battery_capacity_kwh\":62.0,\"battery_level_start\":0.75}";
+            + "\"avg_charge_rate_kw\":100.01,\"battery_capacity_kwh\":62.0,\"battery_level_start\":0.75,\"event_node\":\"10.0.0.1\"}";
 
     PubsubMessage message =
         PubsubMessage.newBuilder().setData(ByteString.copyFromUtf8(content)).build();

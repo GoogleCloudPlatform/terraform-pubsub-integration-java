@@ -19,10 +19,6 @@ import java.math.RoundingMode;
 
 public class PubSubConst {
 
-  public static final Integer INFINITE_FLAG = -1;
-
-  public static final Float MIN_SLEEP_INTERVAL = 0.2f;
-
   public static final Integer SCALE = 2;
 
   public static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
@@ -40,4 +36,6 @@ public class PubSubConst {
   public static final String GOOGLE_APPLICATION_CREDENTIALS = "GOOGLE_APPLICATION_CREDENTIALS";
 
   public static final Float BATTERY_LEVEL_END = 1.0f;
+
+  public static final Integer INITIAL_TOTAL_MESSAGE = 0;
 }

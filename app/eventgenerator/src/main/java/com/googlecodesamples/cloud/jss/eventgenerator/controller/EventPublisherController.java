@@ -39,19 +39,15 @@ public class EventPublisherController {
   /**
    * Publish random messages.
    *
-   * @param times number of message each thread publish
-   * @param thread number of thread
-   * @param sleep time to sleep after each message (in second)
-   * @param executionTime time to execute the task (in minute)
+   * @param threads number of thread
+   * @param runtime time to execute the task (in minute)
    */
   @PostMapping("/random")
   public void publishMsgRandom(
-      @RequestParam(required = false, defaultValue = "-1") int times,
-      @RequestParam(required = false, defaultValue = "1") int thread,
-      @RequestParam(required = false, defaultValue = "1") float sleep,
-      @RequestParam(required = false, defaultValue = "-1") float executionTime) {
+      @RequestParam(required = false, defaultValue = "1") int threads,
+      @RequestParam(required = false, defaultValue = "1") float runtime) {
     logger.info("entering publishMsgRandom()");
-    service.publishMsgAsync(times, thread, sleep, executionTime);
+    service.publishMsgAsync(threads, runtime);
   }
 
   /** Shutdown threadPool and timer. */

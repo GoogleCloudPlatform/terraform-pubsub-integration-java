@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8458425218659753067L;
+  private static final long serialVersionUID = -162898279241997333L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MetricsComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"publish_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":[\"null\",\"float\"],\"default\":null},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"],\"default\":null}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MetricsComplete\",\"namespace\":\"com.googlecodesamples.cloud.jss.common.generated\",\"fields\":[{\"name\":\"session_id\",\"type\":\"string\"},{\"name\":\"station_id\",\"type\":\"int\"},{\"name\":\"location\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"publish_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"processing_time_sec\",\"type\":\"float\"},{\"name\":\"ack_timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-micros\"}},{\"name\":\"session_duration_hr\",\"type\":\"float\"},{\"name\":\"avg_charge_rate_kw\",\"type\":\"float\"},{\"name\":\"battery_capacity_kwh\",\"type\":\"float\"},{\"name\":\"battery_level_start\",\"type\":\"float\"},{\"name\":\"battery_level_end\",\"type\":[\"null\",\"float\"],\"default\":null},{\"name\":\"charged_total_kwh\",\"type\":[\"null\",\"float\"],\"default\":null},{\"name\":\"event_node\",\"type\":\"string\"},{\"name\":\"metric_node\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -89,6 +89,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
   private float battery_level_start;
   private java.lang.Float battery_level_end;
   private java.lang.Float charged_total_kwh;
+  private java.lang.CharSequence event_node;
+  private java.lang.CharSequence metric_node;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -112,8 +114,10 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
    * @param battery_level_start The new value for battery_level_start
    * @param battery_level_end The new value for battery_level_end
    * @param charged_total_kwh The new value for charged_total_kwh
+   * @param event_node The new value for event_node
+   * @param metric_node The new value for metric_node
    */
-  public MetricsComplete(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant event_timestamp, java.time.Instant publish_timestamp, java.lang.Float processing_time_sec, java.time.Instant ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start, java.lang.Float battery_level_end, java.lang.Float charged_total_kwh) {
+  public MetricsComplete(java.lang.CharSequence session_id, java.lang.Integer station_id, java.lang.CharSequence location, java.time.Instant event_timestamp, java.time.Instant publish_timestamp, java.lang.Float processing_time_sec, java.time.Instant ack_timestamp, java.lang.Float session_duration_hr, java.lang.Float avg_charge_rate_kw, java.lang.Float battery_capacity_kwh, java.lang.Float battery_level_start, java.lang.Float battery_level_end, java.lang.Float charged_total_kwh, java.lang.CharSequence event_node, java.lang.CharSequence metric_node) {
     this.session_id = session_id;
     this.station_id = station_id;
     this.location = location;
@@ -127,6 +131,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
     this.battery_level_start = battery_level_start;
     this.battery_level_end = battery_level_end;
     this.charged_total_kwh = charged_total_kwh;
+    this.event_node = event_node;
+    this.metric_node = metric_node;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -147,6 +153,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
     case 10: return battery_level_start;
     case 11: return battery_level_end;
     case 12: return charged_total_kwh;
+    case 13: return event_node;
+    case 14: return metric_node;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -160,6 +168,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
       null,
       new org.apache.avro.data.TimeConversions.TimestampMicrosConversion(),
+      null,
+      null,
       null,
       null,
       null,
@@ -191,6 +201,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
     case 10: battery_level_start = (java.lang.Float)value$; break;
     case 11: battery_level_end = (java.lang.Float)value$; break;
     case 12: charged_total_kwh = (java.lang.Float)value$; break;
+    case 13: event_node = (java.lang.CharSequence)value$; break;
+    case 14: metric_node = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -417,6 +429,40 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
   }
 
   /**
+   * Gets the value of the 'event_node' field.
+   * @return The value of the 'event_node' field.
+   */
+  public java.lang.CharSequence getEventNode() {
+    return event_node;
+  }
+
+
+  /**
+   * Sets the value of the 'event_node' field.
+   * @param value the value to set.
+   */
+  public void setEventNode(java.lang.CharSequence value) {
+    this.event_node = value;
+  }
+
+  /**
+   * Gets the value of the 'metric_node' field.
+   * @return The value of the 'metric_node' field.
+   */
+  public java.lang.CharSequence getMetricNode() {
+    return metric_node;
+  }
+
+
+  /**
+   * Sets the value of the 'metric_node' field.
+   * @param value the value to set.
+   */
+  public void setMetricNode(java.lang.CharSequence value) {
+    this.metric_node = value;
+  }
+
+  /**
    * Creates a new MetricsComplete RecordBuilder.
    * @return A new MetricsComplete RecordBuilder
    */
@@ -470,6 +516,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
     private float battery_level_start;
     private java.lang.Float battery_level_end;
     private java.lang.Float charged_total_kwh;
+    private java.lang.CharSequence event_node;
+    private java.lang.CharSequence metric_node;
 
     /** Creates a new Builder */
     private Builder() {
@@ -534,6 +582,14 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
         this.charged_total_kwh = data().deepCopy(fields()[12].schema(), other.charged_total_kwh);
         fieldSetFlags()[12] = other.fieldSetFlags()[12];
       }
+      if (isValidValue(fields()[13], other.event_node)) {
+        this.event_node = data().deepCopy(fields()[13].schema(), other.event_node);
+        fieldSetFlags()[13] = other.fieldSetFlags()[13];
+      }
+      if (isValidValue(fields()[14], other.metric_node)) {
+        this.metric_node = data().deepCopy(fields()[14].schema(), other.metric_node);
+        fieldSetFlags()[14] = other.fieldSetFlags()[14];
+      }
     }
 
     /**
@@ -593,6 +649,14 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       if (isValidValue(fields()[12], other.charged_total_kwh)) {
         this.charged_total_kwh = data().deepCopy(fields()[12].schema(), other.charged_total_kwh);
         fieldSetFlags()[12] = true;
+      }
+      if (isValidValue(fields()[13], other.event_node)) {
+        this.event_node = data().deepCopy(fields()[13].schema(), other.event_node);
+        fieldSetFlags()[13] = true;
+      }
+      if (isValidValue(fields()[14], other.metric_node)) {
+        this.metric_node = data().deepCopy(fields()[14].schema(), other.metric_node);
+        fieldSetFlags()[14] = true;
       }
     }
 
@@ -1107,6 +1171,86 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
       return this;
     }
 
+    /**
+      * Gets the value of the 'event_node' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getEventNode() {
+      return event_node;
+    }
+
+
+    /**
+      * Sets the value of the 'event_node' field.
+      * @param value The value of 'event_node'.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setEventNode(java.lang.CharSequence value) {
+      validate(fields()[13], value);
+      this.event_node = value;
+      fieldSetFlags()[13] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'event_node' field has been set.
+      * @return True if the 'event_node' field has been set, false otherwise.
+      */
+    public boolean hasEventNode() {
+      return fieldSetFlags()[13];
+    }
+
+
+    /**
+      * Clears the value of the 'event_node' field.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder clearEventNode() {
+      event_node = null;
+      fieldSetFlags()[13] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'metric_node' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getMetricNode() {
+      return metric_node;
+    }
+
+
+    /**
+      * Sets the value of the 'metric_node' field.
+      * @param value The value of 'metric_node'.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder setMetricNode(java.lang.CharSequence value) {
+      validate(fields()[14], value);
+      this.metric_node = value;
+      fieldSetFlags()[14] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'metric_node' field has been set.
+      * @return True if the 'metric_node' field has been set, false otherwise.
+      */
+    public boolean hasMetricNode() {
+      return fieldSetFlags()[14];
+    }
+
+
+    /**
+      * Clears the value of the 'metric_node' field.
+      * @return This builder.
+      */
+    public com.googlecodesamples.cloud.jss.common.generated.MetricsComplete.Builder clearMetricNode() {
+      metric_node = null;
+      fieldSetFlags()[14] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public MetricsComplete build() {
@@ -1125,6 +1269,8 @@ public class MetricsComplete extends org.apache.avro.specific.SpecificRecordBase
         record.battery_level_start = fieldSetFlags()[10] ? this.battery_level_start : (java.lang.Float) defaultValue(fields()[10]);
         record.battery_level_end = fieldSetFlags()[11] ? this.battery_level_end : (java.lang.Float) defaultValue(fields()[11]);
         record.charged_total_kwh = fieldSetFlags()[12] ? this.charged_total_kwh : (java.lang.Float) defaultValue(fields()[12]);
+        record.event_node = fieldSetFlags()[13] ? this.event_node : (java.lang.CharSequence) defaultValue(fields()[13]);
+        record.metric_node = fieldSetFlags()[14] ? this.metric_node : (java.lang.CharSequence) defaultValue(fields()[14]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

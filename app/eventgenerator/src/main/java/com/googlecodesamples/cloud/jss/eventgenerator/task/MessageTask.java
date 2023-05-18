@@ -16,7 +16,6 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.task;
 
 import com.google.pubsub.v1.PubsubMessage;
-import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.generated.Event;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import com.googlecodesamples.cloud.jss.common.task.BasePublisherTask;
@@ -28,10 +27,8 @@ import java.util.concurrent.ExecutionException;
 /** Implementation of the asynchronous task to publish a message to Pub/Sub. */
 public class MessageTask extends BasePublisherTask {
 
-  public MessageTask(EventPublisherService service, Float sleep, Integer count) {
+  public MessageTask(EventPublisherService service) {
     setService(service);
-    setSleep(Math.max(sleep, PubSubConst.MIN_SLEEP_INTERVAL));
-    setCount(Math.max(count, PubSubConst.INFINITE_FLAG));
   }
 
   @Override
@@ -41,6 +38,5 @@ public class MessageTask extends BasePublisherTask {
     BasePublisherService service = getService();
 
     service.publishMsg(message);
-    Thread.sleep((long) (getSleep() * 1000));
   }
 }

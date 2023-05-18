@@ -16,7 +16,6 @@
 package com.googlecodesamples.cloud.jss.eventgenerator.service;
 
 import com.google.cloud.pubsub.v1.Publisher;
-import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
 import com.googlecodesamples.cloud.jss.common.service.BasePublisherService;
 import com.googlecodesamples.cloud.jss.eventgenerator.config.EventGeneratorConfig;
 import com.googlecodesamples.cloud.jss.eventgenerator.task.MessageTask;
@@ -24,7 +23,6 @@ import com.googlecodesamples.cloud.jss.eventgenerator.task.TimeoutTask;
 import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,40 +52,31 @@ public class EventPublisherService extends BasePublisherService {
 
   @PostConstruct
   public void startPublishMsgAsync() {
-    publishMsgAsync(
-        PubSubConst.INFINITE_FLAG, config.getThreads(), config.getSleepTime(), config.getRuntime());
+    publishMsgAsync(config.getThreads(), config.getRuntime());
   }
 
   /**
    * Publish random messages asynchronously.
    *
-   * @param times number of message each thread publish
-   * @param thread number of thread
-   * @param sleep time to sleep after each message (in second)
-   * @param executionTime time to execute the task (in minute)
+   * @param threads number of thread
+   * @param runtime time to execute the task (in minute)
    */
-  public synchronized void publishMsgAsync(
-      int times, int thread, float sleep, float executionTime) {
+  public synchronized void publishMsgAsync(int threads, float runtime) {
     if ((executor != null && !executor.isTerminated()) || timer != null) {
       logger.warn("thread pool or timer already exist");
       return;
     }
 
-    logger.info(
-        "settings for publishMsgAsync() times: {}, thread: {}, sleep: {}, executionTime: {}",
-        times,
-        thread,
-        sleep,
-        executionTime);
+    logger.info("settings for publishMsgAsync() threads: {}, runtime: {}", threads, runtime);
 
-    if (times == PubSubConst.INFINITE_FLAG && executionTime > 0) {
+    if (runtime > 0) {
       timer = new Timer();
-      timer.schedule(new TimeoutTask(this), (long) (executionTime * 60 * 1000));
+      timer.schedule(new TimeoutTask(this), (long) (runtime * 60 * 1000));
     }
 
-    executor = Executors.newFixedThreadPool(thread);
-    for (int i = 0; i < thread; i++) {
-      executor.execute(new MessageTask(this, sleep, times));
+    executor = Executors.newFixedThreadPool(threads);
+    for (int i = 0; i < threads; i++) {
+      executor.execute(new MessageTask(this));
     }
   }
 
@@ -101,15 +90,10 @@ public class EventPublisherService extends BasePublisherService {
     }
 
     try {
-      executor.shutdown();
-      if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
-        executor.shutdownNow();
-      }
-    } catch (InterruptedException e) {
-      logger.error("thread pool interrupted", e);
-    } finally {
       executor.shutdownNow();
+    } finally {
       closeTimer();
+      resetTotalMessage();
     }
   }
 
