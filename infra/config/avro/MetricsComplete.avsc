@@ -65,6 +65,14 @@
       "name": "charged_total_kwh",
       "type": ["null", "float"],
       "default": null
+    },
+    {
+      "name": "event_node",
+      "type": "string"
+    },
+    {
+      "name": "metric_node",
+      "type": "string"
     }
   ]
 }

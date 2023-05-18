@@ -40,6 +40,10 @@
     {
       "name": "battery_level_start",
       "type": "float"
+    },
+    {
+      "name": "event_node",
+      "type": "string"
     }
   ]
 }
