@@ -27,4 +27,5 @@ metadata:
   namespace: '{{ .Values.namespace }}'
   labels:
     app: subscriber
+    operator: '{{ .Values.operator }}'
   name: '{{ .Values.project_id }}-subscriber-config-maps-{{ .Values.region }}'

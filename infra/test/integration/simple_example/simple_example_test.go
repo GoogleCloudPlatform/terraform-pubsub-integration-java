@@ -167,7 +167,7 @@ func TestSimpleExample(t *testing.T) {
 		// Restart Publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"executionTime": 5, "thread": 5}`
+			payload := `{"runtime": 5, "threads": 8}`
 			RestartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
 		}
 
@@ -184,14 +184,22 @@ func TestSimpleExample(t *testing.T) {
 			assert.NoError(err)
 
 			if euPubTotalCPU == 0 {
-				euPubNode, err := euPubClientset.CoreV1().Nodes().Get(context.TODO(), euPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
-				assert.NoError(err)
-				euPubTotalCPU = euPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
+				if len(euPubNodeMetricses.Items) < 2 {
+					euPubTotalCPU = int64(1930000000)
+				} else {
+					euPubNode, err := euPubClientset.CoreV1().Nodes().Get(context.TODO(), euPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
+					assert.NoError(err)
+					euPubTotalCPU = euPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
+				}
 			}
 			if usPubTotalCPU == 0 {
-				usPubNode, err := usPubClientset.CoreV1().Nodes().Get(context.TODO(), usPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
-				assert.NoError(err)
-				usPubTotalCPU = usPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
+				if len(usPubNodeMetricses.Items) < 2 {
+					usPubTotalCPU = int64(1930000000)
+				} else {
+					usPubNode, err := usPubClientset.CoreV1().Nodes().Get(context.TODO(), usPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
+					assert.NoError(err)
+					usPubTotalCPU = usPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
+				}
 			}
 
 			for _, euPubNodeMetrics := range euPubNodeMetricses.Items {
@@ -535,21 +543,21 @@ func TestSimpleExample(t *testing.T) {
 		// Restart publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"executionTime": 0.5, "thread": 5}`
+			payload := `{"runtime": 0.5, "threads": 5}`
 			RestartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
 		}
 
 		// Check BigQuery table data
 		fmt.Printf("Checking BigQuery table data\n")
 		bqTableId := example.GetStringOutput("bq_table_id")
-		// query interval is 30 seconds
-		queryTimeDuration := 30 * time.Second
+		// query interval is 3 minutes
+		queryTimeDuration := 3 * time.Minute
 		ackStart := time.Now()
 		ackStartTime := ackStart.Format("2006-01-02 15:04:05")
 		ackEndTime := ackStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
-		// Wait for 30 seconds
-		fmt.Printf("Waiting for 30 seconds, from %s to %s\n", ackStartTime, ackEndTime)
-		time.Sleep(30 * time.Second)
+		// Wait for 3 minutes
+		fmt.Printf("Waiting for 3 minutes, from %s to %s\n", ackStartTime, ackEndTime)
+		time.Sleep(queryTimeDuration)
 		// Query BigQuery table
 		ackDataCount, err := CountQueryAckFromBigquery(projectID, bqTableId, ackStartTime, ackEndTime)
 		assert.NoError(err)
@@ -576,7 +584,7 @@ func TestSimpleExample(t *testing.T) {
 		// Start publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"executionTime": 0.5, "thread": 5}`
+			payload := `{"runtime": 0.5, "threads": 5}`
 			StartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
 		}
 
@@ -585,9 +593,9 @@ func TestSimpleExample(t *testing.T) {
 		nackStart := time.Now()
 		nackStartTime := nackStart.Format("2006-01-02 15:04:05")
 		nackEndTime := nackStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
-		// Wait for 30 seconds
-		fmt.Printf("Waiting for 30 seconds, from %s to %s\n", nackStartTime, nackEndTime)
-		time.Sleep(30 * time.Second)
+		// Wait for 3 minutes
+		fmt.Printf("Waiting for 3 minutes, from %s to %s\n", nackStartTime, nackEndTime)
+		time.Sleep(queryTimeDuration)
 		// Query BigQuery table
 		nackDataCount, err := CountQueryAckFromBigquery(projectID, bqTableId, nackStartTime, nackEndTime)
 		assert.NoError(err)
@@ -632,7 +640,7 @@ func TestSimpleExample(t *testing.T) {
 		// Start publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"executionTime": 0.5, "thread": 5}`
+			payload := `{"runtime": 0.5, "threads": 5}`
 			StartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
 		}
 
@@ -641,9 +649,9 @@ func TestSimpleExample(t *testing.T) {
 		completeStart := time.Now()
 		completeStartTime := completeStart.Format("2006-01-02 15:04:05")
 		completeEndTime := completeStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
-		// Wait for 30 seconds
-		fmt.Printf("Waiting for 30 seconds, from %s to %s\n", completeStartTime, completeEndTime)
-		time.Sleep(30 * time.Second)
+		// Wait for 3 minutes
+		fmt.Printf("Waiting for 3 minutes, from %s to %s\n", completeStartTime, completeEndTime)
+		time.Sleep(queryTimeDuration)
 		// Query BigQuery table
 		completeDataCount, err := CountQueryCompleteFromBigquery(projectID, bqTableId, completeStartTime, completeEndTime)
 		assert.NoError(err)
@@ -842,7 +850,7 @@ func StopPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancer
 }
 
 func StartPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string, payload string) {
-	// payload: {times int, thread int, sleep float, executionTime float}
+	// payload: {threads int, runtime float}
 	startupApiUrl := "http://" + externalLoadBalancerIPAddress + "/api/msg/random"
 	fmt.Printf("Sending Http POST request to : %s, payload: %s\n", startupApiUrl, payload)
 	request := gorequest.New().Timeout(20 * time.Second)

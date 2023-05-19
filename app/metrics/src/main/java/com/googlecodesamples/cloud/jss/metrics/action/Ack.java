@@ -84,7 +84,7 @@ public class Ack extends BaseAction<MetricsAck> {
     message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
     message.setAckTimestamp(Instant.ofEpochSecond(Instant.now().getEpochSecond()));
     message.setSessionDurationHr(PubSubUtil.getDiffTimeInHour(endTime, startTime));
-    message.setMetricNode(MessageUtil.getHostname());
+    message.setMetricsNode(MessageUtil.getHostname());
     logger.info("generated metric ack message: {}", message);
     return message;
   }

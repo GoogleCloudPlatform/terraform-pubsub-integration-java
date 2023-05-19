@@ -29,4 +29,5 @@ metadata:
   namespace: '{{ .Values.namespace }}'
   labels:
     app: publisher
+    operator: '{{ .Values.operator }}'
   name: '{{ .Values.project_id }}-publisher-config-maps-{{ .Values.region }}'

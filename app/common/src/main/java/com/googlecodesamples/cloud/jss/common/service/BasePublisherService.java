@@ -60,13 +60,14 @@ public abstract class BasePublisherService {
    */
   public void publishMsg(PubsubMessage message) throws InterruptedException, ExecutionException {
     int messageCount = totalMessage.incrementAndGet();
+    String threadName = Thread.currentThread().getName();
+    String topicName = publisher.getTopicName().toString();
+
+    logger.info("thread: {}, topic: {}, messageCount: {}", threadName, topicName, messageCount);
+
     ApiFuture<String> future = publisher.publish(message);
     String result = future.get();
     logger.info("message: {}, callback received: {}", PubSubUtil.getMessageData(message), result);
-
-    String threadName = Thread.currentThread().getName();
-    String topicName = publisher.getTopicName().toString();
-    logger.info("thread: {}, topic: {}, messageCount: {}", threadName, topicName, messageCount);
   }
 
   /** Shutdown and release resources. */

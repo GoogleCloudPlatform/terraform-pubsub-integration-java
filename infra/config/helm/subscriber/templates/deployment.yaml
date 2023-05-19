@@ -19,6 +19,7 @@ metadata:
   name: '{{ .Values.project_id }}-subscriber-deployment-{{ .Values.region }}'
   labels:
     app: subscriber
+    operator: '{{ .Values.operator }}'
 spec:
   replicas: 3
   selector:

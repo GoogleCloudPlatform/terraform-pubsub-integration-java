@@ -1,4 +1,4 @@
-# terraform-pubsub-integration-java
+# Java Application for GCP PubSub Integration
 
 ## Avro Codegen
 
@@ -7,7 +7,7 @@
 mvn avro:schema
 ```
 
-## Quick testing
+## Quick Testing
 
 ```bash
 # [SetUp]
@@ -25,7 +25,7 @@ mvn test -Punit-test
 mvn test -Pintegration-test
 ```
 
-## Dockerized a Spring Boot application
+## Dockerize the Spring Boot Application
 
 ```bash
 # Under app dir
@@ -73,7 +73,7 @@ PUBLISHER_THREADS = <Publisher executor thread number, default 4>
 PUBLISHER_BATCH_SIZE = <Batch message, default 100>
 ```
 
-## Api
+## REST API Endpoint
 
 ### Publisher
 

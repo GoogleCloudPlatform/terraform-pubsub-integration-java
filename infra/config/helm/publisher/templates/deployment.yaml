@@ -19,6 +19,7 @@ metadata:
   name: '{{ .Values.project_id }}-publisher-deployment-{{ .Values.region }}'
   labels:
     app: publisher
+    operator: '{{ .Values.operator }}'
 spec:
   replicas: 1
   selector:
