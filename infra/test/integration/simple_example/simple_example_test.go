@@ -167,7 +167,7 @@ func TestSimpleExample(t *testing.T) {
 		// Restart Publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"executionTime": 5, "thread": 5}`
+			payload := `{"executionTime": 5, "thread": 10}`
 			RestartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
 		}
 
