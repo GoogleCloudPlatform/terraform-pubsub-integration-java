@@ -70,7 +70,7 @@
     "mode": "REQUIRED"
   },
   {
-    "name": "metric_node",
+    "name": "metrics_node",
     "type": "STRING",
     "mode": "REQUIRED"
   }

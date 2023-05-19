@@ -61,7 +61,7 @@
       "type": "string"
     },
     {
-      "name": "metric_node",
+      "name": "metrics_node",
       "type": "string"
     }
   ]
