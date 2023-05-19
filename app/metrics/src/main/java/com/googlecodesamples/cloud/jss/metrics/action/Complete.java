@@ -87,7 +87,7 @@ public class Complete extends BaseAction<MetricsComplete> {
     message.setSessionDurationHr(PubSubUtil.getDiffTimeInHour(endTime, startTime));
     message.setBatteryLevelEnd(ActionUtil.genBatteryLevelEnd(message));
     message.setChargedTotalKwh(ActionUtil.genChargedTotalKwh(message));
-    message.setMetricNode(MessageUtil.getHostname());
+    message.setMetricsNode(MessageUtil.getHostname());
     logger.info("generated metric ack message: {}", message);
     return message;
   }
