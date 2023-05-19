@@ -49,3 +49,6 @@ terraform/entire-tf-output
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
+
+# Generated files
+**/generated/*
