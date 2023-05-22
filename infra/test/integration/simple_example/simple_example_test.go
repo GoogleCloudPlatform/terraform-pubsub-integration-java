@@ -118,6 +118,12 @@ func TestSimpleExample(t *testing.T) {
 		fmt.Printf("Listing forwarding-rules using gcloud\n")
 		externalLoadBalancers := gcloud.Run(t, ("compute forwarding-rules list --format=json"), gcloudArgs).Array()
 
+		// Stop publisher tasks
+		for _, externalLoadBalancer := range externalLoadBalancers {
+			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
+			StopPublisher(t, assert, externalLoadBalancerIPAddress)
+		}
+
 		// Get all publisher and subscriber cluster credentials
 		gcloud.Run(t, fmt.Sprintf("container clusters get-credentials %s --region %s --format=json", euPubClusterName, euPubClusterLocation), gcloudArgs)
 		gcloud.Run(t, fmt.Sprintf("container clusters get-credentials %s --region %s --format=json", usPubClusterName, usPubClusterLocation), gcloudArgs)
@@ -144,6 +150,8 @@ func TestSimpleExample(t *testing.T) {
 		imageHomeUrl :=	"gcr.io/aemon-projects-dev-000/"
 		publisherImageNameTag := "jss-psi-java-event-generator:latest"
 		subscriberAckImageNameTag := "jss-psi-java-metrics-ack:latest"
+		subscriberNackImageNameTag := "jss-psi-java-metrics-nack:latest"
+		subscriberCompleteImageNameTag := "jss-psi-java-metrics-complete:latest"
 
 		// Printf all clusterContextName
 		fmt.Printf("euPubClusterContextName: %s\n", euPubClusterContextName)
@@ -164,11 +172,10 @@ func TestSimpleExample(t *testing.T) {
 		assert.NoError(err)
 		fmt.Printf("There are %d pods in the %s namespace\n", len(euPubClusterPods.Items), euPubClusterNamespace)
 
-		// Restart Publisher tasks
+		// Start Publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"runtime": 5, "threads": 8}`
-			RestartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
+			StartPublisher(t, assert, externalLoadBalancerIPAddress, 4, 5.0)
 		}
 
 		var monitorTime = 3 * time.Minute
@@ -543,8 +550,7 @@ func TestSimpleExample(t *testing.T) {
 		// Restart publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"runtime": 0.5, "threads": 5}`
-			RestartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
+			RestartPublisher(t, assert, externalLoadBalancerIPAddress, 5, 0.5)
 		}
 
 		// Check BigQuery table data
@@ -552,7 +558,7 @@ func TestSimpleExample(t *testing.T) {
 		bqTableId := example.GetStringOutput("bq_table_id")
 		// query interval is 3 minutes
 		queryTimeDuration := 3 * time.Minute
-		ackStart := time.Now()
+		ackStart := time.Now().In(time.UTC)
 		ackStartTime := ackStart.Format("2006-01-02 15:04:05")
 		ackEndTime := ackStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
 		// Wait for 3 minutes
@@ -571,7 +577,6 @@ func TestSimpleExample(t *testing.T) {
 		}
 
 		// Update subscriber Deployment's image to Nack
-		subscriberNackImageNameTag := "jss-psi-java-metrics-nack:latest"
 		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl + subscriberNackImageNameTag)
 		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl + subscriberNackImageNameTag)
 		assert.NoError(err)
@@ -584,13 +589,12 @@ func TestSimpleExample(t *testing.T) {
 		// Start publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"runtime": 0.5, "threads": 5}`
-			StartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
+			StartPublisher(t, assert, externalLoadBalancerIPAddress, 5, 0.5)
 		}
 
 		// Check BigQuery table data
 		fmt.Printf("Checking BigQuery table data\n")
-		nackStart := time.Now()
+		nackStart := time.Now().In(time.UTC)
 		nackStartTime := nackStart.Format("2006-01-02 15:04:05")
 		nackEndTime := nackStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
 		// Wait for 3 minutes
@@ -628,7 +632,6 @@ func TestSimpleExample(t *testing.T) {
 		assert.NotEmpty(schema)
 
 		// Update subscriber Deployment's image to Complete
-		subscriberCompleteImageNameTag := "jss-psi-java-metrics-complete:latest"
 		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl + subscriberCompleteImageNameTag)
 		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl + subscriberCompleteImageNameTag)
 		assert.NoError(err)
@@ -640,13 +643,12 @@ func TestSimpleExample(t *testing.T) {
 		// Start publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
-			payload := `{"runtime": 0.5, "threads": 5}`
-			StartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
+			StartPublisher(t, assert, externalLoadBalancerIPAddress, 5, 0.5)
 		}
 
 		// Check BigQuery table data
 		fmt.Printf("Checking BigQuery table data\n")
-		completeStart := time.Now()
+		completeStart := time.Now().In(time.UTC)
 		completeStartTime := completeStart.Format("2006-01-02 15:04:05")
 		completeEndTime := completeStart.Add(queryTimeDuration).Format("2006-01-02 15:04:05")
 		// Wait for 3 minutes
@@ -833,9 +835,9 @@ func CountQueryCompleteFromBigquery(projectID string, bqTableId string, startTim
 }
 
 // Restart Publihser
-func RestartPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string, payload string) {
+func RestartPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string, threads int, runtime float64) {
 	StopPublisher(t, assert, externalLoadBalancerIPAddress)
-	StartPublisher(t, assert, externalLoadBalancerIPAddress, payload)
+	StartPublisher(t, assert, externalLoadBalancerIPAddress, threads, runtime)
 }
 
 func StopPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string) {
@@ -849,13 +851,13 @@ func StopPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancer
 	}
 }
 
-func StartPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string, payload string) {
+func StartPublisher(t *testing.T, assert *assert.Assertions, externalLoadBalancerIPAddress string, threads int, runtime float64) {
 	// payload: {threads int, runtime float}
-	startupApiUrl := "http://" + externalLoadBalancerIPAddress + "/api/msg/random"
+	payload := fmt.Sprintf("{\"threads\": %d, \"runtime\": %f}", threads, runtime)
+	startupApiUrl := "http://" + externalLoadBalancerIPAddress + "/api/msg/random?threads=" + strconv.Itoa(threads) + "&runtime=" + strconv.FormatFloat(runtime, 'f', 2, 64)
 	fmt.Printf("Sending Http POST request to : %s, payload: %s\n", startupApiUrl, payload)
 	request := gorequest.New().Timeout(20 * time.Second)
-	_, _, errs := request.Post(startupApiUrl).
-		Type("multipart").Send(payload).End()
+	_, _, errs := request.Post(startupApiUrl).End()
 	for _, err := range errs {
 		assert.NoError(err)
 	}

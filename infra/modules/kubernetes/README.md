@@ -20,8 +20,8 @@
 
 | Name | Description |
 |------|-------------|
-| cluster\_info | Cluster information, including name, location, and namespace |
-| control\_plane | Cluster control plane |
-| gcp\_service\_account\_email | GCP service account's email |
+| cluster\_info | GKE cluster information containing name, location and namespace |
+| control\_plane | Control plane in deployed GKE cluster |
+| gcp\_service\_account\_email | Service account’s email address in the project |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
