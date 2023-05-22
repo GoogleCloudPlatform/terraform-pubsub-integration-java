@@ -24,11 +24,13 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
 import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.protobuf.ByteString;
+import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.Subscription;
 import com.google.pubsub.v1.Topic;
+import com.google.pubsub.v1.TopicName;
 import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
-import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.action.Complete;
 import com.googlecodesamples.cloud.jss.metrics.config.EventSubscriberConfig;
 import com.googlecodesamples.cloud.jss.metrics.factory.EventSubscriberFactory;
@@ -49,14 +51,15 @@ public class EventSubscriberServiceIT {
 
   private static final String EXPECTED_MSG_CALLBACK = "callback received";
 
-  private static final String GOOGLE_CLOUD_PROJECT =
-      System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
+  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
 
-  private static final String EVENT_TOPIC =
-      String.format("projects/%s/topics/test-event-topic", GOOGLE_CLOUD_PROJECT);
+  private static final String TOPIC_NAME = "test-event-topic";
 
-  private static final String EVENT_SUBSCRIPTION =
-      String.format("projects/%s/subscriptions/test-subscription", GOOGLE_CLOUD_PROJECT);
+  private static final String SUBSCRIPTION_NAME = "test-subscription";
+
+  private static TopicName EVENT_TOPIC;
+
+  private static ProjectSubscriptionName EVENT_SUBSCRIPTION;
 
   private MetricPublisherService publisherService;
 
@@ -70,23 +73,29 @@ public class EventSubscriberServiceIT {
 
   @BeforeClass
   public static void checkRequirements() {
-    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_PROJECT));
+
+    EVENT_TOPIC = TopicName.of(ENV_GCP_PROJECT, TOPIC_NAME);
+    EVENT_SUBSCRIPTION = ProjectSubscriptionName.of(ENV_GCP_PROJECT, SUBSCRIPTION_NAME);
   }
 
   @Before
   public void setUp() throws IOException {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
-      Topic topic = Topic.newBuilder().setName(EVENT_TOPIC).build();
+      Topic topic = Topic.newBuilder().setName(EVENT_TOPIC.toString()).build();
       topicAdminClient.createTopic(topic);
     }
 
     try (SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create()) {
       Subscription subscription =
-          Subscription.newBuilder().setName(EVENT_SUBSCRIPTION).setTopic(EVENT_TOPIC).build();
+          Subscription.newBuilder()
+              .setName(EVENT_SUBSCRIPTION.toString())
+              .setTopic(EVENT_TOPIC.toString())
+              .build();
       subscriptionAdminClient.createSubscription(subscription);
     }
 
-    publisher = Publisher.newBuilder(EVENT_TOPIC).build();
+    publisher = Publisher.newBuilder(EVENT_TOPIC.toString()).build();
     publisherService = new MetricPublisherService(publisher);
 
     Complete complete = new Complete(publisherService);
@@ -104,7 +113,7 @@ public class EventSubscriberServiceIT {
     publisherService.shutdown();
 
     try (SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create()) {
-      subscriptionAdminClient.deleteSubscription(EVENT_SUBSCRIPTION);
+      subscriptionAdminClient.deleteSubscription(EVENT_SUBSCRIPTION.toString());
     }
 
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
@@ -114,8 +123,6 @@ public class EventSubscriberServiceIT {
 
   @Test
   public void testSubscriber() throws InterruptedException, ExecutionException {
-    assumeTrue(LogMessage.WARN_GCP_LOCATION_NOT_SET, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
-
     publishMessage();
     assertThat(outputCapture.getOut()).contains(EXPECTED_MSG_CONTENT);
     assertThat(outputCapture.getOut()).contains(EXPECTED_MSG_CALLBACK);
@@ -129,7 +136,7 @@ public class EventSubscriberServiceIT {
 
   private EventSubscriberConfig createSubscriberConfig() {
     EventSubscriberConfig config = new EventSubscriberConfig();
-    config.setEventSubscription(EVENT_SUBSCRIPTION);
+    config.setEventSubscription(SUBSCRIPTION_NAME);
     config.setOutstandingMessages(100L);
     config.setParallelPull(1);
     config.setExecutorThreads(2);

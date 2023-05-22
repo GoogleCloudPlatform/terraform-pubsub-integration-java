@@ -92,11 +92,11 @@ module "us_subscriber_helm" {
       },
       {
         name  = "config_maps.event_subscription"
-        value = google_pubsub_subscription.event.id
+        value = google_pubsub_subscription.event.name
       },
       {
         name  = "config_maps.metrics_topic"
-        value = google_pubsub_topic.metrics.id
+        value = google_pubsub_topic.metrics.name
       },
     ]
   )

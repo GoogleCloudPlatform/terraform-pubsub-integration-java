@@ -105,4 +105,13 @@ public class PubSubUtil {
   public static GoogleCredentials getGCPCredentials() throws IOException {
     return GoogleCredentials.getApplicationDefault();
   }
+
+  /**
+   * Get value of GOOGLE_CLOUD_PROJECT environment variable.
+   *
+   * @return value of env GOOGLE_CLOUD_PROJECT
+   */
+  public static String getEnvProjectId() {
+    return System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
+  }
 }

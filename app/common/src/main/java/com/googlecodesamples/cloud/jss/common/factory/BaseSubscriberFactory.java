@@ -19,8 +19,10 @@ import com.google.api.gax.batching.FlowControlSettings;
 import com.google.api.gax.core.ExecutorProvider;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
+import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.googlecodesamples.cloud.jss.common.action.BaseAction;
 import com.googlecodesamples.cloud.jss.common.config.BaseSubscriberConfig;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 
 /** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Subscriber} instance */
 public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
@@ -50,8 +52,10 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
   }
 
   protected Subscriber newInstance(MessageReceiver receiver) {
-    Subscriber.Builder builder =
-        Subscriber.newBuilder(getConfig().getEventSubscription(), receiver);
+    ProjectSubscriptionName subscriptionName =
+        ProjectSubscriptionName.of(
+            PubSubUtil.getEnvProjectId(), getConfig().getEventSubscription());
+    Subscriber.Builder builder = Subscriber.newBuilder(subscriptionName.toString(), receiver);
     FlowControlSettings flowControlSettings = getFlowControlSettings();
     if (flowControlSettings != null) {
       builder.setFlowControlSettings(flowControlSettings);
