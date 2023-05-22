@@ -23,8 +23,9 @@ import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.Topic;
+import com.google.pubsub.v1.TopicName;
 import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
-import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.junit.After;
@@ -44,12 +45,13 @@ public class BasePublisherServiceIT {
 
   private static final String EXPECTED_MSG_PUBLISH = "topic";
 
-  public static final String GOOGLE_CLOUD_PROJECT = System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
-
-  private static final String TOPIC_NAME =
-      String.format("projects/%s/topics/test-event-topic", GOOGLE_CLOUD_PROJECT);
-
   private static final String MESSAGE_CONTENT = "test";
+
+  private static final String TOPIC_NAME = "test-event-topic";
+
+  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
+
+  private static TopicName EVENT_TOPIC;
 
   private Publisher publisher;
 
@@ -57,23 +59,25 @@ public class BasePublisherServiceIT {
 
   @BeforeClass
   public static void checkRequirements() {
-    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(GOOGLE_CLOUD_PROJECT));
+    assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_PROJECT));
+
+    EVENT_TOPIC = TopicName.of(ENV_GCP_PROJECT, TOPIC_NAME);
   }
 
   @Before
   public void setUp() throws IOException {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
-      Topic topic = Topic.newBuilder().setName(TOPIC_NAME).build();
+      Topic topic = Topic.newBuilder().setName(EVENT_TOPIC.toString()).build();
       topicAdminClient.createTopic(topic);
     }
 
-    publisher = Publisher.newBuilder(TOPIC_NAME).build();
+    publisher = Publisher.newBuilder(EVENT_TOPIC).build();
   }
 
   @After
   public void tearDown() throws IOException {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
-      topicAdminClient.deleteTopic(TOPIC_NAME);
+      topicAdminClient.deleteTopic(EVENT_TOPIC);
     }
 
     publisher.shutdown();

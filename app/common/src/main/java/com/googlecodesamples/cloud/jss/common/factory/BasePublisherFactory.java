@@ -19,7 +19,9 @@ import com.google.api.gax.batching.BatchingSettings;
 import com.google.api.gax.core.ExecutorProvider;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.pubsub.v1.TopicName;
 import com.googlecodesamples.cloud.jss.common.config.BasePublisherConfig;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import java.io.IOException;
 
 /** Base factory class for creating a {@link com.google.cloud.pubsub.v1.Publisher} instance */
@@ -42,7 +44,8 @@ public abstract class BasePublisherFactory<T extends BasePublisherConfig> {
   }
 
   protected final Publisher newInstance() throws IOException {
-    Publisher.Builder builder = Publisher.newBuilder(getConfig().getTopicName());
+    TopicName topicName = TopicName.of(PubSubUtil.getEnvProjectId(), getConfig().getTopicName());
+    Publisher.Builder builder = Publisher.newBuilder(topicName);
     BatchingSettings batchSettings = getBatchSettings();
     if (batchSettings != null) {
       builder.setBatchingSettings(batchSettings);

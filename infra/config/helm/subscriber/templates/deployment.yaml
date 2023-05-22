@@ -33,6 +33,8 @@ spec:
       serviceAccountName: '{{ .Values.k8s_service_account_name }}'
       containers:
         - env:
+          - name: GOOGLE_CLOUD_PROJECT
+            value: '{{ .Values.project_id }}'
           - name: EVENT_SUBSCRIPTION
             valueFrom:
               configMapKeyRef:

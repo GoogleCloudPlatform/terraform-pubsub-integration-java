@@ -21,8 +21,10 @@ import static org.junit.Assume.assumeTrue;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.cloud.pubsub.v1.TopicAdminClient;
 import com.google.pubsub.v1.Topic;
+import com.google.pubsub.v1.TopicName;
 import com.googlecodesamples.cloud.jss.common.constant.LogMessage;
 import com.googlecodesamples.cloud.jss.common.constant.PubSubConst;
+import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.eventgenerator.config.EventGeneratorConfig;
 import java.io.IOException;
 import org.junit.*;
@@ -37,12 +39,13 @@ public class EventPublisherServiceIT {
   private static final String EXPECTED_MSG_SHUTDOWN =
       "shutting down the thread pool and timer for EventPublisherService";
 
-  public static final String ENV_GCP_PROJECT = System.getenv(PubSubConst.GOOGLE_CLOUD_PROJECT);
-
   public static final String ENV_GCP_LOCATION = System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION);
 
-  private static final String EVENT_TOPIC_NAME =
-      String.format("projects/%s/topics/test-event-topic", ENV_GCP_PROJECT);
+  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
+
+  private static final String TOPIC_NAME = "test-event-topic";
+
+  private static TopicName EVENT_TOPIC;
 
   private EventPublisherService service;
 
@@ -54,16 +57,18 @@ public class EventPublisherServiceIT {
   public static void checkRequirements() {
     assumeTrue(LogMessage.WARN_GCP_PROJECT_NOT_SET, StringUtils.hasText(ENV_GCP_PROJECT));
     assumeTrue(LogMessage.WARN_GCP_LOCATION_NOT_SET, StringUtils.hasText(ENV_GCP_LOCATION));
+
+    EVENT_TOPIC = TopicName.of(ENV_GCP_PROJECT, TOPIC_NAME);
   }
 
   @Before
   public void setUp() throws IOException {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
-      Topic topic = Topic.newBuilder().setName(EVENT_TOPIC_NAME).build();
+      Topic topic = Topic.newBuilder().setName(EVENT_TOPIC.toString()).build();
       topicAdminClient.createTopic(topic);
     }
 
-    publisher = Publisher.newBuilder(EVENT_TOPIC_NAME).build();
+    publisher = Publisher.newBuilder(EVENT_TOPIC).build();
     EventGeneratorConfig config = new EventGeneratorConfig();
     service = new EventPublisherService(publisher, config);
   }
@@ -71,7 +76,7 @@ public class EventPublisherServiceIT {
   @After
   public void tearDown() throws IOException {
     try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
-      topicAdminClient.deleteTopic(EVENT_TOPIC_NAME);
+      topicAdminClient.deleteTopic(EVENT_TOPIC);
     }
 
     publisher.shutdown();
