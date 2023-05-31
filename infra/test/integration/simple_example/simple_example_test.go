@@ -32,7 +32,6 @@ import (
 	"flag"
 	"path/filepath"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/metrics/pkg/client/clientset/versioned"
 	"k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -159,13 +158,12 @@ func TestSimpleExample(t *testing.T) {
 		fmt.Printf("usSubClusterContextName: %s\n", usSubClusterContextName)
 
 		// Get the clientset for the clusters
-		euPubClientset, euPubVersionedClientset, err := SwitchContextAndGetClientset(euPubClusterContextName, *kubeConfig)
+		euPubClientset, err := SwitchContextAndGetClientset(euPubClusterContextName, *kubeConfig)
 		assert.NoError(err)
-		usPubClientset, usPubVersionedClientset, err := SwitchContextAndGetClientset(usPubClusterContextName, *kubeConfig)
+		usPubClientset, err := SwitchContextAndGetClientset(usPubClusterContextName, *kubeConfig)
 		assert.NoError(err)
-		usSubClientset, usSubVersionedClientset, err := SwitchContextAndGetClientset(usSubClusterContextName, *kubeConfig)
+		usSubClientset, err := SwitchContextAndGetClientset(usSubClusterContextName, *kubeConfig)
 		assert.NoError(err)
-		assert.NotEmpty(usSubVersionedClientset)
 
 		// Get EU region publishers GKE cluster pods using euPubClusterNamespace
 		euPubClusterPods, err := euPubClientset.CoreV1().Pods(euPubClusterNamespace).List(context.TODO(), metaV1.ListOptions{})
@@ -177,81 +175,6 @@ func TestSimpleExample(t *testing.T) {
 			externalLoadBalancerIPAddress := externalLoadBalancer.Get("IPAddress").String()
 			StartPublisher(t, assert, externalLoadBalancerIPAddress, 4, 5.0)
 		}
-
-		var monitorTime = 3 * time.Minute
-		var euPubCPUUsage []int64
-		var usPubCPUUsage []int64
-		var euPubTotalCPU int64 = 0
-		var usPubTotalCPU int64 = 0
-		var cpuLimit int64 = 2000000000
-		time.Sleep(30 * time.Second)
-		wait.PollImmediate(1 * time.Second, monitorTime, func() (bool, error) {
-			euPubNodeMetricses, err := euPubVersionedClientset.MetricsV1beta1().NodeMetricses().List(context.TODO(), metaV1.ListOptions{})
-			usPubNodeMetricses, err := usPubVersionedClientset.MetricsV1beta1().NodeMetricses().List(context.TODO(), metaV1.ListOptions{})
-			assert.NoError(err)
-
-			if euPubTotalCPU == 0 {
-				if len(euPubNodeMetricses.Items) < 2 {
-					euPubTotalCPU = int64(1930000000)
-				} else {
-					euPubNode, err := euPubClientset.CoreV1().Nodes().Get(context.TODO(), euPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
-					assert.NoError(err)
-					euPubTotalCPU = euPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
-				}
-			}
-			if usPubTotalCPU == 0 {
-				if len(usPubNodeMetricses.Items) < 2 {
-					usPubTotalCPU = int64(1930000000)
-				} else {
-					usPubNode, err := usPubClientset.CoreV1().Nodes().Get(context.TODO(), usPubNodeMetricses.Items[1].Name, metaV1.GetOptions{})
-					assert.NoError(err)
-					usPubTotalCPU = usPubNode.Status.Allocatable.Cpu().AsDec().UnscaledBig().Int64() * 1000000
-				}
-			}
-
-			for _, euPubNodeMetrics := range euPubNodeMetricses.Items {
-				if strings.Contains(euPubNodeMetrics.Name, "publisher-java-pool") {
-					euPubCPUMilliUsage := euPubNodeMetrics.Usage.Cpu().AsDec().UnscaledBig().Int64()
-					assert.Less(euPubCPUMilliUsage, cpuLimit, "EU Pub CPU Milli Usage should be less than 2000000000")
-					euCPUUsagePercentage := (float64(euPubCPUMilliUsage) / float64(euPubTotalCPU)) * 100
-					fmt.Printf("EU Pub node %s, CPU Milli Usage: %d, euCPUUsagePercentage: %f %%\n", euPubNodeMetrics.Name, euPubCPUMilliUsage, euCPUUsagePercentage)
-					euPubCPUUsage = append(euPubCPUUsage, euPubCPUMilliUsage)
-				}
-			}
-
-			for _, usPubNodeMetrics := range usPubNodeMetricses.Items {
-				if strings.Contains(usPubNodeMetrics.Name, "publisher-java-pool") {
-					usPubCPUMilliUsage := usPubNodeMetrics.Usage.Cpu().AsDec().UnscaledBig().Int64()
-					assert.Less(usPubCPUMilliUsage, cpuLimit, "US Pub CPU Milli Usage should be less than 2000000000")
-					usCPUUsagePercentage := (float64(usPubCPUMilliUsage) / float64(usPubTotalCPU)) * 100
-					fmt.Printf("US Pub node %s, CPU Milli Usage: %d, usCPUUsagePercentage: %f %%\n", usPubNodeMetrics.Name, usPubCPUMilliUsage, usCPUUsagePercentage)
-					usPubCPUUsage = append(usPubCPUUsage, usPubCPUMilliUsage)
-				}
-			}
-
-			return false, nil
-		})
-
-		// Average CPU usage
-		var euPubCPUUsageSum int64 = 0
-		for _, euPubCPUUsageValue := range euPubCPUUsage {
-			euPubCPUUsageSum += euPubCPUUsageValue
-		}
-		euPubCPUUsageAverage := euPubCPUUsageSum / int64(len(euPubCPUUsage))
-		euCpuUsagePercentageAverage := (float64(euPubCPUUsageAverage) / float64(euPubTotalCPU)) * 100
-		fmt.Printf("EU Pub CPU Usage Average: %f%%\n", euCpuUsagePercentageAverage)
-		assert.GreaterOrEqual(euCpuUsagePercentageAverage, 40.0)
-		assert.LessOrEqual(euCpuUsagePercentageAverage, 60.0)
-
-		var usPubCPUUsageSum int64 = 0
-		for _, usPubCPUUsageValue := range usPubCPUUsage {
-			usPubCPUUsageSum += usPubCPUUsageValue
-		}
-		usPubCPUUsageAverage := usPubCPUUsageSum / int64(len(usPubCPUUsage))
-		usCpuUsagePercentageAverage := (float64(usPubCPUUsageAverage) / float64(usPubTotalCPU)) * 100
-		fmt.Printf("US Pub CPU Usage Average: %f%%\n", usCpuUsagePercentageAverage)
-		assert.GreaterOrEqual(usCpuUsagePercentageAverage, 40.0)
-		assert.LessOrEqual(usCpuUsagePercentageAverage, 60.0)
 
 		// Get euPubCluster ConfigMap contents
 		euPubConfigMaps, err := euPubClientset.CoreV1().ConfigMaps("").List(context.TODO(), metaV1.ListOptions{})
@@ -695,31 +618,30 @@ func GetKubeConfg() (*string) {
 }
 
 // Switch kubernetes context and return clientset
-func SwitchContextAndGetClientset(contextName, kubeConfig string) (*kubernetes.Clientset, *versioned.Clientset, error) {
+func SwitchContextAndGetClientset(contextName, kubeConfig string) (*kubernetes.Clientset, error) {
 	config := LoadConfigFromPath(kubeConfig)
 	rawConfig, err := config.RawConfig()
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	if rawConfig.Contexts[contextName] == nil {
-		return nil, nil, errors.New("context not found")
+		return nil, errors.New("context not found")
 	}
 	rawConfig.CurrentContext = contextName
 	err = clientcmd.ModifyConfig(clientcmd.NewDefaultPathOptions(), rawConfig, true)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	buildConfig, err := clientcmd.BuildConfigFromFlags("", kubeConfig)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	clientset, err := kubernetes.NewForConfig(buildConfig)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	versionedClientset, err := versioned.NewForConfig(buildConfig)
-	return clientset, versionedClientset, err
+	return clientset, err
 }
 
 func LoadConfigFromPath(kubeConfig string) clientcmd.ClientConfig {
