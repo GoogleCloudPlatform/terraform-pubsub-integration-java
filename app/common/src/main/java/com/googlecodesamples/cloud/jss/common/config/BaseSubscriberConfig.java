@@ -18,6 +18,9 @@ package com.googlecodesamples.cloud.jss.common.config;
 /** Base configurations for the subscriber service. */
 public abstract class BaseSubscriberConfig extends BaseConfig {
 
+  private static final String ERROR_MSG_NEGATIVE_PARALLEL =
+      "The parallel pull count for subscriber should be greater than zero";
+
   private String eventSubscription;
 
   private Integer parallelPull;
@@ -36,6 +39,9 @@ public abstract class BaseSubscriberConfig extends BaseConfig {
   }
 
   public void setParallelPull(Integer parallelPull) {
+    if (parallelPull <= 0) {
+      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_PARALLEL);
+    }
     this.parallelPull = parallelPull;
   }
 }

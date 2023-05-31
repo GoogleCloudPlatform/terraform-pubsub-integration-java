@@ -17,6 +17,7 @@ package com.googlecodesamples.cloud.jss.metrics.factory;
 
 import com.google.api.gax.batching.BatchingSettings;
 import com.google.api.gax.core.ExecutorProvider;
+import com.google.api.gax.core.InstantiatingExecutorProvider;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.googlecodesamples.cloud.jss.common.factory.BasePublisherFactory;
@@ -57,7 +58,9 @@ public class MetricPublisherFactory extends BasePublisherFactory<MetricPublisher
 
   @Override
   protected ExecutorProvider getExecutorProvider() {
-    return null;
+    return InstantiatingExecutorProvider.newBuilder()
+        .setExecutorThreadCount(getConfig().getExecutorThreads())
+        .build();
   }
 
   @Override

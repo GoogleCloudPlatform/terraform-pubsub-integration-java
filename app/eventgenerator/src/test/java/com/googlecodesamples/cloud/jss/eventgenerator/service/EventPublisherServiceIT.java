@@ -39,9 +39,9 @@ public class EventPublisherServiceIT {
   private static final String EXPECTED_MSG_SHUTDOWN =
       "shutting down the thread pool and timer for EventPublisherService";
 
-  public static final String ENV_GCP_LOCATION = System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION);
+  private static final String ENV_GCP_LOCATION = System.getenv(PubSubConst.GOOGLE_CLOUD_LOCATION);
 
-  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
+  private static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
 
   private static final String TOPIC_NAME = "test-event-topic";
 

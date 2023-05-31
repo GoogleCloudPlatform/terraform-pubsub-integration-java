@@ -42,7 +42,10 @@ public abstract class BaseConfig {
     return outstandingMessages;
   }
 
-  public void setOutstandingMessages(Long outstandingMessages) {
+  public void setOutstandingMessages(Long outstandingMessages) throws IllegalArgumentException {
+    if (outstandingMessages <= 0) {
+      throw new IllegalArgumentException(LogMessage.ERROR_NEGATIVE_OUTSTANDING);
+    }
     this.outstandingMessages = outstandingMessages;
   }
 

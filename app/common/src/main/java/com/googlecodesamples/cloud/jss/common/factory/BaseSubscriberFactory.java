@@ -31,6 +31,8 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
 
   private BaseAction metric;
 
+  private ExecutorProvider provider;
+
   protected abstract FlowControlSettings getFlowControlSettings();
 
   protected abstract ExecutorProvider getExecutorProvider();
@@ -51,6 +53,14 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
     this.metric = metric;
   }
 
+  public ExecutorProvider getProvider() {
+    return provider;
+  }
+
+  public void setProvider(ExecutorProvider provider) {
+    this.provider = provider;
+  }
+
   protected Subscriber newInstance(MessageReceiver receiver) {
     ProjectSubscriptionName subscriptionName =
         ProjectSubscriptionName.of(
@@ -61,9 +71,9 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
       builder.setFlowControlSettings(flowControlSettings);
     }
 
-    ExecutorProvider executorProvider = getExecutorProvider();
-    if (executorProvider != null) {
-      builder.setExecutorProvider(executorProvider);
+    provider = getExecutorProvider();
+    if (provider != null) {
+      builder.setExecutorProvider(provider);
     }
 
     Integer parallelPull = getConfig().getParallelPull();

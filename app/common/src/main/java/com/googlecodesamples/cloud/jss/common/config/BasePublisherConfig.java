@@ -21,6 +21,9 @@ public abstract class BasePublisherConfig extends BaseConfig {
   private static final String ERROR_MSG_NEGATIVE_BATCH =
       "The batch size for publisher should be greater than zero";
 
+  private static final String ERROR_MSG_NEGATIVE_TIMEOUT =
+      "The timeout for publisher should be greater than or equal to zero";
+
   private String topicName;
 
   private Long batchSize;
@@ -53,7 +56,10 @@ public abstract class BasePublisherConfig extends BaseConfig {
     return initialTimeout;
   }
 
-  public void setInitialTimeout(Integer initialTimeout) {
+  public void setInitialTimeout(Integer initialTimeout) throws IllegalArgumentException {
+    if (initialTimeout < 0) {
+      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_TIMEOUT);
+    }
     this.initialTimeout = initialTimeout;
   }
 
@@ -61,7 +67,10 @@ public abstract class BasePublisherConfig extends BaseConfig {
     return totalTimeout;
   }
 
-  public void setTotalTimeout(Integer totalTimeout) {
+  public void setTotalTimeout(Integer totalTimeout) throws IllegalArgumentException {
+    if (totalTimeout < 0) {
+      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_TIMEOUT);
+    }
     this.totalTimeout = totalTimeout;
   }
 }
