@@ -48,20 +48,12 @@ data "google_client_config" "default" {
 }
 
 resource "google_compute_network" "primary" {
-  depends_on = [
-    module.project_services
-  ]
-
   name                    = "pubsub-integration-java"
   project                 = data.google_project.project.project_id
   auto_create_subnetworks = true
 }
 
 resource "google_pubsub_topic" "event" {
-  depends_on = [
-    module.project_services,
-  ]
-
   name = "event-topic-pubsub-integration-java"
   schema_settings {
     schema   = "projects/${data.google_project.project.project_id}/schemas/${google_pubsub_schema.event.name}"
@@ -97,7 +89,6 @@ resource "google_pubsub_subscription" "event" {
 
 resource "google_pubsub_topic" "errors" {
   depends_on = [
-    module.project_services,
     google_project_iam_member.pubsub
   ]
 
@@ -111,10 +102,6 @@ resource "google_pubsub_topic" "errors" {
 }
 
 resource "google_pubsub_topic" "metrics" {
-  depends_on = [
-    module.project_services,
-  ]
-
   name = "metrics-topic-pubsub-integration-java"
   schema_settings {
     schema   = "projects/${data.google_project.project.project_id}/schemas/${google_pubsub_schema.metrics.name}"
@@ -160,10 +147,6 @@ module "bigquery" {
 }
 
 resource "google_project_iam_member" "pubsub" {
-  depends_on = [
-    module.project_services
-  ]
-
   for_each = toset([
     "roles/bigquery.metadataViewer",
     "roles/bigquery.dataEditor",
