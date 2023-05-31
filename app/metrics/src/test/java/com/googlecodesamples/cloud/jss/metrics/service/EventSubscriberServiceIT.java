@@ -51,7 +51,7 @@ public class EventSubscriberServiceIT {
 
   private static final String EXPECTED_MSG_CALLBACK = "callback received";
 
-  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
+  private static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
 
   private static final String TOPIC_NAME = "test-event-topic";
 
@@ -100,9 +100,8 @@ public class EventSubscriberServiceIT {
 
     Complete complete = new Complete(publisherService);
     EventSubscriberFactory factory = new EventSubscriberFactory(createSubscriberConfig(), complete);
-    subscriber = factory.createSubscriber();
-    subscriberService = new EventSubscriberService(subscriber);
-    subscriberService.startSubscriberAsync();
+    subscriberService = new EventSubscriberService(factory);
+    subscriber = subscriberService.startSubscriberAsync();
   }
 
   @After

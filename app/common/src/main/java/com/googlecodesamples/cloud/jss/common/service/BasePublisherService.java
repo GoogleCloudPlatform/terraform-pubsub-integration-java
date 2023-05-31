@@ -62,12 +62,16 @@ public abstract class BasePublisherService {
     int messageCount = totalMessage.incrementAndGet();
     String threadName = Thread.currentThread().getName();
     String topicName = publisher.getTopicName().toString();
+    long publishTime = System.currentTimeMillis();
 
     logger.info("thread: {}, topic: {}, messageCount: {}", threadName, topicName, messageCount);
 
     ApiFuture<String> future = publisher.publish(message);
     String result = future.get();
     logger.info("message: {}, callback received: {}", PubSubUtil.getMessageData(message), result);
+
+    long callBackTime = System.currentTimeMillis();
+    logger.info("message: {}, process time: {}", result, (callBackTime - publishTime));
   }
 
   /** Shutdown and release resources. */

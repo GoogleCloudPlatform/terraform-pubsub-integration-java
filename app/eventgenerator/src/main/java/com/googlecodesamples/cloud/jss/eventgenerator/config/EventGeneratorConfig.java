@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "event.generator")
 public class EventGeneratorConfig {
 
+  private static final String ERROR_MSG_NEGATIVE_THREADS =
+      "The threads for event generator should be greater than zero";
+
+  private static final String ERROR_MSG_NEGATIVE_RUNTIME =
+      "The runtime for event generator should be greater than zero";
+
   private Integer threads;
 
   private Float runtime;
@@ -16,7 +22,10 @@ public class EventGeneratorConfig {
     return threads;
   }
 
-  public void setThreads(Integer threads) {
+  public void setThreads(Integer threads) throws IllegalArgumentException {
+    if (threads <= 0) {
+      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_THREADS);
+    }
     this.threads = threads;
   }
 
@@ -24,7 +33,10 @@ public class EventGeneratorConfig {
     return runtime;
   }
 
-  public void setRuntime(Float runtime) {
+  public void setRuntime(Float runtime) throws IllegalArgumentException {
+    if (runtime <= 0) {
+      throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_RUNTIME);
+    }
     this.runtime = runtime;
   }
 }

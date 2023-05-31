@@ -60,8 +60,8 @@ variable "publisher_image_url" {
 }
 
 variable "labels" {
-  type        = map(string)
   description = "A map of key/value label pairs to assign to the resources."
+  type        = map(string)
   default = {
     app = "gcp-api-integration-java"
   }

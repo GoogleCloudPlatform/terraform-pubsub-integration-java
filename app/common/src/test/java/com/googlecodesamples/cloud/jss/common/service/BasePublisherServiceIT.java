@@ -49,7 +49,7 @@ public class BasePublisherServiceIT {
 
   private static final String TOPIC_NAME = "test-event-topic";
 
-  public static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
+  private static final String ENV_GCP_PROJECT = PubSubUtil.getEnvProjectId();
 
   private static TopicName EVENT_TOPIC;
 

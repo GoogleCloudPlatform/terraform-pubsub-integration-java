@@ -26,6 +26,9 @@ public class LogMessage {
   public static final String ERROR_NEGATIVE_THREADS =
       "The number of executor threads should be greater than zero";
 
+  public static final String ERROR_NEGATIVE_OUTSTANDING =
+      "The number of outstanding messages should be greater than zero";
+
   public static final String WARN_GCP_PROJECT_NOT_SET =
       String.format(
           "environment variable '%s' has not been set, test skipped.",

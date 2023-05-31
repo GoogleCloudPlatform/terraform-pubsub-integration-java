@@ -17,6 +17,8 @@
 package com.googlecodesamples.cloud.jss.metrics.service;
 
 import com.google.cloud.pubsub.v1.Subscriber;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.googlecodesamples.cloud.jss.metrics.factory.EventSubscriberFactory;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
@@ -30,19 +32,34 @@ public class EventSubscriberService {
 
   private static final Logger logger = LoggerFactory.getLogger(EventSubscriberService.class);
 
-  private final Subscriber subscriber;
+  private final EventSubscriberFactory factory;
+  private Subscriber subscriber;
 
   @Value("${metric.app.type}")
   private String metricAppType;
 
-  public EventSubscriberService(Subscriber subscriber) {
-    this.subscriber = subscriber;
+  public EventSubscriberService(EventSubscriberFactory factory) {
+    this.factory = factory;
   }
 
   @PostConstruct
-  public void startSubscriberAsync() {
+  public Subscriber startSubscriberAsync() {
     logger.info("metric app type: {}", metricAppType);
+    subscriber = factory.createSubscriber();
+
+    subscriber.addListener(
+        new Subscriber.Listener() {
+          public void failed(Subscriber.State from, Throwable failure) {
+            cleanUp();
+            if (!factory.getProvider().getExecutor().isShutdown()) {
+              startSubscriberAsync();
+            }
+          }
+        },
+        MoreExecutors.directExecutor());
+
     subscriber.startAsync().awaitRunning();
+    return subscriber;
   }
 
   /** Stop pulling messages and release resources. */

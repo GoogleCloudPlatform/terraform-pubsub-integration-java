@@ -25,7 +25,6 @@ import com.googlecodesamples.cloud.jss.common.factory.BaseSubscriberFactory;
 import com.googlecodesamples.cloud.jss.metrics.config.EventSubscriberConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /** Factory for creating an event {@link com.google.cloud.pubsub.v1.Subscriber} instance. */
@@ -44,7 +43,6 @@ public class EventSubscriberFactory extends BaseSubscriberFactory<EventSubscribe
    *
    * @return subscriber
    */
-  @Bean
   public Subscriber createSubscriber() {
     logger.info("eventSubscriberConfig: {}", getConfig());
     return newInstance(getMetric().getReceiver());
