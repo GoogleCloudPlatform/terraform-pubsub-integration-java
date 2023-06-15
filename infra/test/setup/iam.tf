@@ -15,9 +15,16 @@
  */
 
 locals {
-  // TODO: de scope to required roles
   int_required_roles = [
-    "roles/owner"
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/serviceusage.serviceUsageAdmin",
+    "roles/iam.serviceAccountAdmin",
+    "roles/iam.serviceAccountUser",
+    "roles/compute.networkAdmin",
+    "roles/bigquery.dataOwner",
+    "roles/bigquery.jobUser",
+    "roles/container.admin",
+    "roles/pubsub.admin",
   ]
 }
 
