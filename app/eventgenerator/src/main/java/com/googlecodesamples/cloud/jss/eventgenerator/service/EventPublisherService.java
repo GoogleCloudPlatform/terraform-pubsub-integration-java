@@ -70,10 +70,12 @@ public class EventPublisherService extends BasePublisherService {
     logger.info("settings for publishMsgAsync() threads: {}, runtime: {}", threads, runtime);
 
     if (runtime > 0) {
+      // Start a timer to shut down the thread pool when runtime is up.
       timer = new Timer();
       timer.schedule(new TimeoutTask(this), (long) (runtime * 60 * 1000));
     }
 
+    // Start a thread pool to execute the defined tasks.
     executor = Executors.newFixedThreadPool(threads);
     for (int i = 0; i < threads; i++) {
       executor.execute(new MessageTask(this));
@@ -89,6 +91,7 @@ public class EventPublisherService extends BasePublisherService {
       return;
     }
 
+    // Shut down the thread pool and timer and reset the number of message received.
     try {
       executor.shutdownNow();
     } finally {

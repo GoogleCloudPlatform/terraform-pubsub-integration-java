@@ -48,7 +48,7 @@ public class Nack extends BaseAction<MetricsNack> {
   public MetricsNack respond(
       AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime) {
     logger.info("consumer response: NACK");
-    consumer.nack(); // simulate a bug 🐞 and nack the message
+    consumer.nack(); // Simulate a bug 🐞 and nack the message.
     return null;
   }
 

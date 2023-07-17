@@ -66,6 +66,7 @@ public abstract class BasePublisherService {
 
     logger.info("thread: {}, topic: {}, messageCount: {}", threadName, topicName, messageCount);
 
+    // Publish a message, then wait for a server-assigned message id.
     ApiFuture<String> future = publisher.publish(message);
     String result = future.get();
     logger.info("message: {}, callback received: {}", PubSubUtil.getMessageData(message), result);

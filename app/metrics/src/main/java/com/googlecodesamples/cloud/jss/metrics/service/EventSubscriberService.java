@@ -47,6 +47,7 @@ public class EventSubscriberService {
     logger.info("metric app type: {}", metricAppType);
     subscriber = factory.createSubscriber();
 
+    // Listen for unrecoverable failures. Recreate subscriber and restart subscribing.
     subscriber.addListener(
         new Subscriber.Listener() {
           public void failed(Subscriber.State from, Throwable failure) {
@@ -58,6 +59,7 @@ public class EventSubscriberService {
         },
         MoreExecutors.directExecutor());
 
+    // Start the subscriber to receive messages.
     subscriber.startAsync().awaitRunning();
     return subscriber;
   }

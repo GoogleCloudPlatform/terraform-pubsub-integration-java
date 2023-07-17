@@ -33,10 +33,13 @@ public class MessageTask extends BasePublisherTask {
 
   @Override
   protected void doAsyncTask() throws InterruptedException, ExecutionException, IOException {
+    // Generate a random event.
     Event event = MessageUtil.genRandomEvent();
+    // Covert the event to Cloud Pub/Sub compatible format.
     PubsubMessage message = MessageUtil.convertToPubSubMessage(event, Event.getClassSchema());
     BasePublisherService service = getService();
 
+    // Publish the message.
     service.publishMsg(message);
   }
 }

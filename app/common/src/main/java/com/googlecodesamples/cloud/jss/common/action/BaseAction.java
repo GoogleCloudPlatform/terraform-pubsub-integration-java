@@ -101,6 +101,7 @@ public abstract class BaseAction<T> implements Action<T> {
   public final T process(PubsubMessage message, AckReplyConsumer consumer)
       throws InterruptedException, IOException {
     logger.info("process received message, message: {}", PubSubUtil.getMessageData(message));
+    // Sleep for a random amount to simulate the processing time.
     float processTime = PubSubUtil.genProcessTime();
     Thread.sleep((long) (processTime * 1000));
     return respond(consumer, message, processTime, message.getPublishTime());

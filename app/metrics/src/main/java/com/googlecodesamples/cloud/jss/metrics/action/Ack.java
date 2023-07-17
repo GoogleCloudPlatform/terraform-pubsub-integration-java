@@ -73,12 +73,12 @@ public class Ack extends BaseAction<MetricsAck> {
     logger.info("event: {}, processTime {}, publishTime {}", event, processTime, publishTime);
 
     MetricsAck message = new MetricsAck();
-    // copy common attributes from event
+    // Copy common attributes from event.
     BeanUtils.copyProperties(event, message);
     Instant startTime = event.getSessionStartTime();
     Instant endTime = event.getSessionEndTime();
 
-    // set additional attributes for ack message
+    // Set additional attributes for ack message.
     message.setEventTimestamp(endTime);
     message.setPublishTimestamp(Instant.ofEpochSecond(publishTime.getSeconds()));
     message.setProcessingTimeSec(PubSubUtil.formatFloat(processTime));
