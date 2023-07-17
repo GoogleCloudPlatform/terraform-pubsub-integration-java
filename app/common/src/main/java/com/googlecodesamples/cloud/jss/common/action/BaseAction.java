@@ -92,7 +92,7 @@ public abstract class BaseAction<T> implements Action<T> {
   }
 
   /**
-   * Process the GCP Pub/Sub message and generate an output message.
+   * Process the Cloud Pub/Sub message and generate an output message.
    *
    * @param message the received message
    * @param consumer the consumer

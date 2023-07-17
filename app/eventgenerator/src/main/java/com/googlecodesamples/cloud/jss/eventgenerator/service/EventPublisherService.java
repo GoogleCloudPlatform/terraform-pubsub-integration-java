@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/** Backend service controller to asynchronously publish messages to GCP Pub/Sub. */
+/** Backend service controller to asynchronously publish messages to Cloud Pub/Sub. */
 @Service
 public class EventPublisherService extends BasePublisherService {
 

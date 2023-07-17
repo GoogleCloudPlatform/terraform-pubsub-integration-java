@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/** Backend service controller to asynchronously publish messages to GCP BigQuery. */
+/** Backend service controller to asynchronously publish messages to Cloud BigQuery. */
 @Service
 public class MetricPublisherService extends BasePublisherService {
 

@@ -1,4 +1,4 @@
-# Infrastructure for GCP PubSub Integration
+# Infrastructure for Cloud Pub/Sub Integration
 
 Jump start solution infrastructure
 
@@ -30,7 +30,7 @@ terraform destroy
 
 ### Architecture
 - Google Kubernetes Engine (GKE)
-- Pub/Sub
+- Cloud Pub/Sub
 - BigQuery
 
 
@@ -60,10 +60,10 @@ terraform destroy
 | bq\_table\_id | The ID of the BigQuery table |
 | errors\_topic\_name | The name of the error topic |
 | eu\_publisher\_cluster\_info | The cluster information for the publisher cluster in eu |
-| event\_subscription\_name | The name of the event subscription created for Pub/Sub |
+| event\_subscription\_name | The name of the event subscription created for Cloud Pub/Sub |
 | event\_topic\_name | The name of the event topic |
 | metrics\_schema\_name | The name of the metrics schema |
-| metrics\_subscription\_name | The name of the metrics subscription created for Pub/Sub |
+| metrics\_subscription\_name | The name of the metrics subscription created for Cloud Pub/Sub |
 | metrics\_topic\_name | The name of the metric topic |
 | project\_id | The ID of the project where resources are deployed to |
 | us\_publisher\_cluster\_info | The cluster information for the publisher cluster in us |

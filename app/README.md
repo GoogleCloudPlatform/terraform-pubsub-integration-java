@@ -1,4 +1,4 @@
-# Java Application for GCP PubSub Integration
+# Java Application for Cloud Pub/Sub Integration
 
 ## Avro Codegen
 

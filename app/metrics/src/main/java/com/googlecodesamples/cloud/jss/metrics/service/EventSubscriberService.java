@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/** Backend service controller to process event messages from GCP Pub/Sub. */
+/** Backend service controller to process event messages from Cloud Pub/Sub. */
 @Service
 public class EventSubscriberService {
 

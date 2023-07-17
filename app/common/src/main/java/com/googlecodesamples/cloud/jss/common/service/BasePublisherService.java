@@ -54,7 +54,7 @@ public abstract class BasePublisherService {
   public abstract void shutdown();
 
   /**
-   * Publish a message to GCP pub/sub topic.
+   * Publish a message to Cloud Pub/Sub topic.
    *
    * @param message message to be published
    */

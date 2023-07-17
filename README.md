@@ -7,7 +7,7 @@
 The resources/services/activations/deletions that this app will create/trigger are:
 
 - Google Kubernetes Engine (Autopilot)
-- Pub/Sub
+- Cloud Pub/Sub
 - BigQuery
 - IAM
 
@@ -21,7 +21,7 @@ To deploy this blueprint you must have an active billing account and billing per
 
 ## Usage
 
-Basic usage is as follows:
+Usage is as follows:
 
 
 ## Requirements

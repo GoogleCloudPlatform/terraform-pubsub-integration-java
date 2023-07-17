@@ -24,7 +24,7 @@ import com.googlecodesamples.cloud.jss.eventgenerator.service.EventPublisherServ
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-/** Implementation of the asynchronous task to publish a message to Pub/Sub. */
+/** Implementation of the asynchronous task to publish a message to Cloud Pub/Sub. */
 public class MessageTask extends BasePublisherTask {
 
   public MessageTask(EventPublisherService service) {

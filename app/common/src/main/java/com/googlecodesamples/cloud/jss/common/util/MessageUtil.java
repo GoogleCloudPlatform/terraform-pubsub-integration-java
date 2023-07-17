@@ -135,7 +135,7 @@ public class MessageUtil {
   }
 
   /**
-   * Convert an Avro object to GCP Pub/Sub compatible format.
+   * Convert an Avro object to Cloud Pub/Sub compatible format.
    *
    * @param message message to be published
    * @param schema Avro schema of the message
@@ -152,9 +152,9 @@ public class MessageUtil {
   }
 
   /**
-   * Convert a GCP Pub/Sub message to Avro object.
+   * Convert a Cloud Pub/Sub message to Avro object.
    *
-   * @param message message received from GCP pub/sub
+   * @param message message received from Cloud Pub/Sub
    * @return decoded Avro object
    */
   public static Event convertToAvroEvent(PubsubMessage message) throws IOException {

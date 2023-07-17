@@ -35,12 +35,12 @@ output "event_topic_name" {
 }
 
 output "event_subscription_name" {
-  description = "The name of the event subscription created for Pub/Sub"
+  description = "The name of the event subscription created for Cloud Pub/Sub"
   value       = google_pubsub_subscription.event.name
 }
 
 output "metrics_subscription_name" {
-  description = "The name of the metrics subscription created for Pub/Sub"
+  description = "The name of the metrics subscription created for Cloud Pub/Sub"
   value       = google_pubsub_subscription.metrics.name
 }
 
