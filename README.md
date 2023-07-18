@@ -72,3 +72,5 @@ information on contributing to this module.
 [terraform]: https://www.terraform.io/downloads.html
 
 ## Security Disclosures
+
+Please see our [security disclosure process](./SECURITY.md).
