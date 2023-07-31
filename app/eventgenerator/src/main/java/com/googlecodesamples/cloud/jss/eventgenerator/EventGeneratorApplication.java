@@ -21,6 +21,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EventGeneratorApplication {
 
+  /**
+   * Main method to start the application.
+   *
+   * @param args the command line arguments
+   */
   public static void main(String[] args) {
     SpringApplication.run(EventGeneratorApplication.class, args);
   }

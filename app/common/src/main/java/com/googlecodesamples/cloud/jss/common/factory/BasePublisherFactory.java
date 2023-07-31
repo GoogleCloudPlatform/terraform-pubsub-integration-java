@@ -43,6 +43,12 @@ public abstract class BasePublisherFactory<T extends BasePublisherConfig> {
     this.config = config;
   }
 
+  /**
+   * Create a new {@link Publisher} instance using the provided configuration.
+   *
+   * @return a new {@link Publisher} instance
+   * @throws IOException if an error occurs
+   */
   protected final Publisher newInstance() throws IOException {
     TopicName topicName = TopicName.of(PubSubUtil.getEnvProjectId(), getConfig().getTopicName());
     Publisher.Builder builder = Publisher.newBuilder(topicName);

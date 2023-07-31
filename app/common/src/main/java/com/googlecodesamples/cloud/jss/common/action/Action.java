@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
 
+/** Interface for metric processing actions. */
 public interface Action<T> {
 
   Schema getSchema();

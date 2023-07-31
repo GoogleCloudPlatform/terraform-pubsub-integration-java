@@ -37,6 +37,12 @@ public class EventGeneratorConfig {
     return threads;
   }
 
+  /**
+   * Set the number of threads for the event generator.
+   *
+   * @param threads maximum number of threads
+   * @throws IllegalArgumentException if the number of threads is less than or equal to zero
+   */
   public void setThreads(Integer threads) throws IllegalArgumentException {
     if (threads <= 0) {
       throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_THREADS);
@@ -48,6 +54,12 @@ public class EventGeneratorConfig {
     return runtime;
   }
 
+  /**
+   * Set the runtime for the event generator in minutes.
+   *
+   * @param runtime maximum runtime in minutes
+   * @throws IllegalArgumentException if the runtime is less than or equal to zero
+   */
   public void setRuntime(Float runtime) throws IllegalArgumentException {
     if (runtime <= 0) {
       throw new IllegalArgumentException(ERROR_MSG_NEGATIVE_RUNTIME);

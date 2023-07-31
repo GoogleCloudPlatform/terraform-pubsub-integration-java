@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutorService;
+
 /** REST API controller for the {@link EventPublisherService} instance. */
 @RestController
 @RequestMapping("/api/msg")
@@ -37,7 +39,15 @@ public class EventPublisherController {
   }
 
   /**
-   * Publish random messages.
+   * An API endpoint to generate and publish messages to Google's Cloud Pub/Sub topic.
+   * When the application is started, the {@link EventPublisherService#startPublishMsgAsync} method is called to start publishing messages automatically.
+   * If the user wants to publish messages manually after the application is fully started,
+   * this API endpoint can be used to restart the task based on user's desired parameters.
+   * <br><br>
+   * The threads and runtime parameters are optional. If not specified, the default values are 1 and 1 respectively.
+   * <br>
+   * <li> Modify the "threads" for the number of threads to use (default is 1).
+   * <li> Modify the "runtime" for the runtime of the task (in minute).
    *
    * @param threads number of thread
    * @param runtime time to execute the task (in minute)
@@ -50,7 +60,11 @@ public class EventPublisherController {
     service.publishMsgAsync(threads, runtime);
   }
 
-  /** Shutdown threadPool and timer. */
+  /**
+   * An API endpoint to shut down the {@link EventPublisherService} immediately
+   * by stopping all actively executing tasks. It utilizes Java's {@link ExecutorService#shutdown()} method,
+   * which does not wait for actively executing tasks to terminate. Use it with caution since it may cause data loss.
+   */
   @PostMapping("/shutdown")
   public void shutdown() {
     logger.info("entering shutdown()");

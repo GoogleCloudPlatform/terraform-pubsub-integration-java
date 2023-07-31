@@ -54,7 +54,14 @@ public abstract class BasePublisherService {
   public abstract void shutdown();
 
   /**
-   * Publish a message to Cloud Pub/Sub topic.
+   * Publish a message to Cloud Pub/Sub topic. <br><br>
+   * To change the default settings for the "event publisher", check the following configurations in
+   * application.properties file: <br>
+   * <li> Modify the "event.publisher.topic_name" for the topic name.
+   * <li> Modify the "event.publisher.executor_threads" for the number of publisher threads.
+   * <li> Modify the "event.publisher.initial_timeout" for the RPC timeout settings (in seconds).
+   * <li> Modify the "event.publisher.total_timeout" for the total timeout settings (in seconds).
+   * <li> Modify the "event.publisher.batch_size" for the batch size settings.
    *
    * @param message message to be published
    */

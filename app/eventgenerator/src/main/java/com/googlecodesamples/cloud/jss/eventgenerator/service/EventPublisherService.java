@@ -50,6 +50,14 @@ public class EventPublisherService extends BasePublisherService {
     logger.info("initializing EventPublisherService");
   }
 
+  /**
+   * Start publishing messages automatically when the application is started. <br><br>
+   *
+   * To change the default sending rate or runtime duration of message generation, check the
+   * following configurations in application.properties file: <br>
+   * <li> Modify the "event.generator.threads" for the number of threads to use.
+   * <li> Modify the "event.generator.runtime" for the runtime of the task (in minute).
+   */
   @PostConstruct
   public void startPublishMsgAsync() {
     publishMsgAsync(config.getThreads(), config.getRuntime());

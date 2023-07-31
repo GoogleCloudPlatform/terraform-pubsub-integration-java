@@ -39,11 +39,25 @@ public class Nack extends BaseAction<MetricsNack> {
     setService(service);
   }
 
+  /**
+   * Retrieve the schema of the MetricsNack class.
+   *
+   * @return the schema of the MetricsNack class
+   */
   @Override
   public Schema getSchema() {
     return MetricsNack.getClassSchema();
   }
 
+  /**
+   * Simulates a bug in the application by invoking the {@link com.google.cloud.pubsub.v1.AckReplyConsumer#nack()}
+   * to send a negative acknowledgment, indicating that the message could not be processed.
+   *
+   * @param consumer the consumer that will be used to send an acknowledgement
+   * @param message the received message to be processed
+   * @param processTime the time taken to process the message
+   * @param publishTime the time when the message was published
+   */
   @Override
   public MetricsNack respond(
       AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime) {
@@ -52,6 +66,11 @@ public class Nack extends BaseAction<MetricsNack> {
     return null;
   }
 
+  /**
+   * Creates logs for the {@link MetricsNack} without publishing it to the metric topic.
+   *
+   * @param newMessage the ack message to be processed
+   */
   @Override
   public void postProcess(MetricsNack newMessage) {
     logger.info("nack messages not publishing to metric topic");

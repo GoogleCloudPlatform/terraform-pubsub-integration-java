@@ -19,12 +19,13 @@ package com.googlecodesamples.cloud.jss.metrics.service;
 import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.googlecodesamples.cloud.jss.metrics.factory.EventSubscriberFactory;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /** Backend service controller to process event messages from Cloud Pub/Sub. */
 @Service
@@ -42,6 +43,16 @@ public class EventSubscriberService {
     this.factory = factory;
   }
 
+  /** Start pulling messages automatically when the application is started. <br><br>
+   * To change the default settings for the "event subscriber", check the following configurations in
+   * application.properties file: <br>
+   * <li> Modify the "event.subscriber.event_subscription" for the subscription name.
+   * <li> Modify the "event.subscriber.parallel_pull" for the settings of parallel pull.
+   * <li> Modify the "event.subscriber.outstanding_messages" for the number of outstanding messages.
+   * <li> Modify the "event.subscriber.executor_threads" for the number of subscriber threads.
+   *
+   * @return the {@link Subscriber} instance
+   */
   @PostConstruct
   public Subscriber startSubscriberAsync() {
     logger.info("metric app type: {}", metricAppType);

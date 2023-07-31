@@ -26,16 +26,17 @@ import com.googlecodesamples.cloud.jss.common.util.MessageUtil;
 import com.googlecodesamples.cloud.jss.common.util.PubSubUtil;
 import com.googlecodesamples.cloud.jss.metrics.service.MetricPublisherService;
 import com.googlecodesamples.cloud.jss.metrics.util.ActionUtil;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.time.Instant;
-import java.util.concurrent.ExecutionException;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.time.Instant;
+import java.util.concurrent.ExecutionException;
 
 /** MetricComplete specified actions. */
 @Component
@@ -48,11 +49,27 @@ public class Complete extends BaseAction<MetricsComplete> {
     setService(service);
   }
 
+  /**
+   * Retrieve the schema of the MetricsComplete class.
+   *
+   * @return the schema of the MetricsComplete class
+   */
   @Override
   public Schema getSchema() {
     return MetricsComplete.getClassSchema();
   }
 
+  /**
+   * Invokes the {@link com.google.cloud.pubsub.v1.AckReplyConsumer#ack()} to acknowledge the
+   * message, and then generates the ack message of type {@link MetricsComplete} to be published.
+   *
+   * @param consumer the consumer that will be used to send an acknowledgement
+   * @param message the received message to be processed
+   * @param processTime the time taken to process the message
+   * @param publishTime the time when the message was published
+   * @return the ack message to be published
+   * @throws IOException if the message cannot be converted to an Avro object
+   */
   @Override
   public MetricsComplete respond(
       AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime)
@@ -63,12 +80,36 @@ public class Complete extends BaseAction<MetricsComplete> {
     return genAckMessage(event, processTime, publishTime);
   }
 
+  /**
+   * Converts the ack message of type {@link MetricsComplete} to a Cloud Pub/Sub
+   * compatible format, and then publishes it using the {@link MetricPublisherService}.<br><br>
+   *
+   * To change the default settings for the "metric publisher", check the following configurations in
+   * application.properties file: <br>
+   * <li> Modify the "metric.publisher.topic_name" for the topic name.
+   * <li> Modify the "metric.publisher.executor_threads" for the number of publisher threads.
+   * <li> Modify the "metric.publisher.batch_size" for the number of messages to batch.
+   *
+   * @param newMessage the ack message to be processed
+   * @throws IOException if the newMessage cannot be converted to Cloud Pub/Sub compatible format.
+   * @throws InterruptedException if the current thread was interrupted while sending the message.
+   * @throws ExecutionException if the computation in {@link com.google.api.core.ApiFuture#get()}
+   * threw an exception
+   */
   @Override
   public void postProcess(MetricsComplete newMessage)
       throws IOException, InterruptedException, ExecutionException {
     getService().publishMsg(MessageUtil.convertToPubSubMessage(newMessage, getSchema()));
   }
 
+  /**
+   * Generates an ack message of type {@link MetricsComplete} from the event.
+   *
+   * @param event the event received from the Cloud Pub/Sub subscription
+   * @param processTime the time taken to process the message
+   * @param publishTime the time when the message was published
+   * @return the ack message to be published
+   */
   private MetricsComplete genAckMessage(Event event, float processTime, Timestamp publishTime)
       throws UnknownHostException {
     logger.info("event: {}, processTime {}, publishTime {}", event, processTime, publishTime);

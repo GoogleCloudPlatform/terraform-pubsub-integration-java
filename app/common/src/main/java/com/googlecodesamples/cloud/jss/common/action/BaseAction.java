@@ -51,22 +51,27 @@ public abstract class BaseAction<T> implements Action<T> {
   public abstract Schema getSchema();
 
   /**
-   * Metric respond to the received message
+   * This method defines the action to be taken when a message is received.
    *
-   * @param consumer the consumer
-   * @param message the received message
-   * @param processTime the simulated process time
-   * @param publishTime message publish time
-   * @return the output message
+   * @param consumer the consumer that will be used to send an acknowledgement
+   * @param message the received message to be processed
+   * @param processTime the time taken to process the message
+   * @param publishTime the time when the message was published
+   * @return the ack message to be published
+   * @throws IOException if the message cannot be converted to an Avro object
    */
   public abstract T respond(
       AckReplyConsumer consumer, PubsubMessage message, float processTime, Timestamp publishTime)
       throws IOException;
 
   /**
-   * Post-action for the output message.
+   * This method defines the action to be taken after the message has been processed.
    *
-   * @param newMessage the output message
+   * @param newMessage the ack message to be processed
+   * @throws IOException if the newMessage cannot be converted to Cloud Pub/Sub compatible format.
+   * @throws InterruptedException if the current thread was interrupted while sending the message.
+   * @throws ExecutionException if the computation in {@link com.google.api.core.ApiFuture#get()}
+   * threw an exception
    */
   public abstract void postProcess(T newMessage)
       throws IOException, InterruptedException, ExecutionException;
@@ -92,10 +97,11 @@ public abstract class BaseAction<T> implements Action<T> {
   }
 
   /**
-   * Process the Cloud Pub/Sub message and generate an output message.
+   * Process the Cloud Pub/Sub message and generate an output message by calling the
+   * {@link #respond(AckReplyConsumer, PubsubMessage, float, Timestamp)} method.
    *
-   * @param message the received message
-   * @param consumer the consumer
+   * @param message the received to be processed
+   * @param consumer the consumer that will be used to send an acknowledgement
    * @return the output message
    */
   public final T process(PubsubMessage message, AckReplyConsumer consumer)

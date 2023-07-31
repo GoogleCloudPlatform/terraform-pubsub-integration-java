@@ -61,6 +61,11 @@ public abstract class BaseSubscriberFactory<T extends BaseSubscriberConfig> {
     this.provider = provider;
   }
 
+  /**
+   * Create a new {@link Subscriber} instance using the provided configuration.
+   *
+   * @return a new {@link Subscriber} instance
+   */
   protected Subscriber newInstance(MessageReceiver receiver) {
     ProjectSubscriptionName subscriptionName =
         ProjectSubscriptionName.of(
