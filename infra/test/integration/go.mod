@@ -3,15 +3,15 @@ module github.com/HSA-Integration/terraform-pubsub-integration-java/infra/test/i
 go 1.19
 
 require (
-	cloud.google.com/go/bigquery v1.51.2
-	cloud.google.com/go/pubsub v1.30.1
-	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.4.1
-	github.com/parnurzeal/gorequest v0.2.16
-	github.com/stretchr/testify v1.8.1
-	google.golang.org/api v0.118.0
-	k8s.io/api v0.26.0
-	k8s.io/apimachinery v0.26.0
-	k8s.io/client-go v0.26.0
+	cloud.google.com/go/bigquery v1.66.2
+	cloud.google.com/go/pubsub v1.47.0
+	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.17.5
+	github.com/parnurzeal/gorequest v0.3.0
+	github.com/stretchr/testify v1.10.0
+	google.golang.org/api v0.220.0
+	k8s.io/api v0.32.1
+	k8s.io/apimachinery v0.32.2
+	k8s.io/client-go v0.32.1
 )
 
 require (
