@@ -1,6 +1,6 @@
 module github.com/HSA-Integration/terraform-pubsub-integration-java/infra/test/integration
 
-go 1.19
+go 1.25
 
 require (
 	cloud.google.com/go/bigquery v1.51.2
@@ -23,7 +23,7 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/apache/arrow/go/v12 v12.0.0 // indirect
-	github.com/apache/thrift v0.16.0 // indirect
+	github.com/apache/thrift v0.23.0 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.44.122 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
