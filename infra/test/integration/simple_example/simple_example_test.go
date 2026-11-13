@@ -15,31 +15,31 @@
 package simple_example
 
 import (
-	"fmt"
-	"testing"
-	"strings"
-	"strconv"
 	"errors"
-	"time"
+	"fmt"
 	"io/ioutil"
+	"strconv"
+	"strings"
+	"testing"
+	"time"
 
+	"cloud.google.com/go/bigquery"
+	"cloud.google.com/go/pubsub/v2"
+	"context"
+	"flag"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/golden"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
 	"github.com/parnurzeal/gorequest"
 	"github.com/stretchr/testify/assert"
-	"context"
-	"flag"
-	"path/filepath"
-	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"google.golang.org/api/iterator"
 	"k8s.io/api/core/v1"
+	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"k8s.io/apimachinery/pkg/util/wait"
-	"cloud.google.com/go/bigquery"
-	"google.golang.org/api/iterator"
-	"cloud.google.com/go/pubsub"
+	"path/filepath"
 )
 
 func TestSimpleExample(t *testing.T) {
@@ -146,7 +146,7 @@ func TestSimpleExample(t *testing.T) {
 
 		usSubClusterDeploymentName := strings.Join([]string{projectID, "subscriber-deployment", usSubClusterLocation}, "-")
 
-		imageHomeUrl :=	"gcr.io/aemon-projects-dev-000/"
+		imageHomeUrl := "gcr.io/aemon-projects-dev-000/"
 		publisherImageNameTag := "jss-psi-java-event-generator:latest"
 		subscriberAckImageNameTag := "jss-psi-java-metrics-ack:latest"
 		subscriberNackImageNameTag := "jss-psi-java-metrics-nack:latest"
@@ -267,7 +267,7 @@ func TestSimpleExample(t *testing.T) {
 
 					// Assert container image
 					euPubExpectedImage := imageHomeUrl + publisherImageNameTag
-					assert.Equal(container.Image, euPubExpectedImage, "expected container image to be " + euPubExpectedImage)
+					assert.Equal(container.Image, euPubExpectedImage, "expected container image to be "+euPubExpectedImage)
 				}
 			}
 		}
@@ -367,7 +367,7 @@ func TestSimpleExample(t *testing.T) {
 
 					// Assert container image
 					usPubExpectedImage := imageHomeUrl + publisherImageNameTag
-					assert.Equal(container.Image, usPubExpectedImage, "expected container image to be " + usPubExpectedImage)
+					assert.Equal(container.Image, usPubExpectedImage, "expected container image to be "+usPubExpectedImage)
 				}
 			}
 		}
@@ -465,7 +465,7 @@ func TestSimpleExample(t *testing.T) {
 
 					// Assert container image
 					usSubExpectedImage := imageHomeUrl + subscriberAckImageNameTag
-					assert.Equal(container.Image, usSubExpectedImage, "expected container image to be " + usSubExpectedImage)
+					assert.Equal(container.Image, usSubExpectedImage, "expected container image to be "+usSubExpectedImage)
 				}
 			}
 		}
@@ -491,7 +491,7 @@ func TestSimpleExample(t *testing.T) {
 		ackDataCount, err := CountQueryAckFromBigquery(projectID, bqTableId, ackStartTime, ackEndTime)
 		assert.NoError(err)
 		fmt.Printf("BigQuery result: %d\n", ackDataCount)
-		assert.Greater(ackDataCount, int64(0), "expected dataCount to be greater than 0 when image is " + subscriberAckImageNameTag)
+		assert.Greater(ackDataCount, int64(0), "expected dataCount to be greater than 0 when image is "+subscriberAckImageNameTag)
 
 		// Stop publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
@@ -500,8 +500,8 @@ func TestSimpleExample(t *testing.T) {
 		}
 
 		// Update subscriber Deployment's image to Nack
-		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl + subscriberNackImageNameTag)
-		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl + subscriberNackImageNameTag)
+		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl+subscriberNackImageNameTag)
+		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl+subscriberNackImageNameTag)
 		assert.NoError(err)
 		// Wait for Deployment to be updated
 		fmt.Printf("Waiting for Deployment to be updated\n")
@@ -527,7 +527,7 @@ func TestSimpleExample(t *testing.T) {
 		nackDataCount, err := CountQueryAckFromBigquery(projectID, bqTableId, nackStartTime, nackEndTime)
 		assert.NoError(err)
 		fmt.Printf("BigQuery result: %d\n", nackDataCount)
-		assert.Equal(nackDataCount, int64(0), "expected dataCount is 0 when image is " + subscriberNackImageNameTag)
+		assert.Equal(nackDataCount, int64(0), "expected dataCount is 0 when image is "+subscriberNackImageNameTag)
 
 		// Stop publisher tasks
 		for _, externalLoadBalancer := range externalLoadBalancers {
@@ -545,9 +545,9 @@ func TestSimpleExample(t *testing.T) {
 		assert.NoError(err)
 		avroSourceStr := strings.Replace(string(avscSource), "MetricsComplete", "MetricsAck", -1)
 		// Create a schema revision
-		schemaConfig := pubsub.SchemaConfig {
-			Name: 		fmt.Sprintf("projects/%s/schemas/%s", projectID, metricsSchemaName),
-			Type: 		pubsub.SchemaAvro,
+		schemaConfig := pubsub.SchemaConfig{
+			Name:       fmt.Sprintf("projects/%s/schemas/%s", projectID, metricsSchemaName),
+			Type:       pubsub.SchemaAvro,
 			Definition: avroSourceStr,
 		}
 		schema, err := schemaClient.CommitSchema(context.Background(), metricsSchemaName, schemaConfig)
@@ -555,8 +555,8 @@ func TestSimpleExample(t *testing.T) {
 		assert.NotEmpty(schema)
 
 		// Update subscriber Deployment's image to Complete
-		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl + subscriberCompleteImageNameTag)
-		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl + subscriberCompleteImageNameTag)
+		fmt.Printf("Updating Deployment's image to %s\n", imageHomeUrl+subscriberCompleteImageNameTag)
+		err = UpdateDeploymentImage(usSubClientset, usSubClusterNamespace, usSubClusterDeploymentName, imageHomeUrl+subscriberCompleteImageNameTag)
 		assert.NoError(err)
 		// Wait for Deployment to be updated
 		fmt.Printf("Waiting for Deployment to be updated\n")
@@ -581,7 +581,7 @@ func TestSimpleExample(t *testing.T) {
 		completeDataCount, err := CountQueryCompleteFromBigquery(projectID, bqTableId, completeStartTime, completeEndTime)
 		assert.NoError(err)
 		fmt.Printf("BigQuery result: %d\n", completeDataCount)
-		assert.Greater(ackDataCount, int64(0), "expected dataCount to be greater than 0 when image is " + subscriberCompleteImageNameTag)
+		assert.Greater(ackDataCount, int64(0), "expected dataCount to be greater than 0 when image is "+subscriberCompleteImageNameTag)
 	})
 
 	example.Test()
@@ -606,7 +606,7 @@ func ClusterStatusAndConfigCheck(t *testing.T, assert *assert.Assertions, cluste
 }
 
 // Get k8s config
-func GetKubeConfg() (*string) {
+func GetKubeConfg() *string {
 	var kubeConfig *string
 	if home := homedir.HomeDir(); home != "" {
 		kubeConfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
@@ -655,7 +655,7 @@ func PrintEnvContent(envName string, envValue string) {
 }
 
 // Update Deployment's image
-func UpdateDeploymentImage(clientset *kubernetes.Clientset, clusterNamespace string, deploymentName string, image string) (error) {
+func UpdateDeploymentImage(clientset *kubernetes.Clientset, clusterNamespace string, deploymentName string, image string) error {
 	deployment, err := clientset.AppsV1().Deployments(clusterNamespace).Get(context.Background(), deploymentName, metaV1.GetOptions{})
 	if err != nil {
 		return err
@@ -669,7 +669,7 @@ func UpdateDeploymentImage(clientset *kubernetes.Clientset, clusterNamespace str
 func WaitForDeploymentToBeUpdated(clientset *kubernetes.Clientset, namespace string, deploymentName string, timeout time.Duration) error {
 	// Sleep 10 seconds for waiting revision to be created
 	time.Sleep(10 * time.Second)
-	return wait.PollImmediate(1 * time.Second, timeout, func() (bool, error) {
+	return wait.PollImmediate(1*time.Second, timeout, func() (bool, error) {
 		deployment, err := clientset.AppsV1().Deployments(namespace).Get(context.Background(), deploymentName, metaV1.GetOptions{})
 		if err != nil {
 			return false, err
@@ -694,7 +694,7 @@ func CountQueryAckFromBigquery(projectID string, bqTableId string, startTime str
 	defer client.Close()
 
 	query := client.Query(
-			`SELECT
+		`SELECT
 				count(*) as dataCount
 			FROM ` + bqTableId + `
 			WHERE
@@ -729,7 +729,7 @@ func CountQueryCompleteFromBigquery(projectID string, bqTableId string, startTim
 	defer client.Close()
 
 	query := client.Query(
-			`SELECT
+		`SELECT
 				count(*) as dataCount
 			FROM ` + bqTableId + `
 			WHERE
